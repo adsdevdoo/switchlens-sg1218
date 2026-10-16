@@ -1,0 +1,1511 @@
+{
+  "image_sha256": "c9ab17eda7af714f00692d41f440ce84ed0d6c7d678634c364ec1154bb7e3f32",
+  "method": "Constrained static branch tracing with synthetic register reads; not hardware execution",
+  "reference": {
+    "url": "https://raw.githubusercontent.com/openwrt/openwrt/openwrt-24.10/target/linux/realtek/files-6.6/drivers/net/dsa/rtl83xx/dsa.c",
+    "sha256": "d6bc4fba9403ed90dd5bfdff2a0780d434f288c9393559ee6ac278c4e490b69f",
+    "mapping": "low offset = 252 - descriptor.offset; high = low - 4",
+    "status": "Names are external RTL838x comparison, not proof of hardware behavior in this switch."
+  },
+  "selectors": [
+    {
+      "selector": 0,
+      "entry_file": "0x159e8",
+      "register_offsets": [
+        "0x0",
+        "0x4"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        null,
+        "ifInOctets"
+      ]
+    },
+    {
+      "selector": 1,
+      "entry_file": "0x15a00",
+      "register_offsets": [
+        "0x4",
+        "0x0"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "two_word_counter",
+      "rtl838x_external_names": [
+        "ifInOctets",
+        null
+      ]
+    },
+    {
+      "selector": 2,
+      "entry_file": "0x15a18",
+      "register_offsets": [
+        "0x14"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "ifInUcastPkts"
+      ]
+    },
+    {
+      "selector": 3,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 4,
+      "entry_file": "0x15a20",
+      "register_offsets": [
+        "0x18"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "ifInMulticastPkts"
+      ]
+    },
+    {
+      "selector": 5,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 6,
+      "entry_file": "0x15a28",
+      "register_offsets": [
+        "0x1c"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "ifInBroadcastPkts"
+      ]
+    },
+    {
+      "selector": 7,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 8,
+      "entry_file": "0x15a30",
+      "register_offsets": [
+        "0x8",
+        "0xc"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        null,
+        "ifOutOctets"
+      ]
+    },
+    {
+      "selector": 9,
+      "entry_file": "0x15a48",
+      "register_offsets": [
+        "0xc",
+        "0x8"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "two_word_counter",
+      "rtl838x_external_names": [
+        "ifOutOctets",
+        null
+      ]
+    },
+    {
+      "selector": 10,
+      "entry_file": "0x15a74",
+      "register_offsets": [
+        "0x20"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "ifOutUcastPkts"
+      ]
+    },
+    {
+      "selector": 11,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 12,
+      "entry_file": "0x15a7c",
+      "register_offsets": [
+        "0x24"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "ifOutMulticastPkts"
+      ]
+    },
+    {
+      "selector": 13,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 14,
+      "entry_file": "0x15a84",
+      "register_offsets": [
+        "0x28"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "ifOutBroadcastPkts"
+      ]
+    },
+    {
+      "selector": 15,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 16,
+      "entry_file": "0x15a8c",
+      "register_offsets": [
+        "0x2c"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "ifOutDiscards"
+      ]
+    },
+    {
+      "selector": 17,
+      "entry_file": "0x15a94",
+      "register_offsets": [
+        "0x30"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        ".3SingleCollisionFrames"
+      ]
+    },
+    {
+      "selector": 18,
+      "entry_file": "0x15a9c",
+      "register_offsets": [
+        "0x34"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        ".3MultipleCollisionFrames"
+      ]
+    },
+    {
+      "selector": 19,
+      "entry_file": "0x15aa4",
+      "register_offsets": [
+        "0x38"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        ".3DeferredTransmissions"
+      ]
+    },
+    {
+      "selector": 20,
+      "entry_file": "0x15aac",
+      "register_offsets": [
+        "0x3c"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        ".3LateCollisions"
+      ]
+    },
+    {
+      "selector": 21,
+      "entry_file": "0x15ab4",
+      "register_offsets": [
+        "0x40"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        ".3ExcessiveCollisions"
+      ]
+    },
+    {
+      "selector": 22,
+      "entry_file": "0x15abc",
+      "register_offsets": [
+        "0x44"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        ".3SymbolErrors"
+      ]
+    },
+    {
+      "selector": 23,
+      "entry_file": "0x15ac4",
+      "register_offsets": [
+        "0x48"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        ".3ControlInUnknownOpcodes"
+      ]
+    },
+    {
+      "selector": 24,
+      "entry_file": "0x15acc",
+      "register_offsets": [
+        "0x4c"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        ".3InPauseFrames"
+      ]
+    },
+    {
+      "selector": 25,
+      "entry_file": "0x15ad4",
+      "register_offsets": [
+        "0x50"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        ".3OutPauseFrames"
+      ]
+    },
+    {
+      "selector": 26,
+      "entry_file": "0x15adc",
+      "register_offsets": [
+        "0x54"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "DropEvents"
+      ]
+    },
+    {
+      "selector": 27,
+      "entry_file": "0x15ae4",
+      "register_offsets": [
+        "0x1c",
+        "0x58"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "sum_modulo_2_32",
+      "rtl838x_external_names": [
+        "ifInBroadcastPkts",
+        "tx_BroadcastPkts"
+      ]
+    },
+    {
+      "selector": 28,
+      "entry_file": "0x15afc",
+      "register_offsets": [
+        "0x58"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "tx_BroadcastPkts"
+      ]
+    },
+    {
+      "selector": 29,
+      "entry_file": "0x15b04",
+      "register_offsets": [
+        "0x18",
+        "0x5c"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "sum_modulo_2_32",
+      "rtl838x_external_names": [
+        "ifInMulticastPkts",
+        "tx_MulticastPkts"
+      ]
+    },
+    {
+      "selector": 30,
+      "entry_file": "0x15b20",
+      "register_offsets": [
+        "0x5c"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "tx_MulticastPkts"
+      ]
+    },
+    {
+      "selector": 31,
+      "entry_file": "0x15b28",
+      "register_offsets": [
+        "0x60"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "CRCAlignErrors"
+      ]
+    },
+    {
+      "selector": 32,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 33,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 34,
+      "entry_file": "0x15b30",
+      "register_offsets": [
+        "0x64",
+        "0x68"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "sum_modulo_2_32",
+      "rtl838x_external_names": [
+        "tx_UndersizePkts",
+        "rx_UndersizePkts"
+      ]
+    },
+    {
+      "selector": 35,
+      "entry_file": "0x15b50",
+      "register_offsets": [
+        "0x68"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "rx_UndersizePkts"
+      ]
+    },
+    {
+      "selector": 36,
+      "entry_file": "0x15b48",
+      "register_offsets": [
+        "0x64"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "tx_UndersizePkts"
+      ]
+    },
+    {
+      "selector": 37,
+      "entry_file": "0x15b60",
+      "register_offsets": [
+        "0x70",
+        "0x74"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "sum_modulo_2_32",
+      "rtl838x_external_names": [
+        "tx_OversizePkts",
+        "rx_OversizePkts"
+      ]
+    },
+    {
+      "selector": 38,
+      "entry_file": "0x15b80",
+      "register_offsets": [
+        "0x74"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "rx_OversizePkts"
+      ]
+    },
+    {
+      "selector": 39,
+      "entry_file": "0x15b78",
+      "register_offsets": [
+        "0x70"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "tx_OversizePkts"
+      ]
+    },
+    {
+      "selector": 40,
+      "entry_file": "0x15b88",
+      "register_offsets": [
+        "0x78"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "Fragments"
+      ]
+    },
+    {
+      "selector": 41,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 42,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 43,
+      "entry_file": "0x15b90",
+      "register_offsets": [
+        "0x7c"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "Jabbers"
+      ]
+    },
+    {
+      "selector": 44,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 45,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 46,
+      "entry_file": "0x15b98",
+      "register_offsets": [
+        "0x80"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "Collisions"
+      ]
+    },
+    {
+      "selector": 47,
+      "entry_file": "0x15ba0",
+      "register_offsets": [
+        "0x84",
+        "0x88"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "sum_modulo_2_32",
+      "rtl838x_external_names": [
+        "tx_Pkts64Octets",
+        "rx_Pkts64Octets"
+      ]
+    },
+    {
+      "selector": 48,
+      "entry_file": "0x15bc0",
+      "register_offsets": [
+        "0x88"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "rx_Pkts64Octets"
+      ]
+    },
+    {
+      "selector": 49,
+      "entry_file": "0x15bb8",
+      "register_offsets": [
+        "0x84"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "tx_Pkts64Octets"
+      ]
+    },
+    {
+      "selector": 50,
+      "entry_file": "0x15bc8",
+      "register_offsets": [
+        "0x8c",
+        "0x90"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "sum_modulo_2_32",
+      "rtl838x_external_names": [
+        "tx_Pkts65to127Octets",
+        "rx_Pkts65to127Octets"
+      ]
+    },
+    {
+      "selector": 51,
+      "entry_file": "0x15be8",
+      "register_offsets": [
+        "0x90"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "rx_Pkts65to127Octets"
+      ]
+    },
+    {
+      "selector": 52,
+      "entry_file": "0x15be0",
+      "register_offsets": [
+        "0x8c"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "tx_Pkts65to127Octets"
+      ]
+    },
+    {
+      "selector": 53,
+      "entry_file": "0x15bf0",
+      "register_offsets": [
+        "0x94",
+        "0x98"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "sum_modulo_2_32",
+      "rtl838x_external_names": [
+        "tx_Pkts128to255Octets",
+        "rx_Pkts128to255Octets"
+      ]
+    },
+    {
+      "selector": 54,
+      "entry_file": "0x15c10",
+      "register_offsets": [
+        "0x98"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "rx_Pkts128to255Octets"
+      ]
+    },
+    {
+      "selector": 55,
+      "entry_file": "0x15c08",
+      "register_offsets": [
+        "0x94"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "tx_Pkts128to255Octets"
+      ]
+    },
+    {
+      "selector": 56,
+      "entry_file": "0x15c18",
+      "register_offsets": [
+        "0x9c",
+        "0xa0"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "sum_modulo_2_32",
+      "rtl838x_external_names": [
+        "tx_Pkts256to511Octets",
+        "rx_Pkts256to511Octets"
+      ]
+    },
+    {
+      "selector": 57,
+      "entry_file": "0x15c44",
+      "register_offsets": [
+        "0xa0"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "rx_Pkts256to511Octets"
+      ]
+    },
+    {
+      "selector": 58,
+      "entry_file": "0x15c30",
+      "register_offsets": [
+        "0x9c"
+      ],
+      "output_word_offsets_written": [
+        0
+      ],
+      "return_status": 0,
+      "classification": "incomplete_output_EXCLUDE",
+      "rtl838x_external_names": [
+        "tx_Pkts256to511Octets"
+      ]
+    },
+    {
+      "selector": 59,
+      "entry_file": "0x15c4c",
+      "register_offsets": [
+        "0xa4",
+        "0xa8"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "sum_modulo_2_32",
+      "rtl838x_external_names": [
+        "tx_Pkts512to1023Octets",
+        "rx_Pkts512to1023Octets"
+      ]
+    },
+    {
+      "selector": 60,
+      "entry_file": "0x15c6c",
+      "register_offsets": [
+        "0xa8"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "rx_Pkts512to1023Octets"
+      ]
+    },
+    {
+      "selector": 61,
+      "entry_file": "0x15c64",
+      "register_offsets": [
+        "0xa4"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "tx_Pkts512to1023Octets"
+      ]
+    },
+    {
+      "selector": 62,
+      "entry_file": "0x15c74",
+      "register_offsets": [
+        "0xac",
+        "0xb0"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "sum_modulo_2_32",
+      "rtl838x_external_names": [
+        "tx_Pkts1024to1518Octets",
+        "rx_StatsPkts1024to1518Octets"
+      ]
+    },
+    {
+      "selector": 63,
+      "entry_file": "0x15cb0",
+      "register_offsets": [
+        "0xb0"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "rx_StatsPkts1024to1518Octets"
+      ]
+    },
+    {
+      "selector": 64,
+      "entry_file": "0x15ca8",
+      "register_offsets": [
+        "0xac"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "tx_Pkts1024to1518Octets"
+      ]
+    },
+    {
+      "selector": 65,
+      "entry_file": "0x15b58",
+      "register_offsets": [
+        "0x6c"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "rx_UndersizedropPkts"
+      ]
+    },
+    {
+      "selector": 66,
+      "entry_file": "0x15cc0",
+      "register_offsets": [
+        "0xb8"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "rx_Pkts1519toMaxOctets"
+      ]
+    },
+    {
+      "selector": 67,
+      "entry_file": "0x15cb8",
+      "register_offsets": [
+        "0xb4"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "tx_Pkts1519toMaxOctets"
+      ]
+    },
+    {
+      "selector": 68,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 69,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 70,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 71,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 72,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 73,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 74,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 75,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 76,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 77,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 78,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 79,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 80,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 81,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 82,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 83,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 84,
+      "entry_file": "0x15cc8",
+      "register_offsets": [
+        "0xbc"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "rxMacDiscards"
+      ]
+    },
+    {
+      "selector": 85,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 86,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 87,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 88,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 89,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 90,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 91,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 92,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 93,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 94,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 95,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 96,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 97,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 98,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 99,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 100,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 101,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 102,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 103,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 104,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 105,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 106,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 107,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 108,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 109,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 110,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 111,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 112,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 113,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 114,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 115,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 116,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 117,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 118,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 119,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 120,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 121,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 122,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 123,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 124,
+      "entry_file": "0x159e0",
+      "register_offsets": [],
+      "output_word_offsets_written": [],
+      "return_status": 0,
+      "classification": "no_read_no_output"
+    },
+    {
+      "selector": 125,
+      "entry_file": "0x159c8",
+      "register_offsets": [
+        "0x10"
+      ],
+      "output_word_offsets_written": [
+        0,
+        4
+      ],
+      "return_status": 0,
+      "classification": "single_word_counter",
+      "rtl838x_external_names": [
+        "dot1dTpPortInDiscards"
+      ]
+    }
+  ]
+}

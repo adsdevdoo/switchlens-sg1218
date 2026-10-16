@@ -1,0 +1,591 @@
+{
+  "image_sha256": "c9ab17eda7af714f00692d41f440ce84ed0d6c7d678634c364ec1154bb7e3f32",
+  "status": "Static findings; no hardware validation; hexadecimal file offsets include update header",
+  "sources": [
+    {
+      "fields": [
+        "system.description",
+        "system.name",
+        "system.mac",
+        "system.ip_address",
+        "system.subnet_mask",
+        "system.default_gateway",
+        "system.firmware_version",
+        "system.hardware_version"
+      ],
+      "status": "verified_static_getter_paths and screenshot_fields; live values not collected",
+      "evidence": "SYSTEM-INFO.txt; system-info-disassembly.txt; JS0x99cce",
+      "model_note": "system.model normalization pending; do not derive from editable description"
+    },
+    {
+      "fields": [
+        "system.uptime_ticks_raw"
+      ],
+      "status": "verified_static",
+      "ram": "0xbf002e90",
+      "width": 32,
+      "evidence": "ISR file0x3ccc..0x3dec",
+      "unknown": "tick unit; uptime_seconds must remain null"
+    },
+    {
+      "fields": [
+        "rx_bytes",
+        "tx_bytes",
+        "tx_drop_packets"
+      ],
+      "status": "verified_static",
+      "api_va": "0xbfc27fb8",
+      "selectors": [
+        1,
+        9,
+        16
+      ],
+      "evidence": "file0x15930; table0x93250; CLI names0x94170",
+      "unknown": "counter latch and implemented hardware width"
+    },
+    {
+      "fields": [
+        "rx_unicast_packets",
+        "rx_multicast_packets",
+        "rx_broadcast_packets",
+        "tx_unicast_packets",
+        "tx_multicast_packets",
+        "tx_broadcast_packets"
+      ],
+      "status": "verified_static",
+      "selectors": [
+        2,
+        4,
+        6,
+        10,
+        12,
+        14
+      ],
+      "evidence": "CLI table file0x94170..0x94290"
+    },
+    {
+      "fields": [
+        "speed_config_code",
+        "speed_actual_code",
+        "flow_control_configured",
+        "flow_control_active",
+        "lag_id"
+      ],
+      "status": "partial",
+      "evidence": "strings0xd6c98..0xd6ccc; JS0xae023; getter ABI pending"
+    },
+    {
+      "fields": [
+        "poe.status_code",
+        "poe.pd_class_raw"
+      ],
+      "status": "verified_static",
+      "first_port_ram": [
+        "0xbf014420",
+        "0xbf01441c"
+      ],
+      "stride": 48,
+      "evidence": "file0x3ad00..0x3adc4"
+    },
+    {
+      "fields": [
+        "poe.recovery.failures_current",
+        "poe.recovery.reboots_raw",
+        "poe.recovery.pings_raw"
+      ],
+      "status": "verified_static",
+      "first_port_ram": [
+        "0xbf014774",
+        "0xbf014776",
+        "0xbf014778"
+      ],
+      "stride": 6,
+      "load": "signed16",
+      "evidence": "file0x3b1b0..0x3b2dc",
+      "reset_documentation": "Failures clears on reply/reboot:0xba452; reboots/pings at9999 or switch reboot:0xba5af,0xba6be; runtime behavior not yet verified"
+    },
+    {
+      "fields": [
+        "poe.extend_enabled"
+      ],
+      "status": "partial",
+      "evidence": "poeExtendConfig0xd6d48; Help0xbbf2d; raw enable code mapping pending"
+    },
+    {
+      "fields": [
+        "rx_discards"
+      ],
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "fields": [
+        "ports[].counters.rx_bridge_discards"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 125,
+      "register_offsets": [
+        "0x10"
+      ],
+      "evidence": "mib-map.json selector125; 0x159c8; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "ports[].counters.rx_mac_discards"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 84,
+      "register_offsets": [
+        "0xbc"
+      ],
+      "evidence": "mib-map.json selector84; 0x15cc8; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "ports[].counters.rx_undersize_drops"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 65,
+      "register_offsets": [
+        "0x6c"
+      ],
+      "evidence": "mib-map.json selector65; 0x15b58; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "ports[].counters.rx_crc_align_errors"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 31,
+      "register_offsets": [
+        "0x60"
+      ],
+      "evidence": "mib-map.json selector31; 0x15b28; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "ports[].counters.symbol_errors"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 22,
+      "register_offsets": [
+        "0x44"
+      ],
+      "evidence": "mib-map.json selector22; 0x15abc; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "ports[].counters.rx_unknown_control_opcodes"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 23,
+      "register_offsets": [
+        "0x48"
+      ],
+      "evidence": "mib-map.json selector23; 0x15ac4; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "ports[].counters.rx_pause_frames"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 24,
+      "register_offsets": [
+        "0x4c"
+      ],
+      "evidence": "mib-map.json selector24; 0x15acc; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "ports[].counters.tx_pause_frames"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 25,
+      "register_offsets": [
+        "0x50"
+      ],
+      "evidence": "mib-map.json selector25; 0x15ad4; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "ports[].counters.drop_events"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 26,
+      "register_offsets": [
+        "0x54"
+      ],
+      "evidence": "mib-map.json selector26; 0x15adc; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "ports[].counters.rx_undersize_packets"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 35,
+      "register_offsets": [
+        "0x68"
+      ],
+      "evidence": "mib-map.json selector35; 0x15b50; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "ports[].counters.tx_undersize_packets"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 36,
+      "register_offsets": [
+        "0x64"
+      ],
+      "evidence": "mib-map.json selector36; 0x15b48; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "ports[].counters.rx_oversize_packets"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 38,
+      "register_offsets": [
+        "0x74"
+      ],
+      "evidence": "mib-map.json selector38; 0x15b80; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "ports[].counters.tx_oversize_packets"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 39,
+      "register_offsets": [
+        "0x70"
+      ],
+      "evidence": "mib-map.json selector39; 0x15b78; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "ports[].counters.rx_fragments"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 40,
+      "register_offsets": [
+        "0x78"
+      ],
+      "evidence": "mib-map.json selector40; 0x15b88; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "ports[].counters.rx_jabbers"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 43,
+      "register_offsets": [
+        "0x7c"
+      ],
+      "evidence": "mib-map.json selector43; 0x15b90; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "ports[].counters.collisions"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 46,
+      "register_offsets": [
+        "0x80"
+      ],
+      "evidence": "mib-map.json selector46; 0x15b98; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "ports[].counters.tx_single_collision_frames"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 17,
+      "register_offsets": [
+        "0x30"
+      ],
+      "evidence": "mib-map.json selector17; 0x15a94; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "ports[].counters.tx_multiple_collision_frames"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 18,
+      "register_offsets": [
+        "0x34"
+      ],
+      "evidence": "mib-map.json selector18; 0x15a9c; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "ports[].counters.tx_deferred_transmissions"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 19,
+      "register_offsets": [
+        "0x38"
+      ],
+      "evidence": "mib-map.json selector19; 0x15aa4; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "ports[].counters.tx_late_collisions"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 20,
+      "register_offsets": [
+        "0x3c"
+      ],
+      "evidence": "mib-map.json selector20; 0x15aac; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "ports[].counters.tx_excessive_collisions"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 21,
+      "register_offsets": [
+        "0x40"
+      ],
+      "evidence": "mib-map.json selector21; 0x15ab4; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "ports[].counters.rx_packets_64"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 48,
+      "register_offsets": [
+        "0x88"
+      ],
+      "evidence": "mib-map.json selector48; 0x15bc0; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "ports[].counters.tx_packets_64"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 49,
+      "register_offsets": [
+        "0x84"
+      ],
+      "evidence": "mib-map.json selector49; 0x15bb8; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "ports[].counters.rx_packets_65_127"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 51,
+      "register_offsets": [
+        "0x90"
+      ],
+      "evidence": "mib-map.json selector51; 0x15be8; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "ports[].counters.tx_packets_65_127"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 52,
+      "register_offsets": [
+        "0x8c"
+      ],
+      "evidence": "mib-map.json selector52; 0x15be0; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "ports[].counters.rx_packets_128_255"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 54,
+      "register_offsets": [
+        "0x98"
+      ],
+      "evidence": "mib-map.json selector54; 0x15c10; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "ports[].counters.tx_packets_128_255"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 55,
+      "register_offsets": [
+        "0x94"
+      ],
+      "evidence": "mib-map.json selector55; 0x15c08; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "ports[].counters.rx_packets_256_511"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 57,
+      "register_offsets": [
+        "0xa0"
+      ],
+      "evidence": "mib-map.json selector57; 0x15c44; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "ports[].counters.tx_packets_256_511"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 58,
+      "register_offsets": [
+        "0x9c"
+      ],
+      "evidence": "mib-map.json selector58; 0x15c30; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": false
+    },
+    {
+      "fields": [
+        "ports[].counters.rx_packets_512_1023"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 60,
+      "register_offsets": [
+        "0xa8"
+      ],
+      "evidence": "mib-map.json selector60; 0x15c6c; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "ports[].counters.tx_packets_512_1023"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 61,
+      "register_offsets": [
+        "0xa4"
+      ],
+      "evidence": "mib-map.json selector61; 0x15c64; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "ports[].counters.rx_packets_1024_1518"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 63,
+      "register_offsets": [
+        "0xb0"
+      ],
+      "evidence": "mib-map.json selector63; 0x15cb0; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "ports[].counters.tx_packets_1024_1518"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 64,
+      "register_offsets": [
+        "0xac"
+      ],
+      "evidence": "mib-map.json selector64; 0x15ca8; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "ports[].counters.rx_packets_1519_max"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 66,
+      "register_offsets": [
+        "0xb8"
+      ],
+      "evidence": "mib-map.json selector66; 0x15cc0; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "ports[].counters.tx_packets_1519_max"
+      ],
+      "status": "hypothesis_high_confidence_semantics; verified_static_register_path",
+      "selector": 67,
+      "register_offsets": [
+        "0xb4"
+      ],
+      "evidence": "mib-map.json selector67; 0x15cb8; MIB-LOOPS-FOLLOWUP.txt",
+      "hardware_width": 32,
+      "usable_via_stock_getter": true
+    },
+    {
+      "fields": [
+        "loop_prevention.rldp_mask_raw",
+        "loop_prevention.rlpp_mask_raw",
+        "loop_prevention.rlpp_self_mask_raw"
+      ],
+      "status": "verified_static_software_masks; active-mode and blocking semantics unknown",
+      "ram": [
+        "0xbf00e280",
+        "0xbf00e2a0",
+        "0xbf00e2a4"
+      ],
+      "evidence": "loop-disassembly.txt; may include LAG expansion"
+    }
+  ]
+}

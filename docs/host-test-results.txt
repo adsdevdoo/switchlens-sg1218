@@ -1,0 +1,49 @@
+$ make test
+mkdir -p build
+cc -Iinclude -std=c99 -Wall -Wextra -Werror -Os  -fstack-usage src/sg_stats.c tests/fixture.c -o build/fixture
+cc -Iinclude -std=c99 -Wall -Wextra -Werror -Os  -fstack-usage src/sg_mib.c tests/test_mib.c -o build/test_mib
+python3 tests/test_serializer.py build/fixture
+test_complete_schema_and_system_poe (__main__.Serializer.test_complete_schema_and_system_poe) ... ok
+test_finish_failure (__main__.Serializer.test_finish_failure) ... ok
+test_partial_write_preserves_bytes (__main__.Serializer.test_partial_write_preserves_bytes) ... ok
+test_reader_offsets_against_static_evidence (__main__.Serializer.test_reader_offsets_against_static_evidence) ... ok
+test_source_failure (__main__.Serializer.test_source_failure) ... ok
+test_transport_error_and_zero_progress (__main__.Serializer.test_transport_error_and_zero_progress) ... ok
+test_u64_exact_and_unknown_counters (__main__.Serializer.test_u64_exact_and_unknown_counters) ... ok
+test_unknown_unavailable_and_invalid (__main__.Serializer.test_unknown_unavailable_and_invalid) ... ok
+test_utf8_escaping_and_bounds (__main__.Serializer.test_utf8_escaping_and_bounds) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.248s
+
+OK
+build/test_mib
+MIB: mapping, 64-bit rollover, read errors, bounded retries, unsupported selectors: PASS
+
+exit=0
+$ ASAN_OPTIONS=detect_leaks=0 make sanitize
+make BUILD=build-sanitize CFLAGS='-std=c99 -Wall -Wextra -Werror -O1 -g' SANITIZE='-fsanitize=address,undefined -fno-omit-frame-pointer -fno-pie -no-pie' test
+make[1]: Entering directory '/workspace/scratch/48d880bcd536/switchlens-sg1218'
+mkdir -p build-sanitize
+cc -Iinclude -std=c99 -Wall -Wextra -Werror -O1 -g -fsanitize=address,undefined -fno-omit-frame-pointer -fno-pie -no-pie -fstack-usage src/sg_stats.c tests/fixture.c -o build-sanitize/fixture
+cc -Iinclude -std=c99 -Wall -Wextra -Werror -O1 -g -fsanitize=address,undefined -fno-omit-frame-pointer -fno-pie -no-pie -fstack-usage src/sg_mib.c tests/test_mib.c -o build-sanitize/test_mib
+python3 tests/test_serializer.py build-sanitize/fixture
+test_complete_schema_and_system_poe (__main__.Serializer.test_complete_schema_and_system_poe) ... ok
+test_finish_failure (__main__.Serializer.test_finish_failure) ... ok
+test_partial_write_preserves_bytes (__main__.Serializer.test_partial_write_preserves_bytes) ... ok
+test_reader_offsets_against_static_evidence (__main__.Serializer.test_reader_offsets_against_static_evidence) ... ok
+test_source_failure (__main__.Serializer.test_source_failure) ... ok
+test_transport_error_and_zero_progress (__main__.Serializer.test_transport_error_and_zero_progress) ... ok
+test_u64_exact_and_unknown_counters (__main__.Serializer.test_u64_exact_and_unknown_counters) ... ok
+test_unknown_unavailable_and_invalid (__main__.Serializer.test_unknown_unavailable_and_invalid) ... ok
+test_utf8_escaping_and_bounds (__main__.Serializer.test_utf8_escaping_and_bounds) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.422s
+
+OK
+build-sanitize/test_mib
+MIB: mapping, 64-bit rollover, read errors, bounded retries, unsupported selectors: PASS
+make[1]: Leaving directory '/workspace/scratch/48d880bcd536/switchlens-sg1218'
+
+exit=0
