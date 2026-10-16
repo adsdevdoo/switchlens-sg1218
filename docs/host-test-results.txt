@@ -1,3 +1,8 @@
+Проверено: после замены uint64 division на decimal_step выполнен повторный прогон
+make test (9 Python tests + C MIB PASS) и ASAN_OPTIONS=detect_leaks=0 make sanitize
+(9 Python tests + C MIB PASS), оба exit=0. Подробный первоначальный журнал ниже.
+Целевые MIPS-тесты описаны в target-test-results.json и FIRMWARE.md.
+
 $ make test
 mkdir -p build
 cc -Iinclude -std=c99 -Wall -Wextra -Werror -Os  -fstack-usage src/sg_stats.c tests/fixture.c -o build/fixture

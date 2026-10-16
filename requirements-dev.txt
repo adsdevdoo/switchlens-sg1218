@@ -1,2 +1,4 @@
 jsonschema==4.26.0
 capstone==5.0.9
+pyelftools==0.32
+unicorn==2.1.4

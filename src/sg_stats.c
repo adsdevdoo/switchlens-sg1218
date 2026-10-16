@@ -41,7 +41,18 @@ static int quoted(struct writer *w,const char *s,size_t n){
   else if(byte(w,(char)c))return -1;
  }return byte(w,'"');
 }
-static int number(struct writer *w,uint64_t value){char digits[20];size_t n=0;do{digits[n++]=(char)('0'+value%10);value/=10;}while(value);while(n){if(byte(w,digits[--n]))return -1;}return 0;}
+/* Base-256 long division needs only 32-bit arithmetic, including on MIPS o32.
+   Avoid implicit libgcc 64-bit divide helpers in the freestanding payload. */
+static unsigned decimal_step(uint64_t *value){
+ uint32_t hi=(uint32_t)(*value>>32),lo=(uint32_t)*value;
+ uint32_t qhi=hi/10u,rem=hi%10u,qlo=0;
+ for(unsigned n=0;n<4;n++){
+  uint32_t part=(rem<<8)|(lo>>24);lo<<=8;
+  qlo=(qlo<<8)|(part/10u);rem=part%10u;
+ }
+ *value=((uint64_t)qhi<<32)|qlo;return rem;
+}
+static int number(struct writer *w,uint64_t value){char digits[20];size_t n=0;do{digits[n++]=(char)('0'+decimal_step(&value));}while(value);while(n){if(byte(w,digits[--n]))return -1;}return 0;}
 static int equals(const struct sg_value *v,const char *s){size_t n=slen(s);if(v->length!=n)return 0;for(size_t i=0;i<n;i++)if(v->text[i]!=s[i])return 0;return 1;}
 static int valid(const struct field *f,const struct sg_value *v){
  if(v->kind==SG_NULL)return 1;
@@ -68,7 +79,7 @@ static int value(struct writer *w,const struct sg_source *s,const struct field *
  if(v.kind==SG_TEXT)return quoted(w,v.text,v.length);
  if(v.kind==SG_BOOL)return text(w,v.number?"true":"false");
  if(f->format==F_COUNTER){if(byte(w,'"')||number(w,v.number))return -1;return byte(w,'"');}
- if(v.kind==SG_TENTHS){if(number(w,v.number/10)||byte(w,'.'))return -1;return byte(w,(char)('0'+v.number%10));}
+ if(v.kind==SG_TENTHS){unsigned rem=decimal_step(&v.number);if(number(w,v.number)||byte(w,'.'))return -1;return byte(w,(char)('0'+rem));}
  return number(w,v.number);
 }
 static int fields(struct writer *w,const struct sg_source *s,const struct field *f,size_t n){

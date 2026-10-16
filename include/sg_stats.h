@@ -2,7 +2,7 @@
 #define SG_STATS_H
 #include <stddef.h>
 #include <stdint.h>
-/* Portable prototype: no sockets, MMIO, malloc, threads or flash writes. */
+/* Portable serializer interface; firmware integration lives in target/. */
 #define SG_JSON_BUFFER_SIZE 128u
 #define SG_PORTS 18u
 #include "sg_fields.h"

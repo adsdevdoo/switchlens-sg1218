@@ -1,0 +1,44 @@
+[
+  {
+    "Package": "binutils-mips-linux-gnu",
+    "Version": "2.42-2ubuntu1cross5",
+    "Architecture": "amd64",
+    "Filename": "pool/universe/b/binutils-mipsen/binutils-mips-linux-gnu_2.42-2ubuntu1cross5_amd64.deb",
+    "SHA256": "9a5b99defc57b465b4a3b76e7b35a2ddd2d931dcc349a6c92f76fe8b026c10c7"
+  },
+  {
+    "Package": "cpp-13-mips-linux-gnu",
+    "Version": "13.2.0-23ubuntu4cross1",
+    "Architecture": "amd64",
+    "Filename": "pool/universe/g/gcc-13-cross-mipsen/cpp-13-mips-linux-gnu_13.2.0-23ubuntu4cross1_amd64.deb",
+    "SHA256": "790b6d817e8e4cb9b989946169fb63da3b8ab5f0e9d9332205f131f27a9763e6"
+  },
+  {
+    "Package": "gcc-13-mips-linux-gnu",
+    "Version": "13.2.0-23ubuntu4cross1",
+    "Architecture": "amd64",
+    "Filename": "pool/universe/g/gcc-13-cross-mipsen/gcc-13-mips-linux-gnu_13.2.0-23ubuntu4cross1_amd64.deb",
+    "SHA256": "4addc830f855aa411dec18bfc8e5c9a4ec4e9fe22adc70d7bf081cee42fd0a40"
+  },
+  {
+    "Package": "libc6-dev-mips-cross",
+    "Version": "2.39-0ubuntu8cross2",
+    "Architecture": "all",
+    "Filename": "pool/universe/c/cross-toolchain-base-mipsen/libc6-dev-mips-cross_2.39-0ubuntu8cross2_all.deb",
+    "SHA256": "71ecabdde0c3fd17fd3394df36692b0f46e78532437edcc790362131f8c78093"
+  },
+  {
+    "Package": "libgcc-13-dev-mips-cross",
+    "Version": "13.2.0-23ubuntu4cross1",
+    "Architecture": "all",
+    "Filename": "pool/universe/g/gcc-13-cross-mipsen/libgcc-13-dev-mips-cross_13.2.0-23ubuntu4cross1_all.deb",
+    "SHA256": "4c16ea634a9376f822172c62eb945af2f9be8b5688c151b20a2641c625dfc39e"
+  },
+  {
+    "Package": "linux-libc-dev-mips-cross",
+    "Version": "6.8.0-25.25cross2",
+    "Architecture": "all",
+    "Filename": "pool/universe/c/cross-toolchain-base-mipsen/linux-libc-dev-mips-cross_6.8.0-25.25cross2_all.deb",
+    "SHA256": "7fb6d83d4cefc6979ce38093d34816e7b4137ca0855f87a1b563be5825ae3b0b"
+  }
+]

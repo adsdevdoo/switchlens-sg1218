@@ -1,0 +1,17 @@
+{
+  "response_bytes": 37194,
+  "socket_calls": 26,
+  "observed_stack_bytes": 840,
+  "min_sp": "0xbf01f2b8",
+  "permitted_write_locations": 1948,
+  "tests": 10,
+  "failures": 0,
+  "errors": 0,
+  "image_sha256": "58d48cf69cac4024eddfb4ede1bb5a925420521a0f0e44011ff4fa08940c2e25",
+  "scope": "CPU/HTTP emulation with mocked socket and synthetic MMIO; no hardware validation",
+  "reproducibility": "Two independent output directories: payload and final BIN are byte-identical",
+  "host_serializer_tests": 9,
+  "host_mib_tests": "PASS",
+  "asan_ubsan": "PASS; leak detection disabled",
+  "unicorn_version": "2.1.4"
+}

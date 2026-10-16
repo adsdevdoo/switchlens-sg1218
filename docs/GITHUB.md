@@ -11,6 +11,7 @@
 Если создавать из архива исходников на своей машине:
 
 ```bash
+cd switchlens-sg1218
 git init -b main
 git add .
 git commit -m "Initialize SwitchLens host telemetry prototype"
@@ -18,6 +19,10 @@ gh auth login
 gh repo create switchlens-sg1218 --private --source=. --remote=origin --push \
   --description "Read-only JSON telemetry research for TP-Link TL-SG1218MPE V5.0"
 ```
+
+В актуальном приватном комплекте рядом с исходниками есть `bench/` с прошивкой.
+Не инициализируйте Git в корне всего комплекта и не загружайте `bench/` на GitHub.
+Готовый bundle содержит только исходный проект и историю, без BIN.
 
 Для архива с историей уже достаточно распаковать `switchlens-sg1218.bundle` и:
 
