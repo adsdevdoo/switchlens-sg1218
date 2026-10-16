@@ -1,0 +1,184 @@
+{
+  "image_sha256": "c9ab17eda7af714f00692d41f440ce84ed0d6c7d678634c364ec1154bb7e3f32",
+  "status": "verified_static; not hardware validation; no flashability decision",
+  "image_size": 1013324,
+  "header_be_u32": [
+    "0xd31a20a5",
+    "0xf763c",
+    "0xdffffff",
+    "0x184d5005"
+  ],
+  "crc32": {
+    "range": {
+      "start": "0x10",
+      "end_exclusive": "0xf7000",
+      "bytes": 1011696
+    },
+    "computed": "0xd31a20a5",
+    "stored": "0xd31a20a5",
+    "matches": true
+  },
+  "candidate_code_padding": {
+    "start": "0xd8640",
+    "end_exclusive": "0xf7000",
+    "bytes": 125376,
+    "all_ff": true,
+    "allocation_proven_safe": false
+  },
+  "startup": {
+    "evidence_file": {
+      "start": "0x620",
+      "end_exclusive": "0x708",
+      "bytes": 232
+    },
+    "vectors_file": {
+      "start": "0x10",
+      "end_exclusive": "0x410",
+      "bytes": 1024
+    },
+    "vectors_ram": {
+      "start": "0xbf000000",
+      "end_exclusive": "0xbf000400",
+      "bytes": 1024
+    },
+    "initialized_copy_file": {
+      "start": "0x720",
+      "end_exclusive": "0x3164",
+      "bytes": 10820
+    },
+    "initialized_copy_ram": {
+      "start": "0xbf000400",
+      "end_exclusive": "0xbf002e44",
+      "bytes": 10820
+    },
+    "zeroed_ram_including_last_word": {
+      "start": "0xbf002e40",
+      "end_exclusive": "0xbf01952c",
+      "bytes": 91884
+    },
+    "ram_code_file": {
+      "start": "0x3160",
+      "end_exclusive": "0x8178",
+      "bytes": 20504
+    },
+    "ram_code": {
+      "start": "0xbf019528",
+      "end_exclusive": "0xbf01e540",
+      "bytes": 20504
+    },
+    "initial_sp": "0xbf01f800",
+    "code_to_initial_sp": {
+      "start": "0xbf01e540",
+      "end_exclusive": "0xbf01f800",
+      "bytes": 4800
+    },
+    "overlap_note": "Last initialized word is zeroed; last zeroed word is overwritten by RAM code",
+    "free_ram_bytes": null,
+    "largest_sp_adjustments": [
+      {
+        "file_offset": "0x4c1dc",
+        "frame_bytes": 3584
+      },
+      {
+        "file_offset": "0x4c2f4",
+        "frame_bytes": 3568
+      },
+      {
+        "file_offset": "0x5377c",
+        "frame_bytes": 1360
+      },
+      {
+        "file_offset": "0x45718",
+        "frame_bytes": 1328
+      },
+      {
+        "file_offset": "0x40db0",
+        "frame_bytes": 936
+      },
+      {
+        "file_offset": "0x4ca0c",
+        "frame_bytes": 880
+      },
+      {
+        "file_offset": "0x53bc4",
+        "frame_bytes": 712
+      },
+      {
+        "file_offset": "0x4c86c",
+        "frame_bytes": 704
+      }
+    ],
+    "stack_note": "Instruction scan, NOT a call-graph or interrupt stack bound"
+  },
+  "timer": {
+    "init_file": {
+      "start": "0x84b0",
+      "end_exclusive": "0x8544",
+      "bytes": 148
+    },
+    "init_call_file": {
+      "start": "0x86c4",
+      "end_exclusive": "0x86d4",
+      "bytes": 16
+    },
+    "isr_file": {
+      "start": "0x3ccc",
+      "end_exclusive": "0x3dec",
+      "bytes": 288
+    },
+    "base_for_index_zero": "0xb8003100",
+    "control_initial": "0x1002710",
+    "hardware_divider": 10000,
+    "data_value": 1000,
+    "software_divider": 20,
+    "raw_counter_ram": "0xbf002e90",
+    "raw_counter_bits": 32,
+    "hypothesis_lxb_hz": 200000000,
+    "conditional_irq_seconds": 0.05,
+    "conditional_raw_unit_seconds": 1.0,
+    "actual_clock_confirmed": false,
+    "export_uptime_seconds": null
+  },
+  "signcheck_dataflow": {
+    "status": "verified_static_by_manual_disassembly; witnesses below",
+    "uid_copy": {
+      "file_offset": "0x45778",
+      "callee_va": "0xbfc1044c",
+      "source_ram": "0xbf016a9c",
+      "length_ram": "0xbf002e80",
+      "destination": "sp+0x18"
+    },
+    "saved_uid_length": {
+      "file_offset": "0x457c8",
+      "destination": "sp+0x500"
+    },
+    "sha1_update": {
+      "file_offset": "0x46088",
+      "callee_va": "0xbf01e1c8",
+      "input": "sp+0x18",
+      "length": "word at sp+0x500"
+    },
+    "signature_storage_va": {
+      "start": "0xb41fc006",
+      "end_exclusive": "0xb41fc086",
+      "bytes": 128
+    },
+    "scope": "This SignCheck hashes the UID; does not prove absence of bootloader image verification"
+  },
+  "upgrade_handoff": {
+    "status": "verified_static; subsequent loader behavior unknown",
+    "staging_va": "0xb4100000",
+    "crc_call_file": "0x3602c",
+    "zero_header_write_call_file": "0x36060",
+    "zero_header_destination_va": "0xb4008000",
+    "zero_header_bytes": 16,
+    "countdown_ram": "0xbf0013e0",
+    "countdown_value": 7,
+    "countdown_handler_file": {
+      "start": "0x30048",
+      "end_exclusive": "0x300e0",
+      "bytes": 152
+    },
+    "bootloader_in_input": false
+  }
+}

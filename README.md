@@ -27,7 +27,8 @@ PoE и информацией о коммутаторе для последую�
   чтения двухсловных RX/TX byte counters.
 
 Наличие поля в JSON не означает найденный и проверенный источник на устройстве.
-Неизвестные показания — `null`. Единица uptime ещё не установлена; seconds
+Неизвестные показания — `null`. Для uptime найдены параметры таймера; гипотеза
+о секунде на raw tick зависит от неподтверждённой частоты LXB, поэтому seconds
 остаются `null`. `rx_discards` и `tx_packets_256_511` принудительно `null`.
 Все показания в [примере](examples/demo.synthetic.json) синтетические.
 
@@ -79,7 +80,17 @@ SHA-256 c9ab17eda7af714f00692d41f440ce84ed0d6c7d678634c364ec1154bb7e3f32
 ```bash
 python3 tools/audit.py /path/to/firmware.bin
 python3 tools/audit_mib.py /path/to/firmware.bin > local-mib-map.json
+python3 tools/audit_platform.py /path/to/firmware.bin > local-platform-evidence.json
 ```
+
+Проверено новым статическим разбором: runtime `SignCheck` хеширует UID устройства;
+проверки отдельного загрузчика из update BIN не установлены. Между RAM-кодом и
+initial SP — 4800 байт, причём штатные функции уже используют большие кадры стека.
+Подробности и смещения: [PLATFORM-FOLLOWUP](research/PLATFORM-FOLLOWUP.md).
+
+Найдены опубликованные примеры модификации Easy Smart и родственных Realtek:
+[PRIOR-ART](research/PRIOR-ART.md). Они подтверждают наличие подходов и кода для
+изучения, но не совместимость чужих образов с TL-SG1218MPE V5.0.
 
 Полные SPI-дампы, UART-журналы стенда, скриншоты с адресами, учётные данные
 и сами прошивки хранятся вне Git. Доказательства маркируются «проверено»,

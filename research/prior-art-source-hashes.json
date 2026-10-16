@@ -1,0 +1,26 @@
+[
+  {
+    "url": "https://raw.githubusercontent.com/YurkoWasHere/TL-SG108E-V5-custom-firmware/main/README.md",
+    "retrieved_on": "2026-10-16",
+    "sha256": "62c0a76a37ea0fe149fa7b8d47d1da4478d902beb3ec007d0c37461649782a1f",
+    "size_bytes": 1935
+  },
+  {
+    "url": "https://raw.githubusercontent.com/YurkoWasHere/TL-SG108E-V5-custom-firmware/main/REVERSE_ENGINEERING.md",
+    "retrieved_on": "2026-10-16",
+    "sha256": "44e9b2ff594ebcd55906e5dc5540f647cd2ca48d1c146fd99d2e747fda4e24f6",
+    "size_bytes": 5928
+  },
+  {
+    "url": "https://raw.githubusercontent.com/libc0607/Realtek_switch_hacking/master/SG116M-RE-Boot.md",
+    "retrieved_on": "2026-10-16",
+    "sha256": "0a0adb4af3e8099ad15a9952c15a9957db4a366248ce0ab5696781de3aab5519",
+    "size_bytes": 4382
+  },
+  {
+    "url": "https://raw.githubusercontent.com/torvalds/linux/master/drivers/clocksource/timer-rtl-otto.c",
+    "retrieved_on": "2026-10-16",
+    "sha256": "8b3ce793f72fbab54b5bca423d32328a5822ce534f9f29d1cfb59a14b6344225",
+    "size_bytes": 8212
+  }
+]

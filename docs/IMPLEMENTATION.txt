@@ -90,7 +90,9 @@ sg_sink.write должен возвращать ПОЛОЖИТЕЛЬНОЕ чи�
   и end скрывают часть ошибок. Разбор: research/HTTP-JSON-FOLLOWUP.txt.
 - SystemInfo: getter пути, RAM и пределы копий — research/SYSTEM-INFO.txt.
 - PoE: RAM-кэш, шаг0x30 и масштабы — research/COMPARISON-AND-POE.txt.
-- uptime_ticks_raw: RAM0xbf002e90; единица не доказана, uptime_seconds=null.
+- uptime_ticks_raw: RAM0xbf002e90. Параметры таймера найдены; 1 секунда на raw
+  tick — гипотеза при LXB200MHz. Частота не подтверждена, uptime_seconds=null.
+  Актуальные доказательства: research/PLATFORM-FOLLOWUP.md.
 - Диагностика петель: research/MIB-LOOPS-FOLLOWUP.txt. Raw-маски нельзя выдавать
   как подтверждённое состояние блокировки портов.
 

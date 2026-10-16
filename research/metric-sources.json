@@ -24,8 +24,9 @@
       "status": "verified_static",
       "ram": "0xbf002e90",
       "width": 32,
-      "evidence": "ISR file0x3ccc..0x3dec",
-      "unknown": "tick unit; uptime_seconds must remain null"
+      "evidence": "ISR file0x3ccc..0x3dec; timer init file0x84b0..0x8544; PLATFORM-FOLLOWUP.md",
+      "hypothesis": "1 second per raw tick if LXB=200MHz: divisor10000 * period1000 * software_divider20 / 200000000",
+      "unknown": "actual LXB clock and interrupt timing; uptime_seconds must remain null"
     },
     {
       "fields": [
