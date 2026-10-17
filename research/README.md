@@ -12,6 +12,8 @@ English reader documents are default; matching Russian editions are linked at
 the top. Original `.txt` analyses remain unchanged as historical source records.
 [Documentation index](../docs/README.md).
 
+[Fan replacement web evidence and next diagnostic step](COOLING-WEB-EVIDENCE.md).
+
 | Document | Subject |
 | --- | --- |
 | [Boot/timer/vendor cooling follow-up](COOLING-FOLLOWUP.md) | Boot GPIO24 setup, timer ISR, generic access paths and 80 controller cases across four official builds |

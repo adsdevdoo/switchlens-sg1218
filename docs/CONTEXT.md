@@ -133,8 +133,17 @@ GPIO24 and preserves GPIO27; the timer ISR updates counters/flags without GPIO
 access. 100 fast IRQ calls produce 5 raw uptime increments (no wall-clock
 calibration). The identified GPIO27 controller behaves identically in all four
 archived vendor builds: 80 emulator cases pass. No additional speed command was
-identified in these paths. Close-ups around both fan connectors and the reverse
-side could establish the physical power/feedback path; the overview is insufficient.
+identified in these paths.
+
+[Web evidence and next step](../research/COOLING-WEB-EVIDENCE.md): the Spot on Tech
+replacement photograph shows NF-A4x20 FLX, not PWM; it does not establish our
+board revision or pinout. The owner supplied a close-up with NCE9435A, but its
+GPIO/fan connection is unknown. They declined further disassembly for now.
+The approximately 150 W threshold may enable a second fan; this remains a
+hypothesis despite confirmed GPIO27=0 readback. Clarify the ambiguous phrase
+“тот что не меняли” before assuming both installed fans are Noctua. Next useful
+read-only observation: two cool status outputs with a measured elapsed interval
+to calibrate the 100-raw-tick hold. No new BIN or arbitrary GPIO changes.
 
 1. Real PoE consumer and comparison with the stock PoE page.
 2. Settings/counters, physical port mapping and discard investigation.
