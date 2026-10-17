@@ -3,7 +3,7 @@
 [CmdletBinding()]
 param(
     [ValidatePattern('^COM[0-9]+$')][string]$Port = 'COM3',
-    [ValidateRange(300, 2000000)][int]$Baud = 115200,
+    [ValidateRange(300, 2000000)][int]$Baud = 38400,
     [ValidateRange(1, 3600)][int]$Seconds = 60,
     [string]$OutputDirectory = ''
 )
@@ -106,7 +106,7 @@ try {
             started_utc = $startedUtc; elapsed_seconds = $timer.Elapsed.TotalSeconds
             requested_seconds = $Seconds; port_opened = $opened
             capture_completed = $completed; bytes_received = $received; error = $failure
-            note = 'Zero bytes do not prove absence of UART. Baud and header pinout remain unconfirmed.'
+            note = 'Zero bytes only describe this capture. Bench RX settings: switch J2 pin 1 TX, 38400 8N1; see docs/LAB.md for numbering and limits.'
         }
         $metadata | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $sessionDirectory 'session.json') -Encoding UTF8
         Write-Host "`nReceived: $received bytes. Logs: $sessionDirectory"

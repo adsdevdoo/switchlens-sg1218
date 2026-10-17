@@ -29,6 +29,86 @@
       "sha256": "7a137f243b9f4dbe3759a988f24bd312747b8fd7879789357b7879377b7d1d61",
       "bytes": 5745553,
       "pixel_or_metadata_changes": false
+    },
+    {
+      "file": "uart/j2-before-mod.jpeg",
+      "original_upload": "IMG_0617.jpeg",
+      "sha256": "c3324349e8df43c24d59d6e46d66028dd99c47f6ea55967b255b38aad0ff97a7",
+      "bytes": 467513,
+      "pixel_or_metadata_changes": false,
+      "description": "J2 и пустые площадки R41/R42 до доработки"
+    },
+    {
+      "file": "uart/loopback-com3.png",
+      "original_upload": "a83a8c56-778a-46ab-a5a6-c36a13cc12d8.png",
+      "sha256": "0223f36dd4ad17c0687dfd59d368ad082e7ec707e80f977667ad86c41d9433c8",
+      "bytes": 133074,
+      "pixel_or_metadata_changes": false,
+      "description": "Петля COM3, 115200, PASS"
+    },
+    {
+      "file": "uart/capture-path-error.png",
+      "original_upload": "147a9c84-be72-405e-b69c-9194c56753fc.png",
+      "sha256": "cfa0abe272762d403d7f4ccc390f076e8e10d0857a1f592ffb6cb48dd965069e",
+      "bytes": 60878,
+      "pixel_or_metadata_changes": false,
+      "description": "Первоначальная ошибка Join-Path до открытия порта"
+    },
+    {
+      "file": "uart/pin1-no-data.png",
+      "original_upload": "bc768568-b3e1-462b-a02a-46fe10e31378.png",
+      "sha256": "a57dd709587cd60c8113980f3db1be7f0c72fa288ac837b3b52cff74da227638",
+      "bytes": 83825,
+      "pixel_or_metadata_changes": false,
+      "description": "Pin 1: 0 байт при 115200 до доработки"
+    },
+    {
+      "file": "uart/pin1-no-data-repeat.png",
+      "original_upload": "8fbe6e53-0b40-484b-b932-581c1d6b2920.png",
+      "sha256": "bd590d9a45dd2d9e5f50c3ba41779c08d6ef07cee9b3e5688ecb80c47c2168db",
+      "bytes": 76486,
+      "pixel_or_metadata_changes": false,
+      "description": "Повтор pin 1: владелец уточнил, что провод ещё не переставлял"
+    },
+    {
+      "file": "uart/pin2-no-data.png",
+      "original_upload": "7ea97986-0204-4eaf-a411-fc16c8c5b517.png",
+      "sha256": "e05acf4095e4b589e618e3cb6822f69c8bb34da1629cd273806404ac780191cf",
+      "bytes": 83895,
+      "pixel_or_metadata_changes": false,
+      "description": "Pin 2: 0 байт при 115200 до доработки"
+    },
+    {
+      "file": "uart/putty-unreadable.png",
+      "original_upload": "e295dc2e-7a58-458e-88b3-6ab23235f37f.png",
+      "sha256": "be0828ac3e1c7541f4d1a6af113c09c7331cb5dc99d5c4a1d4ee1827cb248e92",
+      "bytes": 10455,
+      "pixel_or_metadata_changes": false,
+      "description": "Нечитаемые символы до выбора рабочей скорости"
+    },
+    {
+      "file": "uart/putty-boot-38400.png",
+      "original_upload": "e83db38a-ee30-468d-a0df-17c62f151438.png",
+      "sha256": "c29e51889cbb311333e64df3313541b727e553f37ba0b4c5081d1074af7b3d16",
+      "bytes": 26888,
+      "pixel_or_metadata_changes": false,
+      "description": "Начало читаемой загрузки; скорость 38400 подтверждена владельцем"
+    },
+    {
+      "file": "uart/putty-serial-initial.png",
+      "original_upload": "da61c539-b033-41e2-82d7-3bea816868fd.png",
+      "sha256": "f64465f376fbdbc0e58b93a455a06d4be11f23ce7aa552b23a80bb980765b6ad",
+      "bytes": 49517,
+      "pixel_or_metadata_changes": false,
+      "description": "Исторические настройки 115200; рабочая скорость затем установлена 38400"
+    },
+    {
+      "file": "uart/flash-marking.jpeg",
+      "original_upload": "IMG_E16F15AB-0F9F-4E3D-BCF2-FDCED9DAB4BD.jpeg",
+      "sha256": "bdd71aa3f29e1da0bc82d6540847aa351ad68eda55db059fdf237e541b07eafb",
+      "bytes": 312013,
+      "pixel_or_metadata_changes": false,
+      "description": "Маркировка SPI U6 GD25Q16BSIG"
     }
   ]
 }

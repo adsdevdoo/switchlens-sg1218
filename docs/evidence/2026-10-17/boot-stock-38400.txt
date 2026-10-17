@@ -1,0 +1,49 @@
+check runtime img
+go to runtime addr 0xb4008010
+uart 0 init!---------- Done!
+
+flash driver init!---------- Done!
+
+Config signature ok.
+sal_config_init!---------- Done!
+
+timer init!---------- Done!
+
+soc interrupt init!---------- Done!
+
+phy is 0xc984
+get switch_mac = 58:4:4f:95:41:a1!---------- Done!
+
+tddp_tsdp_dhcp_igmp trap cpu set ---------- Done!
+
+QoS init ---------- Done!
+
+DHCPC init!---------- Done!
+
+IGMP init!---------- Done!
+
+Trunk init!---------- Done!
+
+port init!---------- Done!
+
+port mirror init!---------- Done!
+
+POE init!---------- Done!
+
+vlan init!---------- Done!
+
+SignCheck start!
+SignCheck Pass.
+Led init!---------- Done!
+
+Config Restore!---------- Done!
+
+HTTPD && TSDP init!---------- Done!
+
+TDDP init!---------- Done!
+
+set port 24 to copper mode
+set port 25 to copper mode
+set port 26 to fiber mode
+set port 27 to fiber mode
+ code init !---------- Done!
