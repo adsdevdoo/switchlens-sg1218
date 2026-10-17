@@ -66,7 +66,7 @@ int sg_cool_get(const struct sg_cooling *c,enum sg_field f,struct sg_value *v){
 }
 static void status(void){
  struct sg_cooling c;sg_cool_snapshot(&c);
- fw_printf("cool v0.1.3: cnr=0x%08x dir=0x%08x data=0x%08x\n",c.control,c.direction,c.data);
+ fw_printf("cool v0.1.4: cnr=0x%08x dir=0x%08x data=0x%08x\n",c.control,c.direction,c.data);
  fw_printf("gpio26=%u gpio27=%u state=0x%08x ticks=%u poe_raw=%u\n",(c.data>>26)&1,(c.data>>27)&1,c.state,c.ticks,c.power);
  const char *speed=speed_mode(&c);
  fw_printf("speed_mode=%s (both fans; not measured RPM)\n",speed?speed:"unknown");

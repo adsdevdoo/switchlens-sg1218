@@ -2,7 +2,8 @@
 
 # SwitchLens continuation context
 
-**New v0.1.3:** public `/stats.json`, manual `cool low/fast/auto` without a timer, and `cooling.speed_mode`. Built and emulation-checked; hardware installation pending. [BIN](../releases/v0.1.3-public-stats/README.md). Owner explicitly requested public statistics, permanent low/fast/auto commands and removal of the test commands/time limit.
+**Current v0.1.4:** stock authentication restored; manual low/fast/auto without timeout retained. v0.1.3 sessionless access failed on hardware and its exception was removed. New BIN hardware installation is pending. [BIN](../releases/v0.1.4/README.md).
+
 
 **Current result:** the problematic fan was replaced with a stock fan; both now rotate and `cool test 0` accelerates both. Earlier no-effect/stopped-fan statements below describe prior tests. [Updated observations and next action](evidence/2026-10-17-cooling/README.md).
 

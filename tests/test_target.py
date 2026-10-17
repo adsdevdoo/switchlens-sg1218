@@ -166,6 +166,8 @@ class Machine:
     def check_ram_changes(self, before):
         after = self.load(0xbf000000, 0x20000)
         allowed = [(0x1f01e540, 0x1f01f800), (0x1f010f8c, 0x1f011550)]
+        if getattr(self, 'outer_request', False):
+            allowed.append((0x1f011670, 0x1f011672))
         if self.expire_on_send:
             allowed.append((0x1f002e94, 0x1f002e98))  # synthetic IRQ tick injection
         for i, (a, b) in enumerate(zip(before, after)):
@@ -301,31 +303,35 @@ class TargetTests(unittest.TestCase):
         m.word(0xbf011660, 1)
         m.put(0xbf001488, b'synthetic-session\0')
         self.assertEqual(m.run(), 0)
-        if MANIFEST.get('public_stats'):
-            m.document()
-        else:
-            self.assertEqual(m.entered, [0xbfc3fc18])
-            self.assertFalse(m.output)
+        self.assertEqual(m.entered, [0xbfc3fc18])
+        self.assertFalse(m.output)
         m.output.clear()
         m.put(REQUEST+0xec, b'synthetic-session\0')
         self.assertEqual(m.run(), 0)
         m.document()
 
-    def test_public_exception_does_not_unlock_admin_or_post(self):
-        if not MANIFEST.get('public_stats'):
-            self.skipTest('public route not built')
-        for path, method in [('/stats.json', 2), ('/stats.jsonx', 1),
-                ('/stats.json/', 1), ('/Stats.json', 1), ('/stats.json?x', 1),
-                ('/Stats.htm', 1), ('/', 1), ('/SystemInfo.htm', 1),
-                ('/SystemInfo.htm', 2), ('/stats.json%00', 1)]:
-            with self.subTest(path=path, method=method):
+    def test_outer_client_ip_and_inner_cookie_checks(self):
+        # Enter the actual caller, not just the internal route dispatch tested
+        # by v0.1.3. Its client-IP gate can substitute the Unauth route first.
+        for active, cookie, same_ip, allowed in [
+                (1, True, True, True), (1, False, True, False),
+                (1, True, False, False), (0, False, True, False)]:
+            with self.subTest(active=active,cookie=cookie,same_ip=same_ip):
                 m = self.new()
-                m.word(0xbf011660, 1)
+                m.outer_request = True
+                m.symbols['stock_http_outer'] = 0xbfc3ce48
+                m.word(REQUEST+0x8c, PATH)
+                m.word(0xbf011660, active)
                 m.put(0xbf001488, b'synthetic-session\0')
-                m.put(REQUEST+0xec, b'wrong-session\0')
-                m.run(path=path, method=method)
-                self.assertEqual(m.entered, [0xbfc3fc18])
-                self.assertFalse(m.output)
+                m.put(REQUEST+0xec, b'synthetic-session\0' if cookie else b'wrong-session\0')
+                m.put(0xbf018df4, bytes([192,0,2,20]))
+                m.put(REQUEST+0x298, bytes([192,0,2,20 if same_ip else 21]))
+                m.run(function='stock_http_outer')
+                if allowed:
+                    m.document()
+                else:
+                    self.assertNotIn(m.symbols['sg_http_entry'], m.entered)
+                    self.assertFalse(m.output)
 
     def test_post_and_near_matches_do_not_call_json(self):
         for path, method in [('/stats.json', 2), ('/stats.jsonx', 1),
@@ -380,8 +386,11 @@ class TargetTests(unittest.TestCase):
         self.assertEqual(len(IMAGE), len(ORIGINAL))
         self.assertEqual(struct.unpack('>I', IMAGE[:4])[0], zlib.crc32(IMAGE[0x10:builder.END]))
         self.assertEqual(IMAGE[builder.END:], ORIGINAL[builder.END:])
+        self.assertEqual(IMAGE[0x33740:0x33804], ORIGINAL[0x33740:0x33804])
+        self.assertEqual(IMAGE[0x34e48:0x34f58], ORIGINAL[0x34e48:0x34f58])
+        self.assertNotIn('sg_public_compare', MANIFEST['symbols'])
         syms = {k: int(v, 16) for k, v in MANIFEST['symbols'].items()}
-        regenerated, _ = builder.package(ORIGINAL, PAYLOAD, syms, uart_cli=MANIFEST.get('uart_cli', False), cooling_cli=MANIFEST.get('cooling_cli', False), public_stats=MANIFEST.get('public_stats', False))
+        regenerated, _ = builder.package(ORIGINAL, PAYLOAD, syms, uart_cli=MANIFEST.get('uart_cli', False), cooling_cli=MANIFEST.get('cooling_cli', False))
         self.assertEqual(regenerated, IMAGE)
         for original, payload, symbols in [(b'bad', PAYLOAD, syms), (ORIGINAL, b'', syms),
                  (ORIGINAL, b'x'*(builder.END-builder.START+1), syms),

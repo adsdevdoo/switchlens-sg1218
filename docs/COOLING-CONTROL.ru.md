@@ -1,6 +1,6 @@
 [English](COOLING-CONTROL.md) | **Русский**
 
-# Команды охлаждения — v0.1.3
+# Команды охлаждения — v0.1.4
 
 | Команда | Действие |
 | --- | --- |
@@ -16,8 +16,8 @@
 Настройка во флеш не записывается.
 
 `cooling.mode`: auto/manual/invalid; `cooling.speed_mode`: low/fast/null.
-JSON только читает и не переключает вентиляторы. В v0.1.3 endpoint открыт без входа.
+JSON только читает и не переключает вентиляторы. Endpoint требует штатной авторизации.
 
-[v0.1.3: BIN, implementation / реализация, checks / проверки](../releases/v0.1.3-public-stats/README.ru.md).
+[v0.1.4: BIN, implementation / реализация, checks / проверки](../releases/v0.1.4/README.ru.md).
 
 [Historical v0.1.2 / История v0.1.2](../releases/v0.1.2-cooling/README.ru.md); [hardware evidence / аппаратное подтверждение](evidence/2026-10-17-cooling/README.ru.md).

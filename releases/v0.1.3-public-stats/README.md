@@ -2,6 +2,8 @@
 
 # SwitchLens v0.1.3 — public statistics and manual fan modes
 
+**Superseded / correction:** the owner confirmed boot and manual fan commands, but unauthenticated JSON still requires login. The claimed public access below was not achieved. v0.1.4 removes the ineffective exception and restores stock authentication. The original BIN and reports are retained as historical evidence. [v0.1.4](../v0.1.4/README.md).
+
 Built on the working SwitchLens firmware. This exact BIN passes 21 MIPS checks
 and host serializer/MIB plus ASan/UBSan; installation on the owner's hardware
 is pending. Earlier v0.1.1 boot/JSON and v0.1.2 fan-speed observations remain valid

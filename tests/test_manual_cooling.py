@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""v0.1.3 persistent RAM cooling modes; synthetic MIPS execution, no device I/O."""
+"""v0.1.4 persistent RAM cooling modes; synthetic MIPS execution, no device I/O."""
 import argparse
 import hashlib
 import json
@@ -66,13 +66,14 @@ class ManualCooling(unittest.TestCase):
         self.assertIn(b'writes blocked', send(c, 'reg socset 0x350c 0'))
         self.assertEqual(get(c, DATA), 0x31780000)
 
-    def test_json_public_read_only_manual_auto_invalid_and_mux(self):
+    def test_json_authenticated_read_only_manual_auto_invalid_and_mux(self):
         for state, level, mode in [(1, 1, 'auto'), (0, 0, 'auto'),
                 (TAG | 1<<25, 0, 'manual'), (TAG | 1<<24, 1, 'manual'), (2, 0, 'invalid')]:
             for control, direction in [(0, BIT), (BIT, BIT), (0, 0)]:
                 m = http.Machine(old.IMAGE, old.MANIFEST)
                 m.word(0xbf011660, 1)
                 m.put(0xbf001488, b'required-session\0')
+                m.put(http.REQUEST+0xec, b'required-session\0')
                 m.word(STATE, state)
                 m.word(0xb8003500, control)
                 m.word(0xb8003508, direction)

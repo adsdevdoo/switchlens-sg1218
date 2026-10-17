@@ -2,7 +2,8 @@
 
 # SwitchLens
 
-**Новая v0.1.3:** `/stats.json` без входа, ручные `cool low/fast/auto` без таймера и `cooling.speed_mode`. Собрана и проверена в эмуляции; установка на устройство ещё не подтверждена. [BIN](releases/v0.1.3-public-stats/README.ru.md).
+**Текущая v0.1.4:** штатная авторизация восстановлена; low/fast/auto без таймера сохранены. Доступ без входа v0.1.3 на устройстве не сработал, исключение удалено. Установка нового BIN ещё не подтверждена. [BIN](releases/v0.1.4/README.ru.md).
+
 
 Read-only JSON telemetry for the **TP-Link TL-SG1218MPE(UN) V5.0**.
 

@@ -43,3 +43,6 @@ uart-logs/
 
 # Public statistics and manual cooling release requested by owner.
 !/releases/v0.1.3-public-stats/SwitchLens-SG1218MPE-V5-v0.1.3-public-stats.bin
+
+# Restore stock authentication, retain manual cooling.
+!/releases/v0.1.4/SwitchLens-SG1218MPE-V5-v0.1.4.bin

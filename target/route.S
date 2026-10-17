@@ -1,19 +1,9 @@
-/* JSON routing follows stock authentication (with an optional exact-GET public
- * exception below) and GET dispatch. No persistent scratch flag is needed.
+/* JSON routing follows unchanged stock session authentication and GET dispatch.
+ * No authentication exception or persistent scratch flag is needed.
  * v1 carries route identity through the stock epilogue, which does not use it. */
 .set noreorder
 .set nomips16
 .text
-#ifdef SG_PUBLIC_STATS
-/* At the stock login-path comparison s0 is the request. Preserve its original
- * comparison for every request except the exact read-only JSON GET. */
-.globl sg_public_compare
-.ent sg_public_compare
-sg_public_compare:
- j sg_public_route_compare
- move $a2,$s0
-.end sg_public_compare
-#endif
 .globl sg_route_compare
 .ent sg_route_compare
 sg_route_compare:

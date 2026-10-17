@@ -22,22 +22,17 @@ Its `fan_status: null` and `fan_rpm: null` do not add fields to the installed AP
 
 ## Request and authentication
 
-Since v0.1.3, exact `GET /stats.json` is public: no session, login or API token.
-Stock administrative pages and POST handlers still require stock authentication.
-This exposes the existing telemetry to clients with network access; the handler
-remains read-only. v0.1.1/v0.1.2 still require the ordinary `H_P_SSID` session.
+Use the stock form login, `H_P_SSID` cookie and the same client IP for login and
+collection. This is not Basic Auth or Bearer. The attempted v0.1.3 public exception
+failed on hardware; v0.1.4 removes it and restores the stock authentication bytes.
+[Login sequence, curl examples and correction details](HTTP-AUTH.md).
 
-```bash
-curl --fail --max-time 15 http://SWITCH_IP/stats.json -o stats.json
-python3 -m json.tool stats.json
-```
-
-Successful v0.1.3 responses have `Content-Type: application/json`,
-`Cache-Control: no-store`, `Connection: close` and
-`X-SwitchLens-Build: v0.1.3-public-stats`. HTML is not a JSON success, even with
-HTTP 200. Query strings, alternative paths and POST do not use the public exception.
-Reading does not change configuration, reset counters, switch PoE or store JSON
-in flash. UART control is separate. Hardware verification of this new build is pending.
+Open the stock panel, log in, then open `/stats.json` in that browser. For an
+automated client, POST to `/logon.cgi`, save its cookie jar, then GET `/stats.json`
+with that jar from the same host. Reauthenticate on login HTML/session expiry.
+HTML is an error even with HTTP 200. v0.1.4 returns `X-SwitchLens-Build: v0.1.4`.
+The endpoint remains read-only. Full network login automation has not yet been
+verified on the owner's device; the request fields come from the embedded form.
 
 ## Types, missing values and response integrity
 

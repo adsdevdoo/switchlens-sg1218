@@ -31,7 +31,7 @@ def jump(address, link=False):
     return struct.pack('>I', (0x0c000000 if link else 0x08000000) | ((address >> 2) & 0x3ffffff))
 
 
-def package(original, payload, symbols, uart_cli=False, cooling_cli=False, public_stats=False):
+def package(original, payload, symbols, uart_cli=False, cooling_cli=False):
     if sha(original) != EXPECTED:
         raise ValueError('STOP: unexpected input image SHA-256')
     if not payload or len(payload) > END - START:
@@ -40,8 +40,6 @@ def package(original, payload, symbols, uart_cli=False, cooling_cli=False, publi
         raise ValueError('Candidate code region is not erased padding')
     sites = [(0x3425c, 0xbfc2bdd8, symbols['sg_route_compare'], True),
              (0x34280, 0xbfc4163c, symbols['sg_route_dispatch'], False)]
-    if public_stats:
-        sites += [(0x33770, 0xbfc2bdd8, symbols['sg_public_compare'], True)]
     if cooling_cli:
         if not uart_cli:
             raise ValueError('Cooling diagnostics require the runtime UART CLI')
@@ -90,7 +88,7 @@ def package(original, payload, symbols, uart_cli=False, cooling_cli=False, publi
     if any(not any(a <= i < b for a, b in allowed) for i in changed):
         raise ValueError('Unexpected modification outside patch allowlist')
     return bytes(output), {
-        'version': 'v0.1.3-public-stats' if public_stats else 'v0.1.3-manual-cooling' if cooling_cli else 'experimental-1',
+        'version': 'v0.1.4' if cooling_cli else 'experimental-1',
         'classification': 'BUILD_AWAITING_HARDWARE_VERIFICATION' if cooling_cli else 'EXPERIMENTAL_UNTESTED_ON_HARDWARE',
         'input_sha256': EXPECTED, 'output_sha256': sha(output),
         'payload_sha256': sha(payload), 'image_bytes': len(output),
@@ -100,8 +98,7 @@ def package(original, payload, symbols, uart_cli=False, cooling_cli=False, publi
         'changed_bytes': len(changed), 'hooks': changes,
         'uart_cli': bool(uart_cli),
         'cooling_cli': bool(cooling_cli),
-        'public_stats': bool(public_stats),
-        'http_access': 'Exact GET /stats.json is public; stock admin authentication retained' if public_stats else 'Stock session authentication',
+        'http_access': 'Stock form login, H_P_SSID cookie and client-IP session check; no bypass',
         'uart_cli_scope': 'Stock runtime CLI including write/reset commands; not a bootloader recovery console' if uart_cli else 'Stock disabled CLI retained',
         'no_bootloader_modification': True, 'no_global_ram_allocation': True,
         'hardware_boot_test': False, 'recovery_test': False,
@@ -126,7 +123,6 @@ def main():
     parser.add_argument('--output', type=Path, default=ROOT/'build-target')
     parser.add_argument('--uart-cli', action='store_true', help='Enable stock runtime UART CLI for a diagnostic bench build')
     parser.add_argument('--cooling-cli', action='store_true', help='Add manual low/fast/auto cooling commands and JSON; requires --uart-cli')
-    parser.add_argument('--public-stats', action='store_true', help='Allow exact read-only GET /stats.json without a session')
     args = parser.parse_args()
     if args.cooling_cli and not args.uart_cli:
         parser.error('--cooling-cli requires --uart-cli')
@@ -147,8 +143,6 @@ def main():
     if args.cooling_cli:
         flags += ['-DSG_COOLING']
         sources += ['target/cooling.c']
-    if args.public_stats:
-        flags += ['-DSG_PUBLIC_STATS']
     objects = []
     for source in sources:
         obj = out/(Path(source).stem+'.o')
@@ -156,8 +150,6 @@ def main():
         objects.append(obj)
     elf, binary = out/'switchlens.elf', out/'payload.bin'
     extra = ['--undefined='+s for s in ['sg_cli_lookup','sg_cli_poll','sg_cool_output']] if args.cooling_cli else []
-    if args.public_stats:
-        extra += ['--undefined=sg_public_compare']
     run([args.prefix+'ld.bfd', *extra, '-EB', '-T', 'target/firmware.ld', '--gc-sections',
          '--undefined=sg_route_dispatch', '--build-id=none', '-Map='+str(out/'switchlens.map'),
          '-o', elf, *objects])
@@ -177,7 +169,7 @@ def main():
                     raise ValueError('Unexpected writable/loadable zero-fill section')
                 if not BASE+START <= section['sh_addr'] < section['sh_addr']+section['sh_size'] <= BASE+END:
                     raise ValueError('Allocated section exceeds padding')
-    patched, manifest = package(original, binary.read_bytes(), symbols, uart_cli=args.uart_cli, cooling_cli=args.cooling_cli, public_stats=args.public_stats)
+    patched, manifest = package(original, binary.read_bytes(), symbols, uart_cli=args.uart_cli, cooling_cli=args.cooling_cli)
     manifest['compiler'] = subprocess.check_output([args.cc, '--version'], text=True).splitlines()[0]
     manifest['linker'] = subprocess.check_output([args.prefix+'ld.bfd', '--version'], text=True).splitlines()[0]
     manifest['build_recipe_sha256'] = sha(Path(__file__).read_bytes())

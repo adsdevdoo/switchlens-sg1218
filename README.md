@@ -2,7 +2,8 @@
 
 # SwitchLens
 
-**New v0.1.3:** public `/stats.json`, manual `cool low/fast/auto` without a timer, and `cooling.speed_mode`. Built and emulation-checked; hardware installation pending. [BIN](releases/v0.1.3-public-stats/README.md).
+**Current v0.1.4:** stock authentication restored; manual low/fast/auto without timeout retained. v0.1.3 sessionless access failed on hardware and its exception was removed. New BIN hardware installation is pending. [BIN](releases/v0.1.4/README.md).
+
 
 Working firmware for the **TP-Link TL-SG1218MPE(UN) V5.0**, adding read-only JSON
 telemetry and the stock UART command console.

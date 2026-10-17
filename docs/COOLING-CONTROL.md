@@ -1,6 +1,6 @@
 **English** | [Русский](COOLING-CONTROL.ru.md)
 
-# Cooling commands — v0.1.3
+# Cooling commands — v0.1.4
 
 | Command | Behavior |
 | --- | --- |
@@ -15,8 +15,8 @@ between. GPIO27=0 is the observed faster setting. GPIO26 drives stock LED select
 indicator color/individual health/RPM are not inferred. No flash setting is written.
 
 `cooling.mode` reports auto/manual/invalid; `cooling.speed_mode` reports low/fast/null.
-JSON only reads; it never changes a fan mode. The endpoint is public in v0.1.3.
+JSON only reads; it never changes a fan mode. The endpoint requires stock session authentication.
 
-[v0.1.3: BIN, implementation / реализация, checks / проверки](../releases/v0.1.3-public-stats/README.md).
+[v0.1.4: BIN, implementation / реализация, checks / проверки](../releases/v0.1.4/README.md).
 
 [Historical v0.1.2 / История v0.1.2](../releases/v0.1.2-cooling/README.md); [hardware evidence / аппаратное подтверждение](evidence/2026-10-17-cooling/README.md).
