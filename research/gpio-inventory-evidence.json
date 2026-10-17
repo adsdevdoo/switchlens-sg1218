@@ -1,0 +1,1101 @@
+{
+  "image_sha256": "c9ab17eda7af714f00692d41f440ce84ed0d6c7d678634c364ec1154bb7e3f32",
+  "device_access": false,
+  "scan_intervals": [
+    [
+      "0x10",
+      "0x720"
+    ],
+    [
+      "0x3160",
+      "0x8178"
+    ],
+    [
+      "0x8178",
+      "0x91700"
+    ]
+  ],
+  "blocks": {
+    "soc_helpers": {
+      "start": "0x3268",
+      "end_exclusive": "0x34fc",
+      "sha256": "68cd5461019f587b162754d4e1c2e3b6f67814ceaac9e2360adab5f1e140fbfa"
+    },
+    "platform_setup": {
+      "start": "0x81c0",
+      "end_exclusive": "0x8270",
+      "sha256": "38fbe8dec9a96a902233d1b9577d0cd08f21e92e97d98733351c9582c4498085"
+    },
+    "ext_gpio_driver": {
+      "start": "0xa380",
+      "end_exclusive": "0xade4",
+      "sha256": "0e546df73ab117f73dfde878b4121225d1497d2118c2cbf8d3d7f20be086b071"
+    },
+    "port_gpio_tables": {
+      "start": "0xc10",
+      "end_exclusive": "0xcf0",
+      "sha256": "2508863b31e4401b34d4c7bb3812cd3f53bd429df15c5f016cf90288944b1e67"
+    },
+    "port_gpio_paths": {
+      "start": "0x20afc",
+      "end_exclusive": "0x21760",
+      "sha256": "0b7c5213c4ad6a71d030596c68925f1e02bad7d4a9486c67056a9cfe936c1377"
+    },
+    "default_board_config": {
+      "start": "0xf7000",
+      "end_exclusive": "0xf764c",
+      "sha256": "46d3aedb92982ce8a5bca9a4dc502a2f9b0d3cb0254a71f64f89fa3d80344866"
+    }
+  },
+  "helper_references": {
+    "0xbf019630": {
+      "role": "SoC mux",
+      "direct_j_jal_file_offsets": [
+        "0x17578",
+        "0x27a1c",
+        "0x544b8",
+        "0x54610",
+        "0x54678",
+        "0x566f8",
+        "0x56704"
+      ],
+      "aligned_literal_file_offsets": [],
+      "nearby_lui_pair_candidates": []
+    },
+    "0xbf019678": {
+      "role": "SoC direction",
+      "direct_j_jal_file_offsets": [
+        "0x17584",
+        "0x27a28",
+        "0x544c4",
+        "0x54590",
+        "0x545d4",
+        "0x54620",
+        "0x54684",
+        "0x546d8",
+        "0x54774",
+        "0x54a38",
+        "0x54a44",
+        "0x54afc",
+        "0x5515c",
+        "0x55168",
+        "0x55254",
+        "0x56710",
+        "0x5671c"
+      ],
+      "aligned_literal_file_offsets": [],
+      "nearby_lui_pair_candidates": []
+    },
+    "0xbf0196b4": {
+      "role": "SoC data write",
+      "direct_j_jal_file_offsets": [
+        "0x17590",
+        "0x54358",
+        "0x54408",
+        "0x54414",
+        "0x54428",
+        "0x5443c",
+        "0x54460",
+        "0x5446c",
+        "0x54478",
+        "0x54494",
+        "0x544dc",
+        "0x54528",
+        "0x5453c",
+        "0x54550",
+        "0x545a0",
+        "0x545b4",
+        "0x545c8",
+        "0x54634",
+        "0x54648",
+        "0x54700",
+        "0x54728",
+        "0x56728",
+        "0x56734"
+      ],
+      "aligned_literal_file_offsets": [],
+      "nearby_lui_pair_candidates": []
+    },
+    "0xbf0196f0": {
+      "role": "SoC data read",
+      "direct_j_jal_file_offsets": [
+        "0x21298",
+        "0x283c4",
+        "0x28c4c",
+        "0x49090",
+        "0x54714",
+        "0x560bc"
+      ],
+      "aligned_literal_file_offsets": [],
+      "nearby_lui_pair_candidates": []
+    },
+    "0xbf019714": {
+      "role": "alternate mux",
+      "direct_j_jal_file_offsets": [],
+      "aligned_literal_file_offsets": [],
+      "nearby_lui_pair_candidates": []
+    },
+    "0xbf019750": {
+      "role": "alternate direction",
+      "direct_j_jal_file_offsets": [],
+      "aligned_literal_file_offsets": [],
+      "nearby_lui_pair_candidates": []
+    },
+    "0xbf01978c": {
+      "role": "alternate data write",
+      "direct_j_jal_file_offsets": [],
+      "aligned_literal_file_offsets": [],
+      "nearby_lui_pair_candidates": []
+    },
+    "0xbf0197c8": {
+      "role": "alternate data read",
+      "direct_j_jal_file_offsets": [],
+      "aligned_literal_file_offsets": [],
+      "nearby_lui_pair_candidates": []
+    },
+    "0xbf0197ec": {
+      "role": "alternate mux",
+      "direct_j_jal_file_offsets": [],
+      "aligned_literal_file_offsets": [],
+      "nearby_lui_pair_candidates": []
+    },
+    "0xbf019828": {
+      "role": "alternate direction",
+      "direct_j_jal_file_offsets": [],
+      "aligned_literal_file_offsets": [],
+      "nearby_lui_pair_candidates": []
+    },
+    "0xbf019864": {
+      "role": "alternate data write",
+      "direct_j_jal_file_offsets": [],
+      "aligned_literal_file_offsets": [],
+      "nearby_lui_pair_candidates": []
+    },
+    "0xbf0198a0": {
+      "role": "alternate data read",
+      "direct_j_jal_file_offsets": [],
+      "aligned_literal_file_offsets": [],
+      "nearby_lui_pair_candidates": []
+    },
+    "0xbfc24588": {
+      "role": "external GPIO data-set wrapper",
+      "direct_j_jal_file_offsets": [],
+      "aligned_literal_file_offsets": [],
+      "nearby_lui_pair_candidates": [
+        [
+          "0x20fb4",
+          "0x20fd4"
+        ],
+        [
+          "0x20fc8",
+          "0x20fd4"
+        ]
+      ]
+    },
+    "0xbfc125a8": {
+      "role": "dal_maple_extGpio_pin_data_set",
+      "direct_j_jal_file_offsets": [
+        "0x1c588"
+      ],
+      "aligned_literal_file_offsets": [],
+      "nearby_lui_pair_candidates": []
+    },
+    "0xbfc24590": {
+      "role": "external GPIO data-get wrapper",
+      "direct_j_jal_file_offsets": [
+        "0x20cbc",
+        "0x283ec"
+      ],
+      "aligned_literal_file_offsets": [],
+      "nearby_lui_pair_candidates": [
+        [
+          "0x20fb0",
+          "0x20fd0"
+        ],
+        [
+          "0x20fcc",
+          "0x20fd0"
+        ]
+      ]
+    },
+    "0xbfc24598": {
+      "role": "external GPIO direction-set wrapper",
+      "direct_j_jal_file_offsets": [
+        "0x20ba0",
+        "0x20bc8",
+        "0x27a6c"
+      ],
+      "aligned_literal_file_offsets": [],
+      "nearby_lui_pair_candidates": [
+        [
+          "0x20fb0",
+          "0x20fbc"
+        ]
+      ]
+    },
+    "0xbfc245a8": {
+      "role": "external GPIO device-enable wrapper",
+      "direct_j_jal_file_offsets": [
+        "0x21698",
+        "0x21700",
+        "0x21710",
+        "0x27a58"
+      ],
+      "aligned_literal_file_offsets": [],
+      "nearby_lui_pair_candidates": []
+    },
+    "0xbfc245b0": {
+      "role": "external raw register-write wrapper",
+      "direct_j_jal_file_offsets": [
+        "0x20d44"
+      ],
+      "aligned_literal_file_offsets": [],
+      "nearby_lui_pair_candidates": []
+    },
+    "0xbfc245b8": {
+      "role": "external raw register-read wrapper",
+      "direct_j_jal_file_offsets": [
+        "0x20d58"
+      ],
+      "aligned_literal_file_offsets": [],
+      "nearby_lui_pair_candidates": []
+    },
+    "0xbfc245c0": {
+      "role": "RTL8231 initialization wrapper",
+      "direct_j_jal_file_offsets": [
+        "0x21688",
+        "0x216f0",
+        "0x27a48"
+      ],
+      "aligned_literal_file_offsets": [],
+      "nearby_lui_pair_candidates": []
+    }
+  },
+  "gpio_mmio_aligned_literals": [],
+  "gpio_mmio_lui_pair_candidates": {
+    "0xb8003500": [
+      [
+        "0x430",
+        "0x434"
+      ],
+      [
+        "0x3268",
+        "0x326c"
+      ],
+      [
+        "0x334c",
+        "0x3350"
+      ],
+      [
+        "0x3424",
+        "0x3428"
+      ],
+      [
+        "0x81d8",
+        "0x81e0"
+      ]
+    ],
+    "0xb8003508": [
+      [
+        "0x450",
+        "0x454"
+      ],
+      [
+        "0x32b0",
+        "0x32b4"
+      ],
+      [
+        "0x3388",
+        "0x338c"
+      ],
+      [
+        "0x3460",
+        "0x3464"
+      ],
+      [
+        "0x81d8",
+        "0x81f8"
+      ]
+    ],
+    "0xb800350c": [
+      [
+        "0x450",
+        "0x470"
+      ],
+      [
+        "0x46c",
+        "0x470"
+      ],
+      [
+        "0x32ec",
+        "0x32f0"
+      ],
+      [
+        "0x3328",
+        "0x332c"
+      ],
+      [
+        "0x33c4",
+        "0x33c8"
+      ],
+      [
+        "0x3400",
+        "0x3404"
+      ],
+      [
+        "0x349c",
+        "0x34a0"
+      ],
+      [
+        "0x34d8",
+        "0x34dc"
+      ]
+    ]
+  },
+  "platform_helper": {
+    "entry": "0xbfc101c0",
+    "mocked_calls": [],
+    "cases": [
+      {
+        "initial_gpio_registers": "0x0",
+        "writes": [
+          [
+            "0x18003500",
+            "0x0"
+          ],
+          [
+            "0x18003508",
+            "0x0"
+          ],
+          [
+            "0x18003500",
+            "0x0"
+          ],
+          [
+            "0x18003508",
+            "0x0"
+          ]
+        ],
+        "data_unchanged": true
+      },
+      {
+        "initial_gpio_registers": "0xffffffff",
+        "writes": [
+          [
+            "0x18003500",
+            "0xfff7ffff"
+          ],
+          [
+            "0x18003508",
+            "0xfff7ffff"
+          ],
+          [
+            "0x18003500",
+            "0xffe7ffff"
+          ],
+          [
+            "0x18003508",
+            "0xffe7ffff"
+          ]
+        ],
+        "data_unchanged": true
+      },
+      {
+        "initial_gpio_registers": "0xa5a55a5a",
+        "writes": [
+          [
+            "0x18003500",
+            "0xa5a55a5a"
+          ],
+          [
+            "0x18003508",
+            "0xa5a55a5a"
+          ],
+          [
+            "0x18003500",
+            "0xa5a55a5a"
+          ],
+          [
+            "0x18003508",
+            "0xa5a55a5a"
+          ]
+        ],
+        "data_unchanged": true
+      }
+    ]
+  },
+  "default_config": {
+    "entry": "0xbfc30d44",
+    "flash_address": "0xb40ff000",
+    "mocked_calls": [
+      "0xbfc54018: MAC getter returns six zero bytes"
+    ],
+    "selected_fields": {
+      "0x40": "0x8380",
+      "0x44": "0x0",
+      "0x88": "0x0",
+      "0x1a8": "0x0",
+      "0x1ac": "0x89",
+      "0x1b0": "0x89",
+      "0x1b4": "0x89",
+      "0x1b8": "0x89",
+      "0x4e4": "0x0",
+      "0x4e8": "0x0"
+    },
+    "six_masked_initialization_rows": [
+      [
+        0,
+        0,
+        0,
+        4294967295,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        4294967295,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        4294967295,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        4294967295,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        4294967295,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        4294967295,
+        0,
+        0,
+        0,
+        0
+      ]
+    ]
+  },
+  "board_selection": {
+    "entry": "0xbfc2eba8",
+    "synthetic_phy_id": "0xc984",
+    "result_board_id": "0x43",
+    "mocked_calls": [
+      "0xbfc26e90: PHY read returns 0xc984",
+      "0xbfc11514: logging"
+    ]
+  },
+  "external_gpio_port_init": {
+    "entry": "0xbfc29550",
+    "board_id": "0x43",
+    "mocked_calls": [
+      "0xbfc12470: external register read",
+      "0xbfc12380: external register write"
+    ],
+    "table_ram_address": "0xbf0008f0",
+    "table_rows": [
+      [
+        24,
+        1,
+        1,
+        1,
+        1,
+        0,
+        8,
+        9,
+        5
+      ],
+      [
+        25,
+        1,
+        1,
+        1,
+        1,
+        0,
+        3,
+        4,
+        5
+      ],
+      [
+        26,
+        1,
+        1,
+        1,
+        1,
+        0,
+        24,
+        25,
+        5
+      ],
+      [
+        27,
+        1,
+        1,
+        1,
+        1,
+        0,
+        13,
+        14,
+        5
+      ]
+    ],
+    "input_pins_by_internal_port": {
+      "24": [
+        8,
+        9
+      ],
+      "25": [
+        3,
+        4
+      ],
+      "26": [
+        24,
+        25
+      ],
+      "27": [
+        13,
+        14
+      ]
+    },
+    "transactions": [
+      {
+        "op": "read",
+        "device": 0,
+        "reg": 0,
+        "value": 0
+      },
+      {
+        "op": "write",
+        "device": 0,
+        "reg": 0,
+        "value": 2
+      },
+      {
+        "op": "write",
+        "device": 0,
+        "reg": 2,
+        "value": 65535
+      },
+      {
+        "op": "write",
+        "device": 0,
+        "reg": 3,
+        "value": 65535
+      },
+      {
+        "op": "read",
+        "device": 0,
+        "reg": 4,
+        "value": 0
+      },
+      {
+        "op": "write",
+        "device": 0,
+        "reg": 4,
+        "value": 7
+      },
+      {
+        "op": "read",
+        "device": 0,
+        "reg": 2,
+        "value": 65535
+      },
+      {
+        "op": "write",
+        "device": 0,
+        "reg": 2,
+        "value": 65535
+      },
+      {
+        "op": "read",
+        "device": 0,
+        "reg": 5,
+        "value": 0
+      },
+      {
+        "op": "write",
+        "device": 0,
+        "reg": 5,
+        "value": 256
+      },
+      {
+        "op": "read",
+        "device": 0,
+        "reg": 2,
+        "value": 65535
+      },
+      {
+        "op": "write",
+        "device": 0,
+        "reg": 2,
+        "value": 65535
+      },
+      {
+        "op": "read",
+        "device": 0,
+        "reg": 5,
+        "value": 256
+      },
+      {
+        "op": "write",
+        "device": 0,
+        "reg": 5,
+        "value": 768
+      },
+      {
+        "op": "read",
+        "device": 0,
+        "reg": 2,
+        "value": 65535
+      },
+      {
+        "op": "write",
+        "device": 0,
+        "reg": 2,
+        "value": 65535
+      },
+      {
+        "op": "read",
+        "device": 0,
+        "reg": 5,
+        "value": 768
+      },
+      {
+        "op": "write",
+        "device": 0,
+        "reg": 5,
+        "value": 776
+      },
+      {
+        "op": "read",
+        "device": 0,
+        "reg": 2,
+        "value": 65535
+      },
+      {
+        "op": "write",
+        "device": 0,
+        "reg": 2,
+        "value": 65535
+      },
+      {
+        "op": "read",
+        "device": 0,
+        "reg": 5,
+        "value": 776
+      },
+      {
+        "op": "write",
+        "device": 0,
+        "reg": 5,
+        "value": 792
+      },
+      {
+        "op": "read",
+        "device": 0,
+        "reg": 3,
+        "value": 65535
+      },
+      {
+        "op": "write",
+        "device": 0,
+        "reg": 3,
+        "value": 65535
+      },
+      {
+        "op": "read",
+        "device": 0,
+        "reg": 6,
+        "value": 0
+      },
+      {
+        "op": "write",
+        "device": 0,
+        "reg": 6,
+        "value": 256
+      },
+      {
+        "op": "read",
+        "device": 0,
+        "reg": 3,
+        "value": 65535
+      },
+      {
+        "op": "write",
+        "device": 0,
+        "reg": 3,
+        "value": 65535
+      },
+      {
+        "op": "read",
+        "device": 0,
+        "reg": 6,
+        "value": 256
+      },
+      {
+        "op": "write",
+        "device": 0,
+        "reg": 6,
+        "value": 768
+      },
+      {
+        "op": "read",
+        "device": 0,
+        "reg": 2,
+        "value": 65535
+      },
+      {
+        "op": "write",
+        "device": 0,
+        "reg": 2,
+        "value": 65535
+      },
+      {
+        "op": "read",
+        "device": 0,
+        "reg": 5,
+        "value": 792
+      },
+      {
+        "op": "write",
+        "device": 0,
+        "reg": 5,
+        "value": 8984
+      },
+      {
+        "op": "read",
+        "device": 0,
+        "reg": 2,
+        "value": 65535
+      },
+      {
+        "op": "write",
+        "device": 0,
+        "reg": 2,
+        "value": 65535
+      },
+      {
+        "op": "read",
+        "device": 0,
+        "reg": 5,
+        "value": 8984
+      },
+      {
+        "op": "write",
+        "device": 0,
+        "reg": 5,
+        "value": 25368
+      }
+    ],
+    "written_registers": [
+      0,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "output_data_registers_written": false
+  },
+  "port_media_poll": {
+    "entry": "0xbfc293c8",
+    "board_id": "0x43",
+    "gpio_data": "0x39780000",
+    "mode_calls": [
+      [
+        0,
+        24,
+        0
+      ],
+      [
+        0,
+        25,
+        0
+      ],
+      [
+        0,
+        26,
+        1
+      ],
+      [
+        0,
+        27,
+        1
+      ]
+    ],
+    "external_poll_calls": [],
+    "mocked_calls": [
+      "0xbfc27500: port setter",
+      "0xbfc27510: media setter",
+      "0xbfc28da4: external media poll (not reached)",
+      "0xbfc11514: logging"
+    ]
+  },
+  "owner_snapshot": {
+    "cnr": "0xc2e7ff00",
+    "dir": "0x39000000",
+    "data": "0x39780000",
+    "pins": [
+      {
+        "gpio": 0,
+        "cnr_bit": 0,
+        "direction_bit": 0,
+        "data_bit": 0,
+        "mode": "gpio_input"
+      },
+      {
+        "gpio": 1,
+        "cnr_bit": 0,
+        "direction_bit": 0,
+        "data_bit": 0,
+        "mode": "gpio_input"
+      },
+      {
+        "gpio": 2,
+        "cnr_bit": 0,
+        "direction_bit": 0,
+        "data_bit": 0,
+        "mode": "gpio_input"
+      },
+      {
+        "gpio": 3,
+        "cnr_bit": 0,
+        "direction_bit": 0,
+        "data_bit": 0,
+        "mode": "gpio_input"
+      },
+      {
+        "gpio": 4,
+        "cnr_bit": 0,
+        "direction_bit": 0,
+        "data_bit": 0,
+        "mode": "gpio_input"
+      },
+      {
+        "gpio": 5,
+        "cnr_bit": 0,
+        "direction_bit": 0,
+        "data_bit": 0,
+        "mode": "gpio_input"
+      },
+      {
+        "gpio": 6,
+        "cnr_bit": 0,
+        "direction_bit": 0,
+        "data_bit": 0,
+        "mode": "gpio_input"
+      },
+      {
+        "gpio": 7,
+        "cnr_bit": 0,
+        "direction_bit": 0,
+        "data_bit": 0,
+        "mode": "gpio_input"
+      },
+      {
+        "gpio": 8,
+        "cnr_bit": 1,
+        "direction_bit": 0,
+        "data_bit": 0,
+        "mode": "alternate"
+      },
+      {
+        "gpio": 9,
+        "cnr_bit": 1,
+        "direction_bit": 0,
+        "data_bit": 0,
+        "mode": "alternate"
+      },
+      {
+        "gpio": 10,
+        "cnr_bit": 1,
+        "direction_bit": 0,
+        "data_bit": 0,
+        "mode": "alternate"
+      },
+      {
+        "gpio": 11,
+        "cnr_bit": 1,
+        "direction_bit": 0,
+        "data_bit": 0,
+        "mode": "alternate"
+      },
+      {
+        "gpio": 12,
+        "cnr_bit": 1,
+        "direction_bit": 0,
+        "data_bit": 0,
+        "mode": "alternate"
+      },
+      {
+        "gpio": 13,
+        "cnr_bit": 1,
+        "direction_bit": 0,
+        "data_bit": 0,
+        "mode": "alternate"
+      },
+      {
+        "gpio": 14,
+        "cnr_bit": 1,
+        "direction_bit": 0,
+        "data_bit": 0,
+        "mode": "alternate"
+      },
+      {
+        "gpio": 15,
+        "cnr_bit": 1,
+        "direction_bit": 0,
+        "data_bit": 0,
+        "mode": "alternate"
+      },
+      {
+        "gpio": 16,
+        "cnr_bit": 1,
+        "direction_bit": 0,
+        "data_bit": 0,
+        "mode": "alternate"
+      },
+      {
+        "gpio": 17,
+        "cnr_bit": 1,
+        "direction_bit": 0,
+        "data_bit": 0,
+        "mode": "alternate"
+      },
+      {
+        "gpio": 18,
+        "cnr_bit": 1,
+        "direction_bit": 0,
+        "data_bit": 0,
+        "mode": "alternate"
+      },
+      {
+        "gpio": 19,
+        "cnr_bit": 0,
+        "direction_bit": 0,
+        "data_bit": 1,
+        "mode": "gpio_input"
+      },
+      {
+        "gpio": 20,
+        "cnr_bit": 0,
+        "direction_bit": 0,
+        "data_bit": 1,
+        "mode": "gpio_input"
+      },
+      {
+        "gpio": 21,
+        "cnr_bit": 1,
+        "direction_bit": 0,
+        "data_bit": 1,
+        "mode": "alternate"
+      },
+      {
+        "gpio": 22,
+        "cnr_bit": 1,
+        "direction_bit": 0,
+        "data_bit": 1,
+        "mode": "alternate"
+      },
+      {
+        "gpio": 23,
+        "cnr_bit": 1,
+        "direction_bit": 0,
+        "data_bit": 0,
+        "mode": "alternate"
+      },
+      {
+        "gpio": 24,
+        "cnr_bit": 0,
+        "direction_bit": 1,
+        "data_bit": 1,
+        "mode": "gpio_output"
+      },
+      {
+        "gpio": 25,
+        "cnr_bit": 1,
+        "direction_bit": 0,
+        "data_bit": 0,
+        "mode": "alternate"
+      },
+      {
+        "gpio": 26,
+        "cnr_bit": 0,
+        "direction_bit": 0,
+        "data_bit": 0,
+        "mode": "gpio_input"
+      },
+      {
+        "gpio": 27,
+        "cnr_bit": 0,
+        "direction_bit": 1,
+        "data_bit": 1,
+        "mode": "gpio_output"
+      },
+      {
+        "gpio": 28,
+        "cnr_bit": 0,
+        "direction_bit": 1,
+        "data_bit": 1,
+        "mode": "gpio_output"
+      },
+      {
+        "gpio": 29,
+        "cnr_bit": 0,
+        "direction_bit": 1,
+        "data_bit": 1,
+        "mode": "gpio_output"
+      },
+      {
+        "gpio": 30,
+        "cnr_bit": 1,
+        "direction_bit": 0,
+        "data_bit": 0,
+        "mode": "alternate"
+      },
+      {
+        "gpio": 31,
+        "cnr_bit": 1,
+        "direction_bit": 0,
+        "data_bit": 0,
+        "mode": "alternate"
+      }
+    ]
+  },
+  "limits": [
+    "Bounded static search; not proof that all indirect/computed paths are resolved",
+    "Nearby LUI pairs are syntactic candidates, not executed pointer references",
+    "Board config is the stock default, not a current RAM dump",
+    "Peripheral replies are synthetic; RTL8231 driver presence does not identify a physical chip",
+    "No physical fan wiring, voltage, RPM or fault polarity established"
+  ]
+}

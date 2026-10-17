@@ -2,6 +2,10 @@
 
 # Cooling paths after the GPIO27 hardware test
 
+Follow-up: [expanded GPIO inventory](GPIO-INVENTORY.md) covers additional input,
+MMIO and configuration paths, and resolves an external GPIO callback missed by
+a direct-only search. This earlier report is not an exhaustive GPIO audit.
+
 17 October 2026. The owner reports v0.1.2 running. Its console showed GPIO27
 at 0 during an active bounded test and at 1 in a separate automatic-mode
 observation. No clear fan-speed change or successful start of the second fan

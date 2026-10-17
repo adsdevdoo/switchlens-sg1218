@@ -118,6 +118,16 @@ claim RPM, per-fan health or a proven fault polarity.
 
 ## Continue with
 
+[Expanded GPIO audit](../research/GPIO-INVENTORY.md): the previous 23 direct
+writer references were not a full GPIO audit. Additional GPIO19/20 paths select
+copper/fiber; GPIO21 is used for configuration reset. The RTL8231-named driver
+has a constructed data-writer callback in optical-module handling. Stock board
+ID 0x43, selected by PHY c984, takes the internal-GPIO media poll instead.
+Default generic input/masked-write features are disabled. All 32 snapshot bits
+are documented, but physical pin mapping and every computed path remain open.
+No additional fan-speed command was identified. Do not claim the external writer
+is unused merely because it has no direct callers. Released BINs are unchanged.
+
 1. Real PoE consumer and comparison with the stock PoE page.
 2. Settings/counters, physical port mapping and discard investigation.
 3. Raw uptime calibration against external time.
