@@ -400,7 +400,7 @@ numbers; null means unknown, not zero or healthy.
 | `fast_ticks_raw` | uint32? | Fast IRQ counter at `0xbf002e94`; seconds per tick uncalibrated |
 | `poe_load_raw` | uint32? | Latest sum at `0xbf014400`, units of 0.1 W; negative sum gives null |
 | `gpio26_level` | 0/1? | Sampled input bit; not verified FAN fault or RPM |
-| `gpio27_level` | 0/1? | Output bit level; not PWM percent or speed |
+| `gpio27_level` | 0/1? | Output level; on the tested unit 0 requests higher speed for both fans, 1 lower speed; not measured RPM or PWM percent |
 | `auto_state` | 0/1? | Current auto state, or saved pre-test state; null if invalid |
 | `test_level` | 0/1? | Requested level in test/expired, otherwise null |
 | `remaining_ticks` | uint32? | Remaining raw ticks; zero for auto/expired/invalid |
@@ -414,3 +414,5 @@ the test tag. HTTP does not clear it. Reads are sequential, not atomic;
 `poe_load_raw` can differ from the earlier `poe.consumption_raw` snapshot. During
 a test `auto_state` is saved history, not a freshly calculated automatic demand.
 [Commands, packed state and timeout](COOLING-CONTROL.md).
+
+[Hardware observation and interpretation limits](evidence/2026-10-17-cooling/README.md).

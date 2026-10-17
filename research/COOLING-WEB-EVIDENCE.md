@@ -2,6 +2,8 @@
 
 # Fan replacement evidence and next diagnostic step
 
+**Current result:** the problematic fan was replaced with a stock fan; both now rotate and `cool test 0` accelerates both. Earlier no-effect/stopped-fan statements below describe prior tests. [Updated observations and next action](../docs/evidence/2026-10-17-cooling/README.md).
+
 17 October 2026. This record separates published replacements, manufacturer
 specifications and hypotheses about PCB 2060500612 / Ver:5.40. No firmware changes.
 
@@ -58,15 +60,7 @@ The owner's later phrase “тот что не меняли” is ambiguous: it 
 unchanged stock fan or the fan that did not react. The exact installed pair needs
 clarification; do not diagnose a defective Noctua by assuming both are Noctua.
 
-## Next step without opening the enclosure
+## Current next step
 
-Use the installed v0.1.2 and take two **read-only** `cool status` outputs about
-10 seconds apart. Record the actual interval. For an interval T and a positive
-tick difference D, estimate the 100-tick duration as `100*T/D` seconds. This
-calibrates the timer only; it does not identify the fan circuit. These readings
-are planned, not completed, and need no new BIN or register writes.
-
-If the hold is already ample, repeating the same GPIO level offers little new
-evidence. If it is very short, a longer bounded test can be considered separately.
-The owner declined further disassembly and voltage measurements for now.
-RPM, per-fan health, actual supply voltage and output-to-fan mapping remain unknown.
+See the hardware update linked above. Timer calibration is optional follow-up,
+not a prerequisite for interpreting the confirmed shared speed effect.

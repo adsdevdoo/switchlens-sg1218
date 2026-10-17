@@ -2,6 +2,8 @@
 
 # SwitchLens continuation context
 
+**Current result:** the problematic fan was replaced with a stock fan; both now rotate and `cool test 0` accelerates both. Earlier no-effect/stopped-fan statements below describe prior tests. [Updated observations and next action](evidence/2026-10-17-cooling/README.md).
+
 Updated **17 October 2026 after the v0.1.2 GPIO27 test and code follow-up**.
 This is the entry point for a new chat; read current `main` before continuing.
 

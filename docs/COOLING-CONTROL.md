@@ -2,6 +2,8 @@
 
 # Bounded cooling tests — v0.1.2
 
+**Current result:** the problematic fan was replaced with a stock fan; both now rotate and `cool test 0` accelerates both. Earlier no-effect/stopped-fan statements below describe prior tests. [Updated observations and next action](evidence/2026-10-17-cooling/README.md).
+
 v0.1.2 adds `cool` commands and a read-only `cooling` object to `/stats.json`.
 The owner has confirmed its CLI and GPIO27=0 readback during an active test;
 automatic mode was also observed. No clear fan improvement was reported.
