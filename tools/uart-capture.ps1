@@ -5,7 +5,7 @@ param(
     [ValidatePattern('^COM[0-9]+$')][string]$Port = 'COM3',
     [ValidateRange(300, 2000000)][int]$Baud = 115200,
     [ValidateRange(1, 3600)][int]$Seconds = 60,
-    [string]$OutputDirectory = (Join-Path $PSScriptRoot 'uart-logs')
+    [string]$OutputDirectory = ''
 )
 
 $ErrorActionPreference = 'Stop'
@@ -23,6 +23,21 @@ $startedUtc = [DateTime]::UtcNow.ToString('o')
 $sessionDirectory = $null
 
 try {
+    # Resolve the default after parameter binding, not in the param block.
+    if ([string]::IsNullOrWhiteSpace($OutputDirectory)) {
+        $scriptDirectory = $PSScriptRoot
+        if ([string]::IsNullOrWhiteSpace($scriptDirectory) -and
+            -not [string]::IsNullOrWhiteSpace($MyInvocation.MyCommand.Path)) {
+            $scriptDirectory = [IO.Path]::GetDirectoryName($MyInvocation.MyCommand.Path)
+        }
+        if ([string]::IsNullOrWhiteSpace($scriptDirectory)) {
+            $scriptDirectory = (Get-Location).ProviderPath
+        }
+        if ([string]::IsNullOrWhiteSpace($scriptDirectory)) {
+            throw 'Cannot determine the log directory. Pass -OutputDirectory with a filesystem path.'
+        }
+        $OutputDirectory = Join-Path $scriptDirectory 'uart-logs'
+    }
     $sessionName = '{0}-{1}-{2}-{3}' -f (Get-Date -Format 'yyyyMMdd-HHmmss-fff'), $Port, $Baud, ([Guid]::NewGuid().ToString('N').Substring(0, 8))
     $sessionDirectory = (New-Item -ItemType Directory -Path (Join-Path $OutputDirectory $sessionName) -Force).FullName
     $utf8 = [Text.UTF8Encoding]::new($false)
