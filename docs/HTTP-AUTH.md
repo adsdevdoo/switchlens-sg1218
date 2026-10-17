@@ -29,6 +29,73 @@ normal login again and replace the cookie jar. No session duration is assumed.
 The URL uses plain HTTP, so the password/cookie are not encrypted in transit.
 Do not commit real credentials or cookies. The telemetry handler only reads.
 
+## Continuous collection
+
+Run login and polling in the same process or on the same host, with a stable
+source IP. Keep one cookie jar per switch. A successful HTTP status alone does
+not prove login: accept a session only after an authenticated `/stats.json`
+request returns a complete, valid metrics document.
+
+1. POST the form above and save the response cookies. Do not send the password
+   on every statistics request; subsequent GETs carry the session cookie.
+2. GET `/stats.json` with that jar. Set a connection timeout and a total request
+   timeout; for example, 5 and 15 seconds. These are collector settings, not
+   measured firmware limits.
+3. Parse the entire response as JSON and validate it against
+   [stats.schema.json](../schema/stats.schema.json). Require `schema_version: 1`
+   and exactly 18 ports numbered 1–18. Do not accept a login HTML page, a
+   truncated body or an unexpected object as a sample.
+4. If the switch returns the login page or denies authorization, discard that
+   response, clear the old jar, log in once, and retry the GET once. If this
+   still fails, report collection failure and wait before retrying. Do not
+   create an unlimited login loop. For a network timeout or malformed JSON,
+   report the transport/data error rather than assuming the password expired.
+5. Start with one request every 30 seconds, without overlapping requests. This
+   is a conservative starting interval, not a tested maximum polling rate.
+   Reuse the session until the switch stops accepting it. After a reboot, IP
+   change or rejected session, establish a new session normally.
+
+Example GET after login, saving response headers and body separately:
+
+```powershell
+curl.exe --connect-timeout 5 --max-time 15 -b cookies.txt -c cookies.txt -D stats.headers -o stats.json http://192.168.1.3/stats.json
+```
+
+On Linux/macOS replace `curl.exe` with `curl`. `-b` loads cookies and `-c`
+persists any updated cookies. This command only downloads a response: the
+collector must still perform the validation and retry policy above. Do not
+publish `cookies.txt` or `stats.headers`, which may contain session cookies.
+Avoid logging the login request body. Store credentials and the jar in files
+readable only by the collector account. Collect over a trusted management
+network: this firmware serves HTTP without transport encryption.
+
+Use one collector as the session owner and let dashboards read its stored
+metrics. The inspected firmware uses global session state; concurrent logins
+from a browser or another collector may interfere. Multi-client session
+behavior has not been verified on hardware.
+
+## Turning samples into metrics
+
+Record a collector timestamp for each accepted sample. Keep the last successful
+sample time and a separate collection-success flag. An authentication/network
+failure is missing data, not zero traffic, zero PoE power or a healthy fan.
+
+- Counter values are decimal strings: parse with Python `int` or JavaScript
+  `BigInt`, not floating-point conversion. Compute traffic rates from two valid
+  samples: `bits_per_second = 8 * (new_bytes - old_bytes) / elapsed_seconds`.
+  Use the collector's monotonic elapsed time; the firmware's raw tick scale is
+  unconfirmed. If a counter decreases or the device reboots, discard that rate
+  interval and establish a new baseline instead of producing a negative rate.
+- Preserve `null` as unavailable. Do not replace it with zero. Fan RPM and
+  individual fan health remain unknown; `cooling.speed_mode` reports the
+  commanded shared speed mode, not measured RPM or proof that both fans spin.
+- `system.firmware_version` retains the vendor version string. The
+  `X-SwitchLens-Build` response header identifies the SwitchLens build; keep it
+  alongside samples when available.
+
+The form fields and session checks are established from firmware inspection;
+the automated login/poll/relogin workflow still needs verification on the unit.
+
 ## v0.1.3 correction
 
 The owner confirmed v0.1.3 boots and accepts manual fast/low commands, but an
