@@ -64,7 +64,7 @@ jobs:
           manifest = json.loads(files['build-manifest.json'])
           assert manifest['output_sha256'] == expected and manifest['uart_cli'] is True
           assert files['SHA256SUMS'].decode().split() == [expected, binary]
-          for name, count in [('cooling-test-results.json', 6), ('target-test-results.json', 10),
+          for name, count in [('cooling-test-results.json', 10), ('target-test-results.json', 10),
                               ('release-path-test-results.json', 4)]:
               result = json.loads(files[name])
               assert result['image_sha256'] == expected
