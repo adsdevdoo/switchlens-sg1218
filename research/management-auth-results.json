@@ -1,0 +1,301 @@
+{
+  "method": "Original MIPS instructions, synthetic callback inputs; no network I/O",
+  "limits": [
+    "Boot BSS-clear loop checked separately; no complete hardware boot",
+    "TDDP send returns success; factory persistence records arguments only",
+    "TSDP configured credentials and MAC are synthetic; execution stops at authorization checkpoints",
+    "No live reachability, flash-write or complete parser-safety claim"
+  ],
+  "images": {
+    "stock": {
+      "sha256": "c9ab17eda7af714f00692d41f440ce84ed0d6c7d678634c364ec1154bb7e3f32",
+      "boot_bss": {
+        "start": "0xbfc08684",
+        "end_exclusive": "0xbfc086a4",
+        "counter_after": 0,
+        "initialized_state_preserved": 2
+      },
+      "tddp": [
+        {
+          "opcode": 6,
+          "initial_state": 2,
+          "direct_request_rejected": true,
+          "state_after_handshake": 0,
+          "factory_helper_calls": [
+            [
+              0,
+              6
+            ]
+          ],
+          "response_count": 2,
+          "credential_getter_calls": 0
+        },
+        {
+          "opcode": 14,
+          "initial_state": 2,
+          "direct_request_rejected": true,
+          "state_after_handshake": 0,
+          "factory_helper_calls": [
+            [
+              150,
+              40
+            ]
+          ],
+          "response_count": 2,
+          "credential_getter_calls": 0
+        },
+        {
+          "opcode": 11,
+          "initial_state": 2,
+          "direct_request_rejected": true,
+          "state_after_handshake": 0,
+          "factory_helper_calls": [
+            [
+              6,
+              128
+            ]
+          ],
+          "response_count": 2,
+          "credential_getter_calls": 0
+        }
+      ],
+      "tddp_controls": [
+        {
+          "case": "wrong_type",
+          "final_state": 2
+        },
+        {
+          "case": "send_failure",
+          "final_state": 2
+        }
+      ],
+      "tsdp": [
+        {
+          "case": "missing_credentials",
+          "events": [
+            "request_rejected"
+          ],
+          "stopped_at": "0xbfc4a728",
+          "error_code": 3
+        },
+        {
+          "case": "wrong_password",
+          "events": [
+            "configured_credentials_read",
+            "request_rejected"
+          ],
+          "stopped_at": "0xbfc4a72c",
+          "error_code": 7
+        },
+        {
+          "case": "correct_credentials",
+          "events": [
+            "configured_credentials_read",
+            "credentials_accepted"
+          ],
+          "stopped_at": "0xbfc49124",
+          "error_code": null
+        },
+        {
+          "case": "wrong_session_token",
+          "events": [],
+          "stopped_at": "0xbfcff800",
+          "error_code": null
+        },
+        {
+          "case": "read_password_tlv",
+          "events": [
+            "request_rejected"
+          ],
+          "stopped_at": "0xbfc4a728",
+          "error_code": 2
+        }
+      ]
+    },
+    "v0.1.4": {
+      "sha256": "4093f2e0dfcbbbc1c0caf0ed1d9d8902de747aa41e9525840b4755004e791b93",
+      "boot_bss": {
+        "start": "0xbfc08684",
+        "end_exclusive": "0xbfc086a4",
+        "counter_after": 0,
+        "initialized_state_preserved": 2
+      },
+      "tddp": [
+        {
+          "opcode": 6,
+          "initial_state": 2,
+          "direct_request_rejected": true,
+          "state_after_handshake": 0,
+          "factory_helper_calls": [
+            [
+              0,
+              6
+            ]
+          ],
+          "response_count": 2,
+          "credential_getter_calls": 0
+        },
+        {
+          "opcode": 14,
+          "initial_state": 2,
+          "direct_request_rejected": true,
+          "state_after_handshake": 0,
+          "factory_helper_calls": [
+            [
+              150,
+              40
+            ]
+          ],
+          "response_count": 2,
+          "credential_getter_calls": 0
+        },
+        {
+          "opcode": 11,
+          "initial_state": 2,
+          "direct_request_rejected": true,
+          "state_after_handshake": 0,
+          "factory_helper_calls": [
+            [
+              6,
+              128
+            ]
+          ],
+          "response_count": 2,
+          "credential_getter_calls": 0
+        }
+      ],
+      "tddp_controls": [
+        {
+          "case": "wrong_type",
+          "final_state": 2
+        },
+        {
+          "case": "send_failure",
+          "final_state": 2
+        }
+      ],
+      "tsdp": [
+        {
+          "case": "missing_credentials",
+          "events": [
+            "request_rejected"
+          ],
+          "stopped_at": "0xbfc4a728",
+          "error_code": 3
+        },
+        {
+          "case": "wrong_password",
+          "events": [
+            "configured_credentials_read",
+            "request_rejected"
+          ],
+          "stopped_at": "0xbfc4a72c",
+          "error_code": 7
+        },
+        {
+          "case": "correct_credentials",
+          "events": [
+            "configured_credentials_read",
+            "credentials_accepted"
+          ],
+          "stopped_at": "0xbfc49124",
+          "error_code": null
+        },
+        {
+          "case": "wrong_session_token",
+          "events": [],
+          "stopped_at": "0xbfcff800",
+          "error_code": null
+        },
+        {
+          "case": "read_password_tlv",
+          "events": [
+            "request_rejected"
+          ],
+          "stopped_at": "0xbfc4a728",
+          "error_code": 2
+        }
+      ]
+    },
+    "v0.1.5": {
+      "sha256": "b2617a639869cf5ca0ef7b953b321f0625f3a1af3c6aab8d1a37a7ffa3dd6a7d",
+      "boot_bss": {
+        "start": "0xbfc08684",
+        "end_exclusive": "0xbfc086a4",
+        "counter_after": 0,
+        "initialized_state_preserved": 2
+      },
+      "tddp": [
+        {
+          "opcode": 6,
+          "initial_state": 2,
+          "direct_request_rejected": true,
+          "state_after_handshake": 2,
+          "factory_helper_calls": [],
+          "response_count": 0,
+          "credential_getter_calls": 0
+        },
+        {
+          "opcode": 14,
+          "initial_state": 2,
+          "direct_request_rejected": true,
+          "state_after_handshake": 2,
+          "factory_helper_calls": [],
+          "response_count": 0,
+          "credential_getter_calls": 0
+        },
+        {
+          "opcode": 11,
+          "initial_state": 2,
+          "direct_request_rejected": true,
+          "state_after_handshake": 2,
+          "factory_helper_calls": [],
+          "response_count": 0,
+          "credential_getter_calls": 0
+        }
+      ],
+      "tddp_controls": [
+        {
+          "case": "wrong_type",
+          "final_state": 2
+        },
+        {
+          "case": "send_failure",
+          "final_state": 2
+        }
+      ],
+      "tsdp": [
+        {
+          "case": "missing_credentials",
+          "events": [],
+          "stopped_at": "0xbfcff800",
+          "error_code": null
+        },
+        {
+          "case": "wrong_password",
+          "events": [],
+          "stopped_at": "0xbfcff800",
+          "error_code": null
+        },
+        {
+          "case": "correct_credentials",
+          "events": [],
+          "stopped_at": "0xbfcff800",
+          "error_code": null
+        },
+        {
+          "case": "wrong_session_token",
+          "events": [],
+          "stopped_at": "0xbfcff800",
+          "error_code": null
+        },
+        {
+          "case": "read_password_tlv",
+          "events": [],
+          "stopped_at": "0xbfcff800",
+          "error_code": null
+        }
+      ]
+    }
+  }
+}
