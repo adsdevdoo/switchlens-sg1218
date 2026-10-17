@@ -6,6 +6,8 @@ Read-only JSON telemetry for the **TP-Link TL-SG1218MPE(UN) V5.0**.
 PoE и информацией о коммутаторе для последующего сбора в Prometheus.
 Репозиторий: [adsdevdoo/switchlens-sg1218](https://github.com/adsdevdoo/switchlens-sg1218).
 
+**Продолжение в новом чате:** [контекст проекта и следующий шаг](docs/CONTEXT.md).
+
 **Проверено:** собран экспериментальный прошивочный BIN с MIPS-обработчиком
 `/stats.json`, адаптером RAM/ASIC и патчем штатного HTTP-роутера. Машинный код
 прошёл тесты в Unicorn вместе со штатными HTTP-функциями; сокет и показания
