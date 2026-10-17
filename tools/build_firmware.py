@@ -31,7 +31,7 @@ def jump(address, link=False):
     return struct.pack('>I', (0x0c000000 if link else 0x08000000) | ((address >> 2) & 0x3ffffff))
 
 
-def package(original, payload, symbols, uart_cli=False, cooling_cli=False):
+def package(original, payload, symbols, uart_cli=False, cooling_cli=False, public_stats=False):
     if sha(original) != EXPECTED:
         raise ValueError('STOP: unexpected input image SHA-256')
     if not payload or len(payload) > END - START:
@@ -40,6 +40,8 @@ def package(original, payload, symbols, uart_cli=False, cooling_cli=False):
         raise ValueError('Candidate code region is not erased padding')
     sites = [(0x3425c, 0xbfc2bdd8, symbols['sg_route_compare'], True),
              (0x34280, 0xbfc4163c, symbols['sg_route_dispatch'], False)]
+    if public_stats:
+        sites += [(0x33770, 0xbfc2bdd8, symbols['sg_public_compare'], True)]
     if cooling_cli:
         if not uart_cli:
             raise ValueError('Cooling diagnostics require the runtime UART CLI')
@@ -73,7 +75,7 @@ def package(original, payload, symbols, uart_cli=False, cooling_cli=False):
         after = jump(target) + b'\0'*4
         output[offset:offset+8] = after
         changes.append({'offset': hex(offset), 'before': before.hex(), 'after': after.hex(),
-                        'purpose': 'Bounded GPIO27 override with stock automatic return'})
+                        'purpose': 'Manual GPIO27 low/fast override; explicit auto restores stock policy'})
     output[START:START+len(payload)] = payload
     crc = zlib.crc32(output[0x10:END])
     output[:4] = struct.pack('>I', crc)
@@ -88,8 +90,8 @@ def package(original, payload, symbols, uart_cli=False, cooling_cli=False):
     if any(not any(a <= i < b for a, b in allowed) for i in changed):
         raise ValueError('Unexpected modification outside patch allowlist')
     return bytes(output), {
-        'version': 'v0.1.2-cooling' if cooling_cli else 'experimental-1',
-        'classification': 'DIAGNOSTIC_BUILD_AWAITING_HARDWARE_TEST' if cooling_cli else 'EXPERIMENTAL_UNTESTED_ON_HARDWARE',
+        'version': 'v0.1.3-public-stats' if public_stats else 'v0.1.3-manual-cooling' if cooling_cli else 'experimental-1',
+        'classification': 'BUILD_AWAITING_HARDWARE_VERIFICATION' if cooling_cli else 'EXPERIMENTAL_UNTESTED_ON_HARDWARE',
         'input_sha256': EXPECTED, 'output_sha256': sha(output),
         'payload_sha256': sha(payload), 'image_bytes': len(output),
         'payload_bytes': len(payload), 'payload_file_offset': hex(START),
@@ -98,12 +100,13 @@ def package(original, payload, symbols, uart_cli=False, cooling_cli=False):
         'changed_bytes': len(changed), 'hooks': changes,
         'uart_cli': bool(uart_cli),
         'cooling_cli': bool(cooling_cli),
+        'public_stats': bool(public_stats),
+        'http_access': 'Exact GET /stats.json is public; stock admin authentication retained' if public_stats else 'Stock session authentication',
         'uart_cli_scope': 'Stock runtime CLI including write/reset commands; not a bootloader recovery console' if uart_cli else 'Stock disabled CLI retained',
         'no_bootloader_modification': True, 'no_global_ram_allocation': True,
         'hardware_boot_test': False, 'recovery_test': False,
-        'limitations': (['v0.1.2 installation and physical fan response not yet tested',
-                         '100 raw IRQ ticks; wall-time unit unconfirmed',
-                         'Software return requires running timer and cooperative event loop',
+        'limitations': (['This newly built image requires hardware installation verification',
+                         'Manual low/fast has no timeout; auto or reboot restores automatic policy',
                          'No verified RPM/per-fan health measurement',
                          'Physical recovery and long-duration load remain untested'] if cooling_cli else ['Bootloader checks unknown', 'SPI dump and recovery required before lab flash',
                         'Stack/IRQ and socket timing require bench validation',
@@ -122,7 +125,8 @@ def main():
     parser.add_argument('--prefix', default='mips-linux-gnu-')
     parser.add_argument('--output', type=Path, default=ROOT/'build-target')
     parser.add_argument('--uart-cli', action='store_true', help='Enable stock runtime UART CLI for a diagnostic bench build')
-    parser.add_argument('--cooling-cli', action='store_true', help='Add bounded GPIO27 tests and cooling JSON; requires --uart-cli')
+    parser.add_argument('--cooling-cli', action='store_true', help='Add manual low/fast/auto cooling commands and JSON; requires --uart-cli')
+    parser.add_argument('--public-stats', action='store_true', help='Allow exact read-only GET /stats.json without a session')
     args = parser.parse_args()
     if args.cooling_cli and not args.uart_cli:
         parser.error('--cooling-cli requires --uart-cli')
@@ -143,6 +147,8 @@ def main():
     if args.cooling_cli:
         flags += ['-DSG_COOLING']
         sources += ['target/cooling.c']
+    if args.public_stats:
+        flags += ['-DSG_PUBLIC_STATS']
     objects = []
     for source in sources:
         obj = out/(Path(source).stem+'.o')
@@ -150,6 +156,8 @@ def main():
         objects.append(obj)
     elf, binary = out/'switchlens.elf', out/'payload.bin'
     extra = ['--undefined='+s for s in ['sg_cli_lookup','sg_cli_poll','sg_cool_output']] if args.cooling_cli else []
+    if args.public_stats:
+        extra += ['--undefined=sg_public_compare']
     run([args.prefix+'ld.bfd', *extra, '-EB', '-T', 'target/firmware.ld', '--gc-sections',
          '--undefined=sg_route_dispatch', '--build-id=none', '-Map='+str(out/'switchlens.map'),
          '-o', elf, *objects])
@@ -169,7 +177,7 @@ def main():
                     raise ValueError('Unexpected writable/loadable zero-fill section')
                 if not BASE+START <= section['sh_addr'] < section['sh_addr']+section['sh_size'] <= BASE+END:
                     raise ValueError('Allocated section exceeds padding')
-    patched, manifest = package(original, binary.read_bytes(), symbols, uart_cli=args.uart_cli, cooling_cli=args.cooling_cli)
+    patched, manifest = package(original, binary.read_bytes(), symbols, uart_cli=args.uart_cli, cooling_cli=args.cooling_cli, public_stats=args.public_stats)
     manifest['compiler'] = subprocess.check_output([args.cc, '--version'], text=True).splitlines()[0]
     manifest['linker'] = subprocess.check_output([args.prefix+'ld.bfd', '--version'], text=True).splitlines()[0]
     manifest['build_recipe_sha256'] = sha(Path(__file__).read_bytes())

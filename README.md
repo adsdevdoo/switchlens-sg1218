@@ -2,6 +2,8 @@
 
 # SwitchLens
 
+**New v0.1.3:** public `/stats.json`, manual `cool low/fast/auto` without a timer, and `cooling.speed_mode`. Built and emulation-checked; hardware installation pending. [BIN](releases/v0.1.3-public-stats/README.md).
+
 Working firmware for the **TP-Link TL-SG1218MPE(UN) V5.0**, adding read-only JSON
 telemetry and the stock UART command console.
 
@@ -21,9 +23,9 @@ status is **working firmware with hardware-verified boot, UART and JSON**.
 Loaded PoE operation, all counter semantics, recovery and long-duration operation
 are separate outstanding checks. See [roadmap](docs/ROADMAP.md).
 
-**v0.1.2 console and GPIO27 test confirmed on hardware.** [BIN and checks](releases/v0.1.2-cooling/README.md), [`cool` commands](docs/COOLING-CONTROL.md). Active level-0 readback and automatic mode were observed; no clear fan improvement was reported. [Further code analysis and GPIO26 options](research/COOLING-PATHS.md). v0.1.2 JSON hardware verification remains pending.
+**v0.1.2 console and GPIO27 test confirmed on hardware.** [BIN and checks](releases/v0.1.2-cooling/README.md), [`cool` commands](docs/COOLING-CONTROL.md). Active level-0 readback and automatic mode were observed; the owner subsequently replaced the problematic fan with a stock fan and confirmed that level 0 accelerates both fans. [Further code analysis and GPIO26 options](research/COOLING-PATHS.md). v0.1.2 JSON hardware verification remains pending.
 
-## Current firmware
+## Earlier hardware-verified v0.1.1 firmware
 
 File: `SwitchLens-SG1218MPE-V5-v0.1.1-experimental-uart.bin`, **1,013,324 bytes**.
 

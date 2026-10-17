@@ -40,3 +40,6 @@ uart-logs/
 
 # Bounded cooling diagnostic build requested by the owner.
 !/releases/v0.1.2-cooling/SwitchLens-SG1218MPE-V5-v0.1.2-cooling.bin
+
+# Public statistics and manual cooling release requested by owner.
+!/releases/v0.1.3-public-stats/SwitchLens-SG1218MPE-V5-v0.1.3-public-stats.bin

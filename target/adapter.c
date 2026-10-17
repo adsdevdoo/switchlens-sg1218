@@ -13,8 +13,10 @@
 #define HTTP_BUFFER 0xbf010f8cu
 #define HTTP_END 0xbf011540u
 #define FAST_TICKS 0xbf002e94u
-#ifdef SG_COOLING
-#define BUILD_ID "v0.1.2-cooling"
+#ifdef SG_PUBLIC_STATS
+#define BUILD_ID "v0.1.3-public-stats"
+#elif defined(SG_COOLING)
+#define BUILD_ID "v0.1.3-manual-cooling"
 #else
 #define BUILD_ID "experimental-1"
 #endif
@@ -158,7 +160,7 @@ static int get(void *opaque,enum sg_field field,struct sg_value *v){
  struct context *c=opaque;if(expired(c))return -1;
  if(field>=SG_COUNTER_RX_BYTES&&field<=SG_COUNTER_TX_PACKETS_1519_MAX)return counter(c,field,v);
  #ifdef SG_COOLING
- if(field>=SG_COOLING_GPIO_CONTROL_RAW)return sg_cool_get(&c->cooling,field,v);
+ if(field>=SG_COOLING_SPEED_MODE)return sg_cool_get(&c->cooling,field,v);
  #endif
  switch(field){
  case SG_SYSTEM_MODEL:return string(v,"TL-SG1218MPE",12);
@@ -253,6 +255,16 @@ int sg_route_kind(const char *path,const char *stock){
  unsigned i=0;while(i<sizeof route&&path[i]==route[i]){if(!route[i])return 1;i++;}
  return fw_strcmp(path,stock)==0?0:2;
 }
+#ifdef SG_PUBLIC_STATS
+int sg_public_route_compare(const char *path,const char *login,const void *request){
+ /* Both router path representations must match. Never broaden POST, login,
+  * configuration handlers or session state. */
+ const unsigned char *r=request;
+ if(r && R32(r+4)==1 && fw_strcmp(path,"/stats.json")==0 &&
+    fw_strcmp((const char *)r+8,"/stats.json")==0)return 0;
+ return fw_strcmp(path,login);
+}
+#endif
 int sg_http_stats(void *request){
  struct context c={0};c.request=request;c.start_ticks=R32(FAST_TICKS);
  c.poe_count=R32(0xbf0143e0u);

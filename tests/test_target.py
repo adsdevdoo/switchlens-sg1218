@@ -301,11 +301,31 @@ class TargetTests(unittest.TestCase):
         m.word(0xbf011660, 1)
         m.put(0xbf001488, b'synthetic-session\0')
         self.assertEqual(m.run(), 0)
-        self.assertEqual(m.entered, [0xbfc3fc18])
-        self.assertFalse(m.output)
+        if MANIFEST.get('public_stats'):
+            m.document()
+        else:
+            self.assertEqual(m.entered, [0xbfc3fc18])
+            self.assertFalse(m.output)
+        m.output.clear()
         m.put(REQUEST+0xec, b'synthetic-session\0')
         self.assertEqual(m.run(), 0)
         m.document()
+
+    def test_public_exception_does_not_unlock_admin_or_post(self):
+        if not MANIFEST.get('public_stats'):
+            self.skipTest('public route not built')
+        for path, method in [('/stats.json', 2), ('/stats.jsonx', 1),
+                ('/stats.json/', 1), ('/Stats.json', 1), ('/stats.json?x', 1),
+                ('/Stats.htm', 1), ('/', 1), ('/SystemInfo.htm', 1),
+                ('/SystemInfo.htm', 2), ('/stats.json%00', 1)]:
+            with self.subTest(path=path, method=method):
+                m = self.new()
+                m.word(0xbf011660, 1)
+                m.put(0xbf001488, b'synthetic-session\0')
+                m.put(REQUEST+0xec, b'wrong-session\0')
+                m.run(path=path, method=method)
+                self.assertEqual(m.entered, [0xbfc3fc18])
+                self.assertFalse(m.output)
 
     def test_post_and_near_matches_do_not_call_json(self):
         for path, method in [('/stats.json', 2), ('/stats.jsonx', 1),
@@ -361,7 +381,7 @@ class TargetTests(unittest.TestCase):
         self.assertEqual(struct.unpack('>I', IMAGE[:4])[0], zlib.crc32(IMAGE[0x10:builder.END]))
         self.assertEqual(IMAGE[builder.END:], ORIGINAL[builder.END:])
         syms = {k: int(v, 16) for k, v in MANIFEST['symbols'].items()}
-        regenerated, _ = builder.package(ORIGINAL, PAYLOAD, syms, uart_cli=MANIFEST.get('uart_cli', False), cooling_cli=MANIFEST.get('cooling_cli', False))
+        regenerated, _ = builder.package(ORIGINAL, PAYLOAD, syms, uart_cli=MANIFEST.get('uart_cli', False), cooling_cli=MANIFEST.get('cooling_cli', False), public_stats=MANIFEST.get('public_stats', False))
         self.assertEqual(regenerated, IMAGE)
         for original, payload, symbols in [(b'bad', PAYLOAD, syms), (ORIGINAL, b'', syms),
                  (ORIGINAL, b'x'*(builder.END-builder.START+1), syms),

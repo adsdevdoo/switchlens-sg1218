@@ -2,6 +2,8 @@
 
 # SwitchLens continuation context
 
+**New v0.1.3:** public `/stats.json`, manual `cool low/fast/auto` without a timer, and `cooling.speed_mode`. Built and emulation-checked; hardware installation pending. [BIN](../releases/v0.1.3-public-stats/README.md). Owner explicitly requested public statistics, permanent low/fast/auto commands and removal of the test commands/time limit.
+
 **Current result:** the problematic fan was replaced with a stock fan; both now rotate and `cool test 0` accelerates both. Earlier no-effect/stopped-fan statements below describe prior tests. [Updated observations and next action](evidence/2026-10-17-cooling/README.md).
 
 Updated **17 October 2026 after the v0.1.2 GPIO27 test and code follow-up**.

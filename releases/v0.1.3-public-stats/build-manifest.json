@@ -1,0 +1,160 @@
+{
+  "version": "v0.1.3-public-stats",
+  "classification": "BUILD_AWAITING_HARDWARE_VERIFICATION",
+  "input_sha256": "c9ab17eda7af714f00692d41f440ce84ed0d6c7d678634c364ec1154bb7e3f32",
+  "output_sha256": "3ffeaface23a7da9856854337caae5f89fd0e0df21145d833275e921e6da43e4",
+  "payload_sha256": "528fe1b92ddcb9d979fd71ad766b3c5ed0eab6b46b2fce1b0da4192a22363b8f",
+  "image_bytes": 1013324,
+  "payload_bytes": 16828,
+  "payload_file_offset": "0xd8640",
+  "payload_va": "0xbfce0640",
+  "padding_remaining_bytes": 108548,
+  "crc32": "260bf144",
+  "crc_range": [
+    "0x10",
+    "0xf7000"
+  ],
+  "changed_bytes": 16451,
+  "hooks": [
+    {
+      "offset": "0x3425c",
+      "before": "0ff0af76",
+      "after": "0ff38192"
+    },
+    {
+      "offset": "0x34280",
+      "before": "0bf1058f",
+      "after": "0bf3819c"
+    },
+    {
+      "offset": "0x33770",
+      "before": "0ff0af76",
+      "after": "0ff38190"
+    },
+    {
+      "offset": "0x24bb4",
+      "before": "0ff0b142",
+      "after": "0ff38b94"
+    },
+    {
+      "offset": "0x25848",
+      "before": "0ff0b142",
+      "after": "0ff38b94"
+    },
+    {
+      "offset": "0x25ee4",
+      "before": "0ff0b343",
+      "after": "0ff38a8a"
+    },
+    {
+      "offset": "0x25e94",
+      "before": "8c45f018",
+      "after": "24051fff",
+      "purpose": "Enable the 13 stock CLI permission bits in RAM initialization"
+    },
+    {
+      "offset": "0x25ed8",
+      "before": "30420001",
+      "after": "24020001",
+      "purpose": "Enable the existing runtime UART CLI dispatcher"
+    },
+    {
+      "offset": "0x54344",
+      "before": "2c82000210400005",
+      "after": "0bf38a7d00000000",
+      "purpose": "Manual GPIO27 low/fast override; explicit auto restores stock policy"
+    }
+  ],
+  "uart_cli": true,
+  "cooling_cli": true,
+  "public_stats": true,
+  "http_access": "Exact GET /stats.json is public; stock admin authentication retained",
+  "uart_cli_scope": "Stock runtime CLI including write/reset commands; not a bootloader recovery console",
+  "no_bootloader_modification": true,
+  "no_global_ram_allocation": true,
+  "hardware_boot_test": false,
+  "recovery_test": false,
+  "limitations": [
+    "This newly built image requires hardware installation verification",
+    "Manual low/fast has no timeout; auto or reboot restores automatic policy",
+    "No verified RPM/per-fan health measurement",
+    "Physical recovery and long-duration load remain untested"
+  ],
+  "compiler": "mips-linux-gnu-gcc (Ubuntu 12.4.0-2ubuntu1~24.04) 12.4.0",
+  "linker": "GNU ld (GNU Binutils for Ubuntu) 2.42",
+  "build_recipe_sha256": "78d2254a3fe8382bd5bf9623fac48aa69594baa76e3e48fa670ad363c416ec90",
+  "compiler_flags": [
+    "-std=c99",
+    "-Os",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-ffreestanding",
+    "-fno-builtin",
+    "-fno-pic",
+    "-fno-pie",
+    "-fno-stack-protector",
+    "-fno-asynchronous-unwind-tables",
+    "-fno-unwind-tables",
+    "-fno-common",
+    "-fstack-usage",
+    "-ffunction-sections",
+    "-fdata-sections",
+    "-mabi=32",
+    "-mips32r2",
+    "-msoft-float",
+    "-mno-abicalls",
+    "-G0",
+    "-EB",
+    "-Iinclude",
+    "-DSG_COOLING",
+    "-DSG_PUBLIC_STATS"
+  ],
+  "sources_sha256": {
+    "target/route.S": "c465bf3d3e1f3f230a925422312f657233ab05fdf25778eba3c746df86880d98",
+    "target/adapter.c": "15d9d292dab107c00af1bc5cb9bccc10c2c9b1295994d9b8290de8eea9d0bc15",
+    "target/runtime.c": "aa1806bd129c3a5a2d79c052ba7c6cd9679847cac4f21ead31087d1c4349a020",
+    "src/sg_stats.c": "90daeee790613a24ca27eb716fc43dfb3830e7d9963cad118dacdf2b0a313159",
+    "src/sg_mib.c": "48028786d0df722f4df09031b8f9ea778bd095b67b4d025576cb46d288691904",
+    "target/cooling.c": "b8141a61c9a1585df64cc9f35b43d8eb428a993230707adbb2abc2176f53803e",
+    "target/firmware.ld": "b347427f89c4030f0b749eb9127357d6a42782d7a78ee92b5083de4ff81c5970",
+    "include/sg_stats.h": "c68c2bbdc3db21579489dee48b660fb2dd164d57e135efa2cedbc00692890fec",
+    "include/sg_fields.h": "056a38568558647b24007598a2c0e6bdccfd697fbbea99cddcfe1bf431806ad4",
+    "include/sg_mib.h": "c545f7984acf17709d5ef45b6d26b6c83827e1479e073209976b364d8ff82741",
+    "src/sg_fields.inc": "0ce5987ed6a40f98ebe1e23f670cd915c663f1132333adf0c9fe7a491cfa537b",
+    "target/cooling.h": "58127c4259b9d16e454a695ca009dcbfdeaf92c9fc8531db9248ede73c4efc18"
+  },
+  "symbols": {
+    "sg_stats.c": "0x0",
+    "sg_mib.c": "0x0",
+    "sg_cool_output": "0xbfce29f4",
+    "fw_cool_poll": "0xbfc5c368",
+    "fw_cli_reg": "0xbfc2d8d0",
+    "fw_cli_poll": "0xbfc2cd0c",
+    "sg_cli_poll": "0xbfce2a28",
+    "fw_cli_help": "0xbfc2d6c0",
+    "sg_cool_get": "0xbfce2cf8",
+    "fw_cli_lookup": "0xbfc2c508",
+    "sg_http_entry": "0xbfce0688",
+    "fw_http_status": "0xbf01cd38",
+    "sg_cool_snapshot": "0xbfce2a30",
+    "sg_route_dispatch": "0xbfce0670",
+    "sg_cli_lookup": "0xbfce2e50",
+    "sg_route_compare": "0xbfce0648",
+    "sg_route_kind": "0xbfce14b8",
+    "sg_public_compare": "0xbfce0640",
+    "fw_http_init": "0xbfc3b278",
+    "fw_register_read": "0xbfc10768",
+    "sg_http_stats": "0xbfce15b8",
+    "fw_http_header": "0xbf01cc5c",
+    "sg_stats_emit": "0xbfce1ffc",
+    "fw_gpio_write": "0xbf0196b4",
+    "fw_strcmp": "0xbfc2bdd8",
+    "fw_statistics_page": "0xbfc4163c",
+    "fw_socket_send": "0xbfc38a64",
+    "fw_printf": "0xbfc11514",
+    "fw_http_raw": "0xbf01cac0",
+    "sg_public_route_compare": "0xbfce1520",
+    "sg_mib_read": "0xbfce2434"
+  }
+}

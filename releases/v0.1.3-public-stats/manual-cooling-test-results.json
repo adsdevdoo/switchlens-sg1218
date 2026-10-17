@@ -1,0 +1,7 @@
+{
+  "tests": 6,
+  "failures": 0,
+  "errors": 0,
+  "image_sha256": "3ffeaface23a7da9856854337caae5f89fd0e0df21145d833275e921e6da43e4",
+  "scope": "Synthetic MIPS CLI/controller/HTTP; no physical board test"
+}

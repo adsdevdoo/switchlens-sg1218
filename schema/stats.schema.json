@@ -13257,8 +13257,14 @@
     },
     "cooling": {
       "type": "object",
-      "description": "Optional v0.1.2 snapshot; read-only. Test changes are UART-only. Raw IRQ ticks are not seconds.",
+      "description": "Optional cooling snapshot since v0.1.2; read-only. v0.1.3 manual low/fast/auto is UART-only, with no timeout. Raw IRQ ticks are not seconds.",
       "properties": {
+        "speed_mode": {
+          "type": ["string", "null"],
+          "enum": ["fast", "low", null],
+          "maxLength": 4,
+          "description": "Optional since v0.1.3. Shared commanded speed, not measured RPM/health. Null for invalid state or GPIO mux/direction. GPIO27=0 fast, 1 low, owner-confirmed on this board."
+        },
         "gpio_control_raw": {
           "type": [
             "integer",
@@ -13358,6 +13364,7 @@
         "mode": {
           "enum": [
             "auto",
+            "manual",
             "test",
             "expired",
             "invalid",

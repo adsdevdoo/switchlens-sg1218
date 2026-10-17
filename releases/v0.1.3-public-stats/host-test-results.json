@@ -1,0 +1,8 @@
+{
+  "serializer_tests": 9,
+  "mib": "PASS",
+  "asan_ubsan": "PASS",
+  "leak_detection": false,
+  "reason": "ptrace environment",
+  "scope": "host serializer/MIB; not hardware"
+}

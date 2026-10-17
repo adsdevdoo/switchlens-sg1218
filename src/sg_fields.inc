@@ -115,6 +115,7 @@ static const struct field loop_fields[] = {
 };
 #ifdef SG_COOLING
 static const struct field cooling_fields[] = {
+ {"speed_mode", SG_COOLING_SPEED_MODE, F_TEXT, R_NONE, 4},
  {"gpio_control_raw", SG_COOLING_GPIO_CONTROL_RAW, F_UINT, R_NONE, 128},
  {"gpio_direction_raw", SG_COOLING_GPIO_DIRECTION_RAW, F_UINT, R_NONE, 128},
  {"gpio_data_raw", SG_COOLING_GPIO_DATA_RAW, F_UINT, R_NONE, 128},

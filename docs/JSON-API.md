@@ -22,40 +22,22 @@ Its `fan_status: null` and `fan_rpm: null` do not add fields to the installed AP
 
 ## Request and authentication
 
-1. Log in to the stock switch web interface.
-2. Open `http://<switch-address>/stats.json` in the same browser.
-3. Save the entire response, not only the visible portion of the page.
-
-The handler matches the exact `GET /stats.json` path and uses the existing
-`H_P_SSID` session. It does not add a login or API token. If a login page appears,
-sign in again. HTML is a collection error even with status 200. Query strings
-and alternative paths are outside this handler's contract.
-
-The successful handler sets these headers in code:
-
-```http
-HTTP/1.1 200 OK
-Content-Type: application/json
-Cache-Control: no-store
-X-SwitchLens-Build: experimental-1
-```
-
-The screenshots establish receipt of the body; a hardware packet capture of
-these headers was not supplied. The historical `experimental-1` header identifies
-the shared HTTP payload, not the exact installed package; both v0.1.0 and v0.1.1 use it.
-
-With an already established session cookie jar:
+Since v0.1.3, exact `GET /stats.json` is public: no session, login or API token.
+Stock administrative pages and POST handlers still require stock authentication.
+This exposes the existing telemetry to clients with network access; the handler
+remains read-only. v0.1.1/v0.1.2 still require the ordinary `H_P_SSID` session.
 
 ```bash
-curl --fail --max-time 15 -b /private/bench.cookies \
-  http://SWITCH_IP/stats.json -o stats.json
+curl --fail --max-time 15 http://SWITCH_IP/stats.json -o stats.json
 python3 -m json.tool stats.json
 ```
 
-The cookie jar comes from a separate normal login. Do not publish passwords or
-cookies. Reading this endpoint does not change configuration, reset counters,
-switch PoE or store JSON in flash. The enabled stock UART CLI separately contains
-commands that can modify device settings.
+Successful v0.1.3 responses have `Content-Type: application/json`,
+`Cache-Control: no-store`, `Connection: close` and
+`X-SwitchLens-Build: v0.1.3-public-stats`. HTML is not a JSON success, even with
+HTTP 200. Query strings, alternative paths and POST do not use the public exception.
+Reading does not change configuration, reset counters, switch PoE or store JSON
+in flash. UART control is separate. Hardware verification of this new build is pending.
 
 ## Types, missing values and response integrity
 
@@ -393,6 +375,7 @@ numbers; null means unknown, not zero or healthy.
 
 | Field | Type | Meaning |
 | --- | --- | --- |
+| `speed_mode` | string/null | v0.1.3: shared output request `low`/`fast`; null for invalid state/mux/direction, not measured RPM |
 | `gpio_control_raw` | uint32? | Raw mux/control at `0xb8003500` |
 | `gpio_direction_raw` | uint32? | Direction at `0xb8003508`: bit 0 input, 1 output |
 | `gpio_data_raw` | uint32? | Data at `0xb800350c`, without speed interpretation |
@@ -416,3 +399,5 @@ a test `auto_state` is saved history, not a freshly calculated automatic demand.
 [Commands, packed state and timeout](COOLING-CONTROL.md).
 
 [Hardware observation and interpretation limits](evidence/2026-10-17-cooling/README.md).
+
+Since v0.1.3, `mode` is `auto`, `manual` or `invalid`; manual low/fast has no timeout. Legacy `test_level`, `remaining_ticks` and `test_limit_ticks` are null. Earlier bounded-test field meanings above apply only to v0.1.2.
