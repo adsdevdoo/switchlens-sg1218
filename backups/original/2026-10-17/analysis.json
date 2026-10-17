@@ -1,0 +1,51 @@
+{
+  "status": "verified_static_only; one submitted read; restoration not tested",
+  "source_uploaded_name": "3e47cf25-3229-4753-b17b-6ca2ea7fcd7b.BIN",
+  "archived_file": "GD25Q16B-xgpro-original.bin",
+  "source_preserved_byte_for_byte": true,
+  "file_bytes": 2097424,
+  "file_sha256": "b80e10d5fb75ee2d4d8a45dba305090fe204d521c96d24202876273959589a87",
+  "main_array": {
+    "range": [
+      "0x0",
+      "0x200000"
+    ],
+    "bytes": 2097152,
+    "sha256": "7679a624b172852e6269b66c48b88a619447916b01f61537fc96b1adc309163c"
+  },
+  "extra_tail": {
+    "offset": "0x200000",
+    "bytes": 272,
+    "prefix_ascii": "-Configuration-",
+    "interpretation": "hypothesis: Xgpro export metadata; fields not decoded"
+  },
+  "official_image_sha256": "c9ab17eda7af714f00692d41f440ce84ed0d6c7d678634c364ec1154bb7e3f32",
+  "official_image_bytes": 1013324,
+  "copies": [
+    {
+      "offset": "0x8000",
+      "end_exclusive": "0xff64c",
+      "exact_official_match": true,
+      "crc32_range_relative": [
+        "0x10",
+        "0xf7000"
+      ],
+      "crc32": "d31a20a5",
+      "crc_matches_header": true
+    },
+    {
+      "offset": "0x100000",
+      "end_exclusive": "0x1f764c",
+      "exact_official_match": true,
+      "crc32_range_relative": [
+        "0x10",
+        "0xf7000"
+      ],
+      "crc32": "d31a20a5",
+      "crc_matches_header": true
+    }
+  ],
+  "second_independent_read_received": false,
+  "uart_console_verified": false,
+  "recovery_verified": false
+}

@@ -26,3 +26,6 @@ private/
 local-*
 /demo.synthetic.json
 !/releases/v0.1.0-experimental/SwitchLens-SG1218MPE-V5-v0.1.0-experimental.bin
+
+# Exact original export explicitly requested by the owner.
+!/backups/original/2026-10-17/GD25Q16B-xgpro-original.bin
