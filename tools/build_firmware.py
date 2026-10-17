@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Build an experimental exact-image MIPS patch. Local files only; never flashes.
+"""Build an exact-image MIPS patch. Local files only; never flashes.
 
-This produces a bench candidate, not a hardware-validated or production release.
+Each new build needs hardware installation verification.
 """
 import argparse
 import hashlib
@@ -18,6 +18,20 @@ START, END, BASE = 0xd8640, 0xf7000, 0xbfc08000
 UART_PATCHES = [
     (0x25e94, '8c45f018', '24051fff', 'Enable the 13 stock CLI permission bits in RAM initialization'),
     (0x25ed8, '30420001', '24020001', 'Enable the existing runtime UART CLI dispatcher'),
+]
+
+# Return immediately, with v0=0 in the branch delay slot. Disable both socket
+# registration and receive callbacks; preserve the credential codec for HTTP.
+DISABLED_SERVICES = [
+    (0x3fcf0, '27bdffc0afbf003c', 'TSDP initialization / UDP 29808'),
+    (0x45668, '27bdffc8afbf0034', 'TDDP initialization / UDP 1040'),
+    (0x40db0, '27bdfc58afbf03a4', 'TSDP receive callback'),
+    (0x46238, '27bdfe08afbf01f4', 'TDDP receive callback'),
+]
+SERVICE_RETURN = bytes.fromhex('03e0000800001021')
+SERVICE_LOGS = [
+    (0xd3d98, b'HTTPD && TSDP init!---------- Done!\n\n', b'HTTPD ready; TSDP disabled\n\n'),
+    (0xd3dc0, b'TDDP init!---------- Done!\n\n', b'TDDP disabled\n\n'),
 ]
 
 
@@ -74,10 +88,29 @@ def package(original, payload, symbols, uart_cli=False, cooling_cli=False):
         output[offset:offset+8] = after
         changes.append({'offset': hex(offset), 'before': before.hex(), 'after': after.hex(),
                         'purpose': 'Manual GPIO27 low/fast override; explicit auto restores stock policy'})
+    security_regions = []
+    if cooling_cli:
+        for offset, before, purpose in DISABLED_SERVICES:
+            before = bytes.fromhex(before)
+            if original[offset:offset+8] != before:
+                raise ValueError(f'Unexpected service entry at {offset:#x}')
+            output[offset:offset+8] = SERVICE_RETURN
+            security_regions.append((offset, offset+8))
+            changes.append({'offset': hex(offset), 'before': before.hex(),
+                            'after': SERVICE_RETURN.hex(), 'purpose': 'Disable '+purpose})
+        for offset, before, replacement in SERVICE_LOGS:
+            before += b'\0'
+            if original[offset:offset+len(before)] != before or len(replacement) >= len(before):
+                raise ValueError('Unexpected service log string or replacement length')
+            after = replacement.ljust(len(before), b'\0')
+            output[offset:offset+len(before)] = after
+            security_regions.append((offset, offset+len(before)))
+            changes.append({'offset': hex(offset), 'before': before.hex(),
+                            'after': after.hex(), 'purpose': 'Report disabled service accurately'})
     output[START:START+len(payload)] = payload
     crc = zlib.crc32(output[0x10:END])
     output[:4] = struct.pack('>I', crc)
-    allowed = [(0, 4), (START, START+len(payload))] + [(row[0], row[0]+4) for row in sites]
+    allowed = security_regions + [(0, 4), (START, START+len(payload))] + [(row[0], row[0]+4) for row in sites]
     if uart_cli:
         allowed += [(offset, offset+4) for offset, *_ in UART_PATCHES]
     if cooling_cli:
@@ -88,7 +121,7 @@ def package(original, payload, symbols, uart_cli=False, cooling_cli=False):
     if any(not any(a <= i < b for a, b in allowed) for i in changed):
         raise ValueError('Unexpected modification outside patch allowlist')
     return bytes(output), {
-        'version': 'v0.1.4' if cooling_cli else 'experimental-1',
+        'version': 'v0.1.5' if cooling_cli else 'experimental-1',
         'classification': 'BUILD_AWAITING_HARDWARE_VERIFICATION' if cooling_cli else 'EXPERIMENTAL_UNTESTED_ON_HARDWARE',
         'input_sha256': EXPECTED, 'output_sha256': sha(output),
         'payload_sha256': sha(payload), 'image_bytes': len(output),
@@ -98,6 +131,8 @@ def package(original, payload, symbols, uart_cli=False, cooling_cli=False):
         'changed_bytes': len(changed), 'hooks': changes,
         'uart_cli': bool(uart_cli),
         'cooling_cli': bool(cooling_cli),
+        'vendor_udp_management_disabled': bool(cooling_cli),
+        'credential_storage': 'Stock reversible fixed-key codec retained; not password hashing',
         'http_access': 'Stock form login, H_P_SSID cookie and client-IP session check; no bypass',
         'uart_cli_scope': 'Stock runtime CLI including write/reset commands; not a bootloader recovery console' if uart_cli else 'Stock disabled CLI retained',
         'no_bootloader_modification': True, 'no_global_ram_allocation': True,

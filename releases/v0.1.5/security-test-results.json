@@ -1,0 +1,7 @@
+{
+  "tests": 5,
+  "failures": 0,
+  "errors": 0,
+  "image_sha256": "b2617a639869cf5ca0ef7b953b321f0625f3a1af3c6aab8d1a37a7ffa3dd6a7d",
+  "scope": "MIPS initializers, receive entry points and boot service segment; mocked sockets; no whole-device or LAN reachability test"
+}

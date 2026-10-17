@@ -2,7 +2,7 @@
 
 # SwitchLens
 
-**Current v0.1.4:** stock authentication restored; manual low/fast/auto without timeout retained. v0.1.3 sessionless access failed on hardware and its exception was removed. New BIN hardware installation is pending. [BIN](releases/v0.1.4/README.md).
+**Current v0.1.5:** TDDP/TSDP UDP management disabled; authenticated JSON, UART and low/fast/auto retained. All 26 MIPS checks pass; hardware installation pending. [BIN and checks](releases/v0.1.5/README.md) · [Security audit and remaining limitations](research/SECURITY-AUDIT.md).
 
 
 Working firmware for the **TP-Link TL-SG1218MPE(UN) V5.0**, adding read-only JSON

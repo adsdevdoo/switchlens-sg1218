@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""v0.1.4 persistent RAM cooling modes; synthetic MIPS execution, no device I/O."""
+"""v0.1.5 persistent RAM cooling modes; synthetic MIPS execution, no device I/O."""
 import argparse
 import hashlib
 import json

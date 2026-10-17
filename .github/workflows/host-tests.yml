@@ -41,3 +41,5 @@ jobs:
       - run: python tests/test_manual_cooling.py --build build-cooling
       - run: python tests/test_target.py vendor/tp-link/tl-sg1218mpe-v5/20230616/TL-SG1218MPE-UN-V5-1.0.0-Build-20230616-up.bin --build build-cooling
       - run: python tests/test_release_paths.py --build build-cooling
+      - run: python tests/test_security.py --build build-cooling
+      - run: python tools/audit_security.py > build-cooling/security-audit.json
