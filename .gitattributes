@@ -4,3 +4,5 @@
 *.inc text
 *.py text
 *.json text
+*.cmd text eol=crlf
+*.png binary

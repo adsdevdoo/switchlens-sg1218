@@ -1,0 +1,34 @@
+{
+  "received_date": "2026-10-17",
+  "capture_date": null,
+  "photos": [
+    {
+      "file": "header-backside.png",
+      "original_upload": "b341e14b-6d80-4937-b9b9-fe4aea4bea88.png",
+      "sha256": "88b0340318bcc49507d9b6e13e60d7d5d403416442ca0332e14a6b59c3ab0db8",
+      "bytes": 4878373,
+      "pixel_or_metadata_changes": false
+    },
+    {
+      "file": "board-overview.png",
+      "original_upload": "2c547b2b-000c-4559-a566-bd842f09dd53.png",
+      "sha256": "baad5aae0be519b9db377cc68585e84e372ae20b02b96258371066723193cdbf",
+      "bytes": 5980993,
+      "pixel_or_metadata_changes": false
+    },
+    {
+      "file": "chip-detail.png",
+      "original_upload": "d5564a98-558c-41d2-b2c7-8ae550215c69.png",
+      "sha256": "78220b17b885429eb0eb14cb26d9ff7fd98737a940602704a30cc7c246596a02",
+      "bytes": 6046278,
+      "pixel_or_metadata_changes": false
+    },
+    {
+      "file": "rtl8214fc-marking.png",
+      "original_upload": "0373bbf1-bc84-4566-b9b5-a2b36a63a4a4.png",
+      "sha256": "7a137f243b9f4dbe3759a988f24bd312747b8fd7879789357b7879377b7d1d61",
+      "bytes": 5745553,
+      "pixel_or_metadata_changes": false
+    }
+  ]
+}
