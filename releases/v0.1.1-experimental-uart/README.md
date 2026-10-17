@@ -8,6 +8,8 @@
 - [SHA256SUMS](SHA256SUMS)
 - [Манифест сборки](build-manifest.json)
 - Результаты: [6 тестов UART](uart-test-results.json), [10 тестов HTTP/JSON](target-test-results.json)
+- [Финальная проверка](FINAL-CHECK.md): ещё [4 теста](release-path-test-results.json)
+  штатного планировщика, общей RAM UART/HTTP и пути загрузчика; всего 20 MIPS-тестов.
 
 ## Что изменено
 
@@ -65,6 +67,7 @@ Get-FileHash .\SwitchLens-SG1218MPE-V5-v0.1.1-experimental-uart.bin -Algorithm S
 python3 tools/build_uart_diagnostic.py
 python3 tests/test_uart_console.py
 python3 tests/test_target.py vendor/tp-link/tl-sg1218mpe-v5/20230616/TL-SG1218MPE-UN-V5-1.0.0-Build-20230616-up.bin --build build-uart-diagnostic
+python3 tests/test_release_paths.py
 ```
 
 Для компиляции payload из исходников у `tools/build_firmware.py` появился
@@ -74,11 +77,12 @@ python3 tests/test_target.py vendor/tp-link/tl-sg1218mpe-v5/20230616/TL-SG1218MP
 
 ## Следующий аппаратный шаг
 
-Перед первой записью изменённого образа завершить проверку восстановления
-из сохранённого SPI-дампа программатором по [LAB](../../docs/LAB.md).
+Следующий запланированный аппаратный шаг — штатное web-обновление.
+Полный SPI-дамп сохранён, но восстановление программатором ещё не проверено;
+повторная выпайка ради этой предварительной проверки не планируется.
+Если runtime не загрузится, web-откат может быть недоступен.
 Этот update BIN нельзя записывать как полный 2-МиБ дамп флеша.
-После допуска к стендовому испытанию использовать штатное web-обновление;
-если оно отклоняет BIN, сохранить ошибку и исследовать её отдельно.
+Если web-обновление отклоняет BIN, сохранить ошибку и исследовать её отдельно.
 
 Ожидаемые настройки UART: **38400, 8N1, Flow control None**.
 TX на J2 pin 1 уже подтверждён; предполагаемый RX pin 2 ещё не проверен.
