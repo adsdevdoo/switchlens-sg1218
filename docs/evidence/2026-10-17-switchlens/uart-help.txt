@@ -1,0 +1,13 @@
+RTK# help
+?       - alias for 'help'
+acl     - acl configuration
+help    - print online help
+mib     - to get switch mib counter
+mirror     - to get/set mirror config
+phyreg     - to read/write  phy register
+port     - to set/get port configuration
+reboot     - to reboot system
+reg     - to read/write switch core register
+reset     - to reset system
+rtct     - to start/get rtct
+vlan     - to start/get rtct

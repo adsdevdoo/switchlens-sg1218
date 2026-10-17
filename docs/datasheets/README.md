@@ -1,51 +1,47 @@
-# Datasheet микросхем SwitchLens
+**English** | [Русский](README.ru.md)
 
-Скачано 17 октября 2026. Это документы Realtek и GigaDevice, полученные из публичных
-зеркал; URL загрузки, версии, даты, размеры и SHA-256 — в [sources.json](sources.json).
-PDF сохранены без изменений. Маркировки CONFIDENTIAL и copyright внутри
-оригиналов сохранены; лицензия проекта не распространяется на эти документы.
+# SwitchLens chip datasheets
 
-## Состав и границы применимости
+Downloaded 17 October 2026 from public mirrors. [sources.json](sources.json)
+records URLs, versions, dates, sizes and hashes. PDFs are unchanged; original
+CONFIDENTIAL/copyright notices remain. Project licensing does not cover them.
 
-| Документ | Статус для нашей платы | Назначение |
+| Document | Applicability to this board | Subject |
 | --- | --- | --- |
-| [GD25Q16B rev. 2.3, 49 страниц](GD25Q16B_Datasheet_2.3.pdf) | **Проверено:** U6 GD25Q16BSIG читается на [фото](../images/uart/flash-marking.jpeg). Ревизия PDF установлена по последней записи истории на странице 49 | SPI NOR: распиновка, питание, команды, защита, security-регистры, корпус |
-| [RTL8214FC rev. 1.2, 63 страницы](RTL8214FC-VC-CG_Datasheet_1.2.pdf) | **Проверено:** RTL8214FC читается на [фото](../images/rtl8214fc-marking.png). Полный суффикс VC-CG на фото не подтверждён. | PHY: выводы, питание, интерфейсы и регистры |
-| [RTL8380M / RTL8382M / RTL8382L rev. 1.0, 101 страница](RTL8380M_RTL8382M_RTL8382L_Datasheet_1.0.pdf) | **Гипотеза:** семейство RTL838x; конкретный чип под радиатором не идентифицирован | UART, SPI, режимы запуска, функции коммутатора |
-| [RTL8382L rev. 1.2, 45 страниц](RTL8382L_Datasheet_1.2.pdf) | **Гипотеза:** один из кандидатов; это не доказательство наличия RTL8382L | Дополнительная документация кандидата |
+| [GD25Q16B rev. 2.3, 49 pages](GD25Q16B_Datasheet_2.3.pdf) | U6 GD25Q16BSIG visible in [photo](../images/uart/flash-marking.jpeg); PDF revision from final history entry on p.49 | SPI NOR pinout, power, commands, protection/security and package |
+| [RTL8214FC rev. 1.2, 63 pages](RTL8214FC-VC-CG_Datasheet_1.2.pdf) | RTL8214FC visible in [photo](../images/rtl8214fc-marking.png); full VC-CG suffix unconfirmed | PHY pins, power, interfaces and registers |
+| [RTL8380M/RTL8382M/RTL8382L rev. 1.0, 101 pages](RTL8380M_RTL8382M_RTL8382L_Datasheet_1.0.pdf) | Family hypothesis; exact chip under heatsink not identified | UART, SPI, boot modes and switching |
+| [RTL8382L rev. 1.2, 45 pages](RTL8382L_Datasheet_1.2.pdf) | Candidate documentation, not proof that this chip is installed | Additional candidate information |
 
-Основание гипотезы RTL838x: [REPORT.txt](../../research/REPORT.txt),
-строка `realtek_mcu/CPU_RTL838x_RTL833x/EasySmart_V3/.../dal/maple/dal_maple_l2.c`
-в официальном BIN по смещению `0xd3094`. Совпадение семейства не доказывает
-конкретную модель или совместимость распиновки.
+RTL838x evidence includes the stock-BIN string
+`realtek_mcu/CPU_RTL838x_RTL833x/EasySmart_V3/.../dal/maple/dal_maple_l2.c`
+at `0xd3094`; see [initial analysis](../../research/REPORT.md). Family similarity
+does not establish exact chip/pin compatibility.
 
-## Быстрая навигация
+## PDF navigation
 
-Номера ниже — страницы PDF, считая титульную за 1, а не печатные номера:
+Page counts include the cover as page 1, not printed page numbers.
 
-- GD25Q16B rev. 2.3: параметры — 4, распиновка — 5, организация памяти — 7,
-  status-регистры — 11–12, команды — 13–34, security-регистры — 32–34,
-  условия питания — 35–37, расшифровка маркировки — 41, SOP8 208mil — 43.
-- RTL8214FC rev. 1.2: раздел Register Description начинается на странице 36.
-- Общий RTL838x rev. 1.0: SPI — страницы 29 (RTL8380M), 43 (RTL8382M),
-  56 (RTL8382L); UART — страницы 30, 44, 56 соответственно.
-- Общий RTL838x rev. 1.0: раздел MIB — страница 77. Наличие раздела не
-  означает, что установлены адреса всех регистров или их семантика на нашей плате.
-- RTL8382L rev. 1.2: раздел SPI — страница 19.
+- GD25Q16B: features p.4, pinout p.5, organization p.7, status registers pp.11–12,
+  commands pp.13–34, security pp.32–34, supply pp.35–37, ordering code p.41,
+  SOP8 208mil p.43.
+- RTL8214FC: Register Description starts p.36.
+- Combined RTL838x: SPI pp.29/43/56 and UART pp.30/44/56 for 8380M/8382M/8382L.
+  MIB section p.77 does not independently establish all register semantics here.
+- RTL8382L rev.1.2: SPI p.19.
 
-Распиновка SoC не является распиновкой разъёма J2. До идентификации SoC
-и проверки трассировки платы назначать выводы J2 по этим PDF нельзя.
+A SoC pinout is not the J2 header pinout. Do not derive J2 connections without
+identifying the chip and verifying board traces.
 
-## ПЗУ U6: GD25Q16BSIG
+## U6: GD25Q16BSIG
 
-**Проверено по PDF, страницы 4, 5, 41:** GD25Q16B — SPI NOR на 16 Мбит
-(2 МиБ), питание 2,7–3,6 В; суффикс S означает SOP8 208mil, I — диапазон
-−40…+85 °C, G — исполнение без свинца и галогенов. Напряжение питания
-здесь — спецификация микросхемы, а не измерение UART платы.
+Datasheet pp.4/5/41 specify 16 Mbit (2 MiB) SPI NOR, 2.7–3.6 V.
+S = SOP8 208mil, I = −40…+85 °C, G = lead/halogen-free. These are chip
+specifications, not UART voltage measurements.
 
-**Проверено по странице 5, вид сверху:** это выводы самой U6, не разъёма J2.
+Top-view chip pinout from p.5; **these are U6 pins, not J2**:
 
-| Вывод U6 | Сигнал |
+| U6 pin | Signal |
 | --- | --- |
 | 1 | CS# |
 | 2 | SO / IO1 |
@@ -56,25 +52,22 @@ PDF сохранены без изменений. Маркировки CONFIDENT
 | 7 | HOLD# / IO3 |
 | 8 | VCC |
 
-**Проверено по страницам 4 и 32–34:** security-регистры существуют отдельно
-от основного массива. Их наличие в полученном экспорте не подтверждено.
-Оригинал дампа, его дополнительный 272-байтный хвост и ограничения восстановления:
-[backups/original/2026-10-17](../../backups/original/2026-10-17/README.md).
+Security registers exist outside the main array (pp.4,32–34); their presence in
+the supplied export is unconfirmed. [Original export and 272-byte trailer](../../backups/original/2026-10-17/README.md).
 
-## Остальные данные и ограничения
+## Other observations
 
-- **Проверено по новому [фото](../images/uart/flash-marking.jpeg):** U6 —
-  GD25Q16BSIG. Исходный экспорт сохранён в `backups/original/2026-10-17/`.
-  Сам PDF сохранён выше без изменений, а не только внешняя ссылка.
-- PoE-контроллер, остальные PHY и микросхемы питания: читаемые маркировки
-  не получены; подходящие datasheet пока не определены.
-- **Проверено по фото владельца:** программатор XGecu T56. COM3 проходит петлю;
-  уровень TXD адаптера ещё нужно измерить перед подключением к RX платы.
-- **Проверено владельцем на стенде:** R41/R42 по **0 Ом 0402**, J2 pin 1 — TX,
-  **38400 8N1**, без управления потоком; см. [LAB](../LAB.md).
-  Эти данные получены на плате, а не выведены из распиновки SoC в PDF.
+PoE-controller, other PHY and power-chip readable markings were not supplied;
+matching datasheets are not identified. The owner uses XGecu T56. CP2102/COM3
+loopback succeeded; selecting 3.3 V is not an independent TXD measurement.
+Owner-established board facts: R41/R42 0 Ω 0402, J2 pin 1 TX, 38400 8N1/Flow None.
+Later v0.1.1 help confirms two-way exchange in the described wiring; see [bench](../LAB.md).
+These board observations were not inferred from candidate SoC pinouts.
 
-## Проверка файлов
+Verify originals from this directory:
 
-Из этой папки в Linux/Git Bash: `sha256sum -c SHA256SUMS`.
-В PowerShell: `Get-FileHash *.pdf -Algorithm SHA256` и сверка с SHA256SUMS.
+```bash
+sha256sum -c SHA256SUMS
+```
+
+PowerShell: `Get-FileHash *.pdf -Algorithm SHA256`, compare with SHA256SUMS.

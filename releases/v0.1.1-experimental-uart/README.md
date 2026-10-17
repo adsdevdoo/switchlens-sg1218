@@ -1,67 +1,71 @@
-# SwitchLens v0.1.1-experimental-uart
+**English** | [Русский](README.ru.md)
 
-Диагностический update BIN для **TP-Link TL-SG1218MPE(UN) V5.0**:
-`/stats.json` из v0.1.0 плюс включённая штатная UART-консоль `RTK#`.
-**Проверено в эмуляторе; загрузка на устройстве и восстановление не проверены.**
+# SwitchLens 0.1.1 — working JSON and UART firmware
 
-- [Готовый BIN](SwitchLens-SG1218MPE-V5-v0.1.1-experimental-uart.bin)
-- [SHA256SUMS](SHA256SUMS)
-- [Манифест сборки](build-manifest.json)
-- Результаты: [6 тестов UART](uart-test-results.json), [10 тестов HTTP/JSON](target-test-results.json)
-- [Финальная проверка](FINAL-CHECK.md): ещё [4 теста](release-path-test-results.json)
-  штатного планировщика, общей RAM UART/HTTP и пути загрузчика; всего 20 MIPS-тестов.
+Update BIN for **TP-Link TL-SG1218MPE(UN) V5.0**, combining the v0.1.0 JSON
+payload with the enabled stock `RTK#` runtime console.
 
-## Что изменено
+**Hardware verified, 17 October 2026:** stock web upgrade, runtime boot, UART
+RTK#/help and two valid `/stats.json` replies with changing counters.
+[Owner messages, eight screenshots and full JSON](../../docs/evidence/2026-10-17-switchlens/README.md)
+· [JSON reference](../../docs/JSON-API.md).
+Loaded PoE, extended stability and recovery remain outstanding.
 
-За основу взят официальный `1.0.0 Build 20230616 Rel.57668` и тот же
-машинный payload `/stats.json`, что в v0.1.0. Payload повторно не компилировался:
-скрипт сначала побайтово воспроизводит прежний выпуск, затем включает CLI.
-Внутренние строки версии не переименованы; имя пакета обозначает этот вариант.
+- [Firmware BIN](SwitchLens-SG1218MPE-V5-v0.1.1-experimental-uart.bin)
+- [SHA256SUMS](SHA256SUMS) · [Build manifest](build-manifest.json)
+- [6 UART tests](uart-test-results.json) · [10 HTTP/JSON tests](target-test-results.json)
+- [Final offline review](../../docs/FINAL-CHECK.md), including [4 additional tests](release-path-test-results.json)
+- [Original frozen review artifact](FINAL-CHECK.md)
 
-Отличия от BIN v0.1.0 ограничены двумя инструкциями и полем CRC32:
+The historical `experimental-uart` tag/filename is retained to preserve existing
+links, hashes and artifacts. Current status: **working firmware with verified
+boot, UART and JSON**. BIN and frozen test records are unchanged; their original
+pre-hardware status describes the publication moment, not today's test outcome.
 
-| Смещение в update BIN | Было → стало | Назначение |
+## Changes
+
+Based on official `1.0.0 Build 20230616 Rel.57668`. The JSON machine payload is
+identical to v0.1.0; the packaging script reproduces that release byte-for-byte
+before enabling CLI. Internal version strings remain unchanged.
+
+| Update-BIN offset | Before → after | Purpose |
 | --- | --- | --- |
-| `0x25e94` | `8c45f018` → `24051fff` | Инициализация 13 штатных битов разрешений CLI значением 1 |
-| `0x25ed8` | `30420001` → `24020001` | Включение периодического вызова обработчика UART |
-| `0x0` | `5e9ceeca` → `5c6abcf2` | CRC32 области `[0x10, 0xf7000)` |
+| `0x25e94` | `8c45f018` → `24051fff` | Initialize all 13 stock CLI permission bits to 1 |
+| `0x25ed8` | `30420001` → `24020001` | Enable periodic UART-handler invocation |
+| `0x0` | `5e9ceeca` → `5c6abcf2` | CRC32 for `[0x10, 0xf7000)` |
 
-Загрузчик, HTTP-авторизация и слово параметров по `0xf7018` не меняются.
-Причина исходной тишины после Enter и адреса разобраны в
-[UART-CONSOLE](../../research/UART-CONSOLE.md).
+The bootloader, HTTP authentication and parameter word at `0xf7018` are unchanged.
+[Why stock Enter was silent](../../research/UART-CONSOLE.md).
+This is the main-firmware console, not an emergency bootloader menu. Stock commands
+include settings/register changes and resets; the CLI is not read-only. The JSON
+reader is read-only. Commands beyond help and CLI-based recovery were not tested.
 
-Это **консоль основной прошивки**, а не аварийное меню загрузчика.
-Штатные команды включают изменение регистров/настроек и сброс;
-консоль не ограничена чтением. Сам `/stats.json` остаётся read-only.
-Исполнение всех CLI-команд и восстановление через CLI не проверялись.
+## Validation
 
-## Проверки и границы
+Unicorn executed the stock dispatcher, parser and help with low-level UART
+replaced by a byte queue. RTK#, CR/LF/CRLF, help, ?, unknown-command and no-input
+behavior were checked. The stock image skips Enter without printing a prompt.
+All ten HTTP/JSON tests passed with synthetic socket/MMIO, including session,
+send failures, stack and CRC. Four further tests cover scheduler invocation,
+shared UART/HTTP RAM and accepted/rejected boot-staging paths.
 
-В Unicorn исполнялись штатные MIPS-диспетчер, парсер и `help` с подменой
-низкоуровневого UART на очередь байтов. Получены `RTK#`, обработка CR/LF/CRLF,
-`help`, `?` и неизвестной команды. При отсутствии ввода callback возвращается;
-штатный образ в том же тесте не читает Enter и не печатает приглашение.
+Later the owner's Ver:5.40 board completed web installation, help and two JSON
+requests. This establishes initial operation of both interfaces, not electrical
+level measurements or a stress test with real interrupts and sustained load.
 
-Все 10 существующих тестов HTTP/JSON прошли на новом образе, включая проверку
-сессии, ошибок передачи, стека и CRC. Сокет и аппаратные показания синтетические.
-Совместная работа CLI/HTTP с реальными прерываниями, электрический RX,
-принятие web-обновлением и загрузка на плате `Ver:5.40` ещё не проверены.
-
-Размер: **1 013 324 байта**. SHA-256:
+Size: **1,013,324 bytes**. SHA-256:
 
 ```text
 27e4fce8d5c0c2999a324341cea7e96e37b1c0561e8d6a3218705b32b7aeee71
 ```
 
-Для проверки скачанного файла в PowerShell:
-
 ```powershell
 Get-FileHash .\SwitchLens-SG1218MPE-V5-v0.1.1-experimental-uart.bin -Algorithm SHA256
 ```
 
-## Воспроизведение
+## Reproduction
 
-Из корня репозитория, с зависимостями из `requirements-dev.txt`:
+From the repository root with `requirements-dev.txt` installed:
 
 ```bash
 python3 tools/build_uart_diagnostic.py
@@ -70,21 +74,19 @@ python3 tests/test_target.py vendor/tp-link/tl-sg1218mpe-v5/20230616/TL-SG1218MP
 python3 tests/test_release_paths.py
 ```
 
-Для компиляции payload из исходников у `tools/build_firmware.py` появился
-опциональный `--uart-cli`; без него CLI остаётся в штатном выключенном состоянии.
-См. [FIRMWARE](../../docs/FIRMWARE.md) о компиляторе и различиях сборок.
-Скрипты создают локальные файлы и ничего не записывают в устройство.
+For source compilation, `tools/build_firmware.py --uart-cli` enables the console;
+without that option it retains stock CLI-off behavior. [Toolchain and implementation](../../docs/FIRMWARE.md).
+These scripts create local files; they do not flash hardware.
 
-## Следующий аппаратный шаг
+## Next checks
 
-Следующий запланированный аппаратный шаг — штатное web-обновление.
-Полный SPI-дамп сохранён, но восстановление программатором ещё не проверено;
-повторная выпайка ради этой предварительной проверки не планируется.
-Если runtime не загрузится, web-откат может быть недоступен.
-Этот update BIN нельзя записывать как полный 2-МиБ дамп флеша.
-Если web-обновление отклоняет BIN, сохранить ошибку и исследовать её отдельно.
+Web installation and first boot are complete. Compare values against stock UI,
+test real PoE loads and sustained polling. The original SPI export is saved, but
+programmer restoration is untested. The owner declined repeat desoldering as a
+preliminary prerequisite. If runtime does not boot, web rollback may be unavailable.
+An update BIN is not a complete 2 MiB flash dump. Preserve errors if the stock
+upgrade rejects an image; do not blindly change bootloader checks.
 
-Ожидаемые настройки UART: **38400, 8N1, Flow control None**.
-TX на J2 pin 1 уже подтверждён; предполагаемый RX pin 2 ещё не проверен.
-После успешной загрузки нового образа первым тестом ввода будут Enter и `help`.
-На текущем штатном образе Enter программный запрет CLI не снимает.
+UART: **38400, 8N1, Flow None**. Pin 1 TX is confirmed; pin 2 RX follows the owner's
+described wiring with successful help exchange, without a new wiring photograph.
+Pressing Enter alone does not enable the original stock firmware's disabled CLI.

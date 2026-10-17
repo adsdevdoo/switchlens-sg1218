@@ -1,86 +1,72 @@
-# Приём UART в Windows
+**English** | [Русский](UART-CAPTURE.ru.md)
 
-Скрипт `tools/uart-capture.ps1` принимает данные через COM-порт, выводит их
-на экран и сохраняет исходные байты. Значения по умолчанию: COM3, 38400,
-8N1, без управления потоком, длительность 60 секунд. Ничего в UART не отправляет.
+# Receive-only UART capture on Windows
 
-## Запуск
+`tools/uart-capture.ps1` receives serial data, displays it and saves original bytes.
+Defaults: COM3, 38400 baud, 8N1, no flow control, 60 seconds. It sends no UART data.
 
-1. Закрыть PuTTY и другие программы, использующие этот COM-порт.
-2. Снять перемычку RXD–TXD, использованную для проверки адаптера.
-3. На выключенном стендовом свитче подключить только GND адаптера к
-   подтверждённому GND платы и RXD адаптера к **pin 1 J2 (TX свитча)** по нумерации владельца.
-   На проверенной плате **R41 и R42 установлены по 0 Ом, корпус 0402**.
-   Ориентация номеров относительно фото отдельно не установлена; на другой плате
-   сначала проверить трассировку и землю. См. [LAB](LAB.md).
-   TXD, VCC, 5V и 3V3 адаптера оставить свободными.
-4. Запустить `tools/start-uart.cmd` двойным щелчком. В отдельном архиве
-   `SwitchLens-UART.zip` этот файл лежит непосредственно в распакованной папке.
-5. Дождаться `LISTENING`, затем включить стенд. Через 60 секунд приём закончится.
-6. Передать папку последнего сеанса из `uart-logs`, расположенной рядом со
-   скриптом, либо её ZIP-архив. Скрипт сам никуда данные не отправляет.
+## Start
 
-Скорость или длительность можно задать явно из PowerShell, находясь в папке
-со скриптом:
+1. Close PuTTY and other applications using this port.
+2. Remove any RXD–TXD jumper left from adapter loopback testing.
+3. With the bench powered off, connect verified common GND and adapter RXD to
+   owner-numbered J2 pin 1 (switch TX). R41/R42 on the tested board are 0 Ω 0402.
+   Verify traces/ground on other boards; image orientation is not a pin-number rule.
+   Leave adapter TXD/VCC/5V/3V3 unconnected for this receive-only procedure.
+4. Double-click `tools/start-uart.cmd`; in the old standalone UART ZIP it was
+   at the extracted folder root.
+5. Wait for LISTENING, then power up. Capture ends after 60 seconds by default.
+6. The latest folder is under uart-logs next to the script. Sharing it is manual;
+   the script does not upload files.
+
+From the script directory in PowerShell:
 
 ```powershell
 .\start-uart.cmd -Port COM3 -Baud 38400 -Seconds 120
-```
-
-Каждый запуск создаёт новую папку: предыдущие записи не перезаписываются.
-Путь по умолчанию вычисляется в теле скрипта. Если каталог скрипта недоступен,
-используется текущий каталог файловой системы. Для явного задания пути:
-
-```powershell
 .\start-uart.cmd -OutputDirectory "$PWD\uart-logs"
 ```
 
-Это также обход ошибки `Join-Path ... Path ... empty string` в первом архиве
-от 17.10.2026. Ошибка подтверждена скриншотом пользователя до открытия COM-порта;
-в обновлённом архиве вызов `Join-Path` удалён из значения параметра по умолчанию.
+Each run creates a new directory. Default path is calculated in the script body,
+falling back to the current filesystem directory if necessary. Explicit output
+path also avoids the original `Join-Path ... Path ... empty string` issue,
+observed before COM opening on 17 October. The fix removed Join-Path from the
+parameter's default expression. CMD's ExecutionPolicy Bypass applies only to its
+PowerShell process, not system policy; organizational policy may still restrict it.
 
-`-ExecutionPolicy Bypass` в CMD применяется к запускаемому процессу PowerShell,
-а не меняет системную настройку. Политики организации могут запрещать запуск.
+## Output files
 
-## Файлы результата
+| File | Meaning |
+| --- | --- |
+| `rx.bin` | Bytes returned by the COM driver without decoding |
+| `rx.txt` | Printable ASCII, newlines and tabs; other bytes shown as `\xNN` |
+| `rx.hex.txt` | Same bytes with offsets and host chunk-processing times, not individual bit timing |
+| `session.json` | Settings, byte count, duration, completion and error state |
 
-- `rx.bin` — байты, полученные через драйвер COM-порта, без декодирования.
-- `rx.txt` — печатные ASCII-символы, переводы строк и табуляция; остальные
-  байты отображаются как `\xNN`. Это представление для просмотра, не замена BIN.
-- `rx.hex.txt` — те же полученные байты в HEX, со смещениями и временем
-  обработки каждой порции на компьютере; это не точное время отдельных битов.
-- `session.json` — настройки, количество байт, длительность, завершение и ошибка.
+NO DATA means no bytes arrived during that observation; it does not establish
+pinout, baud rate or absence of UART. Unreadable output remains useful because
+raw bytes are saved. Port-open errors record `port_opened: false`.
 
-`NO DATA` означает только отсутствие принятых байт за время наблюдения.
-Сообщение не устанавливает распиновку, скорость или наличие UART.
-Нечитаемые символы и `\xNN` тоже полезны: исходные байты сохраняются.
-При ошибке открытия порта записывается `port_opened: false`.
+No Enter, break, bootloader commands or test strings are sent. DTR/RTS are disabled
+in software and should not be wired. Ctrl+C runs cleanup; forced termination or
+closing the window may prevent final JSON metadata, while received BIN/TXT/HEX
+chunks are flushed after each processing cycle.
 
-Не отправляются Enter, break, команды загрузчика или тестовые данные.
-DTR и RTS отключены программно; физически они также не должны быть подключены.
-Остановка через Ctrl+C выполняет блок очистки; принудительное завершение
-процесса/закрытие окна может не сохранить финальный JSON. Уже принятые порции
-BIN, TXT и HEX сбрасываются в файлы после каждой обработки.
+## Established observations
 
-## Что подтверждено
+- Owner's 17 October screenshot shows COM3/115200 loopback sending and receiving
+  UART123, PASS. This tests the adapter loop, not the switch baud rate.
+- Owner traced/populated R41/R42, 0 Ω 0402, and identified pin 1 as switch TX.
+- Readable PuTTY boot and owner report establish 38400/8N1/Flow None.
+  [Stock evidence](evidence/2026-10-17/README.md).
+- Earlier 115200 pre-modification captures opened COM3, waited 60 seconds and
+  reported zero bytes on tested contacts. They do not establish successful
+  nonempty raw capture; rx.bin/session.json from those runs were not supplied.
+- The corrected default path/38400 version is in source; a separate Windows
+  execution result for that exact script revision was not supplied.
+- Later v0.1.1 help established switch input and output in the described pin-2
+  RX connection. [New evidence](evidence/2026-10-17-switchlens/README.md).
+  Recovery remains untested.
 
-- Проверено по предоставленному 17.10.2026 снимку PowerShell: тест петли на
-  COM3 при 115200 передал и получил `UART123`, результат `PASS: loopback OK`.
-- Проверено владельцем на стенде: **R41 = R42 = 0 Ом, корпус 0402**,
-  последовательные цепи подтверждены прозвонкой; **pin 1 J2 — TX свитча**.
-- Проверено читаемым логом и сообщением владельца: **38400, 8N1, Flow None**.
-  Лог штатной прошивки получен в PuTTY, весь присланный текст и скриншоты —
-  в [README](../README.md#uart-на-стенде) и [evidence](evidence/2026-10-17/README.md).
-- Проверено по скриншотам: ранняя версия скрипта открывала COM3 и завершала
-  60-секундные захваты с 0 байт на pin 1 и pin 2 при 115200 до доработки.
-  Это подтверждает путь открытия/ожидания, но не успешную запись ненулевого
-  `rx.bin`; такой файл и `session.json` пока не получены.
-- Исправление пути по умолчанию и новое значение 38400 внесены в исходник;
-  отдельного результата запуска именно этой редакции на Windows ещё нет.
-- Нет данных о приёме команд свитчом и восстановлении. Pin 2 как RX — гипотеза.
-
-Метод чтения байтов: документация Microsoft
-<https://learn.microsoft.com/en-us/dotnet/api/system.io.ports.serialport.read>.
-Новые полученные логи локальные и исключены из Git; автоматически публиковать
-их скрипт не умеет. Присланные владельцем материалы от 17.10.2026 добавлены
-отдельно в `docs/evidence/` и `docs/images/uart/` по его прямому запросу. Это не проверка восстановления и не разрешение прошивки стенда.
+Byte-reading API: [Microsoft SerialPort.Read](https://learn.microsoft.com/en-us/dotnet/api/system.io.ports.serialport.read).
+Logs are local/ignored by Git. Selected supplied files were published separately
+at the owner's explicit request, not automatically by this script.

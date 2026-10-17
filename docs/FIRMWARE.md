@@ -1,106 +1,90 @@
-# SwitchLens experimental-1
+**English** | [Русский](FIRMWARE.ru.md)
 
-**Проверено:** подготовлен локальный модифицированный update BIN для единственного
-исходного образа TL-SG1218MPE(UN) V5.0, `1.0.0 Build 20230616 Rel.57668`.
-Основания: `tools/build_firmware.py`, `target/`, `docs/target-test-results.json`.
-Версионный образ находится в `releases/v0.1.0-experimental/`.
+# SwitchLens implementation
 
-**Гипотеза:** этот BIN загрузится и даст корректные аппаратные показания.
-SPI GD25Q16BSIG опознана, полный экспорт сохранён; UART штатной прошивки
-читается на **pin 1, 38400 8N1** после установки **R41/R42 по 0 Ом 0402**.
-Источники: [LAB](LAB.md), [полный лог](evidence/2026-10-17/boot-stock-38400.txt).
-Ввод команд, восстановление и исполнение модифицированного образа не проверены.
-Условие допуска к прошивке ещё не выполнено: нужен стенд V5.0 с приёмом
-UART, полным SPI-дампом и уже испытанным восстановлением. Боевой свитч
-не используется. Нельзя записывать этот update BIN программатором как полный
-дамп флеша: это разные форматы.
+**Working firmware, updated 17 October 2026:** v0.1.1 completed stock web
+installation and runtime boot; UART help and two complete changing JSON replies
+were observed on the owner's unit. [Evidence](evidence/2026-10-17-switchlens/README.md),
+[JSON reference](JSON-API.md). Remaining hardware checks are listed separately.
 
-## Диагностический вариант с UART CLI
+The implementation targets exactly TP-Link TL-SG1218MPE(UN) V5.0 official
+`1.0.0 Build 20230616 Rel.57668`. The builder rejects any other input hash:
 
-[v0.1.1-experimental-uart](../releases/v0.1.1-experimental-uart/README.md)
-сохраняет payload v0.1.0 и добавляет две инструкции включения штатного CLI
-внутри CRC-области. Шесть тестов UART и десять HTTP/JSON прошли на новом BIN;
-проверки на устройстве ещё нет. Это runtime CLI с командами изменения/сброса,
-не консоль загрузчика. Найденный программный запрет в исходном образе означает,
-что тишина после Enter не проверяет пайку RX. См. [разбор](../research/UART-CONSOLE.md).
+```text
+c9ab17eda7af714f00692d41f440ce84ed0d6c7d678634c364ec1154bb7e3f32
+```
 
-Сборка из исходников: добавить `--uart-cli` к `tools/build_firmware.py`.
-Для воспроизведения опубликованного BIN с прежним payload без кросс-компилятора:
-`python3 tools/build_uart_diagnostic.py`. Остальная часть этого документа
-описывает базовый JSON-payload; точные дополнительные изменения, SHA и результаты
-диагностического варианта находятся в его каталоге выпуска.
+The earlier v0.1.0 archive contains the base JSON payload. Current v0.1.1 adds
+two UART instructions and CRC, with the same payload. Historical filenames,
+manifest labels and the HTTP `experimental-1` marker remain unchanged for
+identity/reproducibility; they are not the current hardware-test status.
 
-## Что реализовано
+## Implemented behavior
 
-**Проверено кодом и эмуляцией** (`target/adapter.c`, `tests/test_target.py`):
+- Exact dynamic `GET /stats.json` in the stock HTTP server, existing session check,
+  application/json, no-store and stock connection-close behavior.
+- System Info plus name/description alias; 18 ports, link/speed/duplex/flow control,
+  a 49-counter structure, global/per-port PoE and Auto Recovery information.
+- Streaming serializer with 128-byte fragments, bounded text and strict UTF-8,
+  JSON escaping, decimal uint64 strings, checked source/sink errors.
+- Read-only adapter: no configuration setters, PoE commands, MIB resets or flash writes.
+- No malloc, new task or mutable global RAM/BSS/GOT for the payload.
+- Raw loop masks; unconfirmed fields explicitly null.
 
-- Динамический `GET /stats.json`, `Content-Type: application/json`,
-  `Cache-Control: no-store`, `Connection: close`.
-- Все семь полей System Info и alias `name = description`.
-- Состояние 18 портов, скорость/дуплекс/flow control, структура 49 счётчиков.
-- Общий PoE-бюджет, потребление/остаток, измерения/статус/приоритет/лимит
-  16 PoE-портов, конфигурация и счётчики Auto Recovery.
-- RX/TX byte counters как точные десятичные строки до `18446744073709551615`;
-  отдельные drop/discard и диагностические счётчики, raw-маски обнаружения петель.
-- Старый обработчик `PortStatisticsRpm.htm` сохранён. Новый маршрут находится
-  после штатной проверки сессии; отдельного пароля и нового сервера нет.
-- Без создания задач, выделения heap, глобального состояния патча, изменения
-  настроек и сброса счётчиков. Чтение ASIC идёт через штатный getter.
+`uptime_seconds`, `lag_id`, measurement validity, extend flag, per-port recovery
+enable, loop enable and general RX discards have no confirmed implementation.
+TX 256–511 bucket is deliberately excluded because stock selector 58 leaves the
+low output word unwritten. Raw uptime is available without a time-unit claim.
 
-**Нет данных:** `uptime_seconds`, `lag_id`, PoE `measurements_valid`,
-`extend_enabled`, per-port recovery `enabled`, loop prevention `enabled`.
-Эти поля остаются `null`. Доступен `uptime_ticks_raw`, но единица времени
-ещё не доказана. `rx_discards` не является суммой найденных drop-счётчиков:
-их пересечение неизвестно, поэтому поле тоже `null`. `tx_packets_256_511`
-принудительно `null` из-за неполного штатного selector 58.
+The UART CLI is the stock runtime interface and includes write/reset commands;
+only the telemetry endpoint is read-only. Initial help is verified; other CLI
+commands and bootloader recovery are not implied.
 
-## Источники и границы достоверности
+## Addresses and evidence
 
-Все смещения относятся к исходному BIN с SHA-256 ниже; VA — адрес инструкции
-или данных при найденном отображении. «Проверено статически» не означает
-измерение на настоящей микросхеме.
+All offsets include the 16-byte update header; ranges are half-open.
 
-| Статус | Факт / источник |
-|---|---|
-| Проверено статически | MIPS32 BE; RAM-код копируется из `file[0x3160,0x8178)` в `BF019528..BF01E540`; initial SP `BF01F800`. `research/platform-evidence.json` |
-| Проверено сборщиком | Патч занимает FF-область от `file 0xD8640`, VA `BFCE0640`; размер/остаток фиксируются в manifest. Writable/BSS/GOT секции запрещены linker script и проверкой ELF |
-| Проверено статически и эмуляцией | В `file 0x3425C` заменён `jal strcmp`; в `0x34280` — переход к статистике. Delay slots сохранены. Route flag в `v1` проходит через неизменённый эпилог; регистры o32 сохранены |
-| Проверено статически и эмуляцией | Router `BFC3B740` проверяет GET и сессию до маршрута. Ошибочная сессия ведёт к штатному `BFC3FC18`. Внешняя проверка IP клиента в `BFC3CE48` остаётся неизменной; полный login/TCP сценарий не эмулирован |
-| Проверено статически и эмуляцией | HTTP init `BFC3B278`, status `BF01CD38`, header `BF01CC5C`, raw write `BF01CAC0`; глобальный штатный буфер `BF010F8C..BF011540` — 1460 байт |
-| Проверено статически | Регистрация formatter/memcpy: `file 0x302AC..0x302F8` и `0x2B840`; в тесте заданы те же callback pointers в `BF00ECCC` |
-| Проверено статически и эмуляцией | `BFC10768` читает ASIC и возвращает ошибку callback. Патч не использует штатные обёртки, которые скрывают ошибку. MAC читается из offsets `A9EC/A9F0`; штатный getter `BFC1F854` |
-| Проверено статически | System Info: `research/SYSTEM-INFO.txt`; IPv4 formatter `BFC3147C` использует старший байт первым. Адаптер читает сетевые байты из `BF016D3A/3E/42` |
-| Проверено статически | PoE cache: база `BF0143E0`, записи `BF014408 + 48*i`; разбор в `research/COMPARISON-AND-POE.txt` |
-| Проверено статически | Port Setting getters `BFC532DC`, `BFC533CC`; live status `BFC27C30`; MIB mapping `research/mib-map.json`, reader `src/sg_mib.c` |
-| Проверено статически | Auto Recovery config RAM `BF002110` либо flash `B41FEB1C`, записи 40 байт с `+8`; stats `BF014774 + 6*i`. `research/metric-sources.json`, handler `file 0x3AE90` |
-| Проверено упаковщиком | CRC32 BE в `file 0`, покрытие `[0x10,0xF7000)`, длина образа и хвост сохраняются. Допускаются изменения только CRC, двух переходов и payload |
-| Гипотеза | Названия дополнительных MIB полей, фактическая ширина счётчиков, high-low-high на реальном ASIC, отсутствие clear-on-read/других побочных эффектов. Сопоставление с RTL838x не заменяет стенд |
-| Нет данных | Дополнительные проверки загрузчика, гарантированный запас стека при IRQ, длительность реального socket send, успешная загрузка/откат и сохранение PoE под нагрузкой |
+| Area | Established implementation/evidence |
+| --- | --- |
+| Runtime mapping | Normal flash VA `0xbfc08000 + file offset`; RAM code `[0x3160,0x8178)` → `BF019528..BF01E540`, initial SP `BF01F800` |
+| Payload placement | FF region starting file `0xD8640`, VA `BFCE0640`; section sizes/headroom in manifest; writable/BSS/GOT forbidden by linker and ELF checks |
+| HTTP hook | File `0x3425C` replaces jal strcmp, `0x34280` changes statistics branch; delay slots and o32 saved registers retained |
+| Session/router | `BFC3B740` checks GET/session before route; invalid session uses `BFC3FC18`; outer client-IP check `BFC3CE48` retained |
+| HTTP helpers | Init `BFC3B278`, status `BF01CD38`, header `BF01CC5C`, raw `BF01CAC0` |
+| HTTP buffer | `BF010F8C..BF011540`, 1460 bytes, reused stock buffer |
+| Formatter registration | File `0x302AC..0x302F8` and `0x2B840`; emulator uses corresponding pointers at `BF00ECCC` |
+| ASIC reads | `BFC10768` propagates callback errors; adapter avoids stock wrappers that hide them |
+| MAC | ASIC offsets `A9EC/A9F0`; stock getter `BFC1F854` |
+| IPv4 | Network-order bytes from `BF016D3A/3E/42`; stock formatter `BFC3147C` |
+| PoE | Cache base `BF0143E0`, records `BF014408 + 48*i` |
+| Port config/status | Getters `BFC532DC`, `BFC533CC`; live path `BFC27C30`; MIB mapping in research/mib-map.json |
+| Recovery | RAM `BF002110` or flash `B41FEB1C`, record start +8, stride 40; stats `BF014774 + 6*i`; handler file `0x3AE90` |
+| CRC | Big-endian CRC32 at file 0, covers `[0x10,0xF7000)`; image length and tail retained |
+| UART addition | File `0x25e94`: `8c45f018` → `24051fff`; `0x25ed8`: `30420001` → `24020001` |
 
-**Проверено по коду:** большинство отдельных MIB-счётчиков читается как 32 бита.
-JSON-строка не превращает их в аппаратные 64-битные counters. `rx_good_packets`
-и `tx_good_packets` складываются из unicast/multicast/broadcast. `tx_bad_packets`
-повторяет штатный selector 21 (excessive collisions). `rx_bad_packets` повторяет
-странный штатный агрегат `37+34+43+40+31`, включая TX-категории и 32-битный wrap
-подсумм 37/34. Это совместимость с веб-страницей, а не обещание семантики IF-MIB.
+[Platform analysis](../research/PLATFORM-FOLLOWUP.md), [MIB map](../research/mib-map.json),
+[metric sources](../research/metric-sources.json), [UART analysis](../research/UART-CONSOLE.md).
 
-**Проверено по коду:** PoE читается из штатного кэша без команд контроллеру.
-Нулевые/отрицательные измерения выдаются как `null` по принятой трактовке UI.
-Неизвестный status сохраняется числом, строка статуса — `null`. Общий остаток
-ограничен снизу нулём, исходное потребление не обрезается до бюджета.
-Момент обновления кэша и взаимная согласованность всех портов не установлены.
+Most individual MIB categories read 32-bit words. Byte totals use bounded
+high–low–high reads. RX/TX good-packet aggregates add unicast, multicast and
+broadcast values. `tx_bad_packets` uses selector 21 (also excessive collisions).
+RX bad-packet aggregation preserves the stock formula, including TX categories
+and 32-bit subtotal wrap: selectors 37 + 34 + 43 + 40 + 31. This preserves UI
+behavior, not standard IF-MIB semantics. See the [exact formula](JSON-API.md).
 
-## Воспроизводимая сборка
+PoE reads existing cache. Nonpositive per-port measurements are null following
+the UI's unavailable display. Unknown status retains its numeric code with null
+text; remaining power is clamped only at zero, while original consumption is
+not clamped to budget. Cache age and cross-port atomicity are unknown.
 
-**Проверено на сохранённом toolchain:** GCC `13.2.0-23ubuntu4cross1`, GNU binutils
-`2.42-2ubuntu1cross5`, big-endian MIPS32r2, o32, soft-float, `-G0`, no-abicalls.
-Пакеты и контрольные суммы: `research/toolchain-packages.json`.
-Источник проверенных пакетов: `https://archive.ubuntu.com/ubuntu/` плюс `Filename`
-из этого файла; SHA сверены с `dists/noble/universe/binary-amd64/Packages.xz`.
-Все внешние адреса заданы в `target/firmware.ld`; libgcc и libc не линкуются.
-Десятичный uint64 вывод реализован без 64-битного деления.
+## Reproducible build
 
-На Ubuntu с доступным MIPS cross toolchain и Python:
+Verified toolchain: GCC `13.2.0-23ubuntu4cross1`, binutils `2.42-2ubuntu1cross5`,
+big-endian MIPS32r2, o32, soft-float, `-G0`, no-abicalls.
+[Package versions/hashes](../research/toolchain-packages.json) were checked
+against Ubuntu noble package metadata. External addresses are in
+`target/firmware.ld`; no libc/libgcc is linked. Decimal uint64 conversion avoids
+64-bit division helpers.
 
 ```bash
 python3 -m venv .venv
@@ -108,90 +92,67 @@ python3 -m venv .venv
 python3 -m pip install -r requirements-dev.txt
 make test
 python3 tools/build_firmware.py /path/to/official.bin \
-  --cc mips-linux-gnu-gcc-13 --prefix mips-linux-gnu-
-python3 tests/test_target.py /path/to/official.bin \
+  --cc mips-linux-gnu-gcc-13 --prefix mips-linux-gnu- --uart-cli
+python3 tests/test_target.py /path/to/official.bin --build build-target \
   --synthetic-output build-target/emulator.synthetic.json
 ```
 
-Ожидаемый входной SHA-256 (любой другой файл отклоняется **до компиляции**):
+Without `--uart-cli`, the builder preserves stock CLI-off behavior. To reproduce
+the published UART package from its archived payload without recompiling it:
 
-```text
-c9ab17eda7af714f00692d41f440ce84ed0d6c7d678634c364ec1154bb7e3f32
+```bash
+python3 tools/build_uart_diagnostic.py
+python3 tests/test_uart_console.py
+python3 tests/test_release_paths.py
 ```
 
-Этот входной BIN сохранён в
-[`vendor/tp-link/tl-sg1218mpe-v5/20230616/`](../vendor/tp-link/tl-sg1218mpe-v5/20230616/TL-SG1218MPE-UN-V5-1.0.0-Build-20230616-up.bin).
-История официальных версий, исходные ZIP и их SHA-256:
-[каталог производителя](../vendor/tp-link/tl-sg1218mpe-v5/README.md).
-Официальный update BIN не заменяет полный дамп ПЗУ для программатора.
+The official input is archived in [vendor/tp-link](../vendor/tp-link/tl-sg1218mpe-v5/README.md).
+Output includes BIN, manifest, payload, ELF, linker map, stack-usage files and
+results. Manifest records output hashes, CRC and source hashes. Two builds in
+separate directories were byte-identical with the saved toolchain; other
+compilers are not promised identical bytes. Scripts do not flash devices.
 
-Выход: `build-target/SwitchLens-SG1218MPE-V5-experimental.bin`, `manifest.json`,
-`payload.bin`, `switchlens.elf`, linker map, `.su` и результаты целевых тестов.
-SHA готового образа, его CRC и хеши исходников находятся в manifest. При другом
-компиляторе байтовая идентичность не обещается; повторная проверка обязательна.
-**Проверено:** две сборки в разных выходных каталогах дали одинаковые payload
-и итоговый BIN (побайтовое сравнение `cmp`, SHA-256 приведён в manifest).
-Инструменты работают только с локальными файлами, не прошивают устройство.
+## Emulator coverage and limits
 
-## Что проверяет эмулятор
+Tests execute the built MIPS payload and stock router, HTTP formatting/header/raw,
+strcmp/memcpy and MMIO-read path. Socket send is replaced with collected bytes
+or errors; RAM/MMIO data is synthetic. Stock statistics/login handlers are
+intercepted at entry, not fully exercised as HTML flows. CPU model 24KF is not a
+model of the whole switch.
 
-**Проверено:** исполняется собранный MIPS payload и оригинальные функции router,
-HTTP formatter/header/raw, strcmp/memcpy и MMIO-read. Только граница socket send
-подменена сбором байтов/ошибкой. RAM/MMIO заполнены синтетическими значениями.
-Маршруты штатной статистики и login перехватываются на входе, их HTML-обработчики
-не прогоняются. Используется CPU-модель 24KF, не модель всего коммутатора.
+Checks include complete JSON/schema/System Info/18 ports/PoE, uint64 maximum,
+MIB read errors and unstable high words, both config locations, unknown PoE,
+session/POST/similar URLs, saved registers/SP, first/intermediate/final send
+errors, raw deadline, stack guard, hashes/CRC and allowed binary changes.
 
-Проверяются валидность полного JSON по схеме, System Info, 18 портов, PoE,
-максимальный uint64, ошибка/нестабильность MIB-чтения, две ветки хранения
-конфигурации, неизвестные PoE-значения, существующая сессия, POST/похожие URL,
-неизменность callee-saved регистров, восстановление SP, ошибка первого,
-промежуточного и последнего send, исчерпание raw tick budget, stack guard,
-SHA/CRC и допустимые области изменения BIN.
+Emulator MMIO, flash and request memory are write-protected. Before/after SRAM
+snapshots permit only stack and stock HTTP-buffer ranges. This is not a trace of
+every intermediate write: Unicorn 2.1.4 MEM_WRITE hooks caused a false CPU exception
+on a branch-delay-slot store and were not used for that purpose.
 
-MMIO, flash и входной request защищены от записи в эмуляторе. Снимки всей SRAM
-до/после сравниваются с разрешёнными диапазонами стека и штатного HTTP-буфера.
-Это не трасса всех промежуточных SRAM-записей: MEM_WRITE hook Unicorn 2.1.4
-даёт ложное CPU exception на store в branch delay slot, поэтому он не используется.
+One synthetic case produced 37,194 HTTP bytes in 26 sends and used 840 bytes of
+observed stack from entry SP. The pre-handler guard requires 3072 address-space
+bytes above RAM code. These figures do not establish stack safety under real IRQs
+and TCP load. A 40-raw-fast-tick budget is checked between operations, but cannot
+interrupt a hanging stock call. Outer `BFC3CE48` hides router return status;
+clients must reject truncated JSON and HTML login responses.
 
-**Проверено в синтетическом сценарии:** 37 194 байта HTTP, 26 вызовов send,
-наблюдаемый расход стека 840 байт от входного SP. Перед C-обработчиком guard
-требует 3072 байта адресного пространства над концом RAM-кода. Эти числа
-**не доказывают** достаточность стека при IRQ и исполнении настоящего TCP.
-Дедлайн 40 raw fast ticks проверяется между операциями, но не прерывает зависший
-штатный вызов. Внешний `BFC3CE48` скрывает return code router; клиент обязан
-отвергать неполный JSON, HTML login и ответы без правильного Content-Type.
+Six UART tests, ten HTTP/JSON tests and four scheduler/shared-RAM/boot-path tests
+passed. Host serializer/MIB and ASan/UBSan passed with LeakSanitizer disabled.
+[Final review](FINAL-CHECK.md). Hardware CPU/RAM usage, long-term leaks, latency
+and multi-client stress have not been measured. Delivery of two complete JSON
+responses has now been observed on the actual unit.
 
-**Проверено:** `make test` и `ASAN_OPTIONS=detect_leaks=0 make sanitize` прошли.
-LeakSanitizer в этой среде отключён; ASan и UBSan включены. На самом коммутаторе
-нет результатов измерения CPU/RAM, сетевой доставки, задержек или утечек.
+## Hardware observations and next checks
 
-## Порядок стендовой проверки
+[Bench](LAB.md) and [test journal](evidence/2026-10-17-switchlens/README.md) establish
+web install, boot, SignCheck Pass, UART help and dynamic JSON. The original dump
+is retained; the owner declined repeat desoldering as a preliminary restore test.
+Recovery remains unverified. An update BIN is not a raw full-flash image.
 
-1. Выполнить `docs/LAB.md`: подтвердить V5.0, UART, полный SPI-дамп и восстановление.
-2. Проверить SHA образа из `releases/v0.1.0-experimental/SHA256SUMS`, сохранить UART-журнал старта и
-   показания штатных страниц. Все реальные адреса/логи остаются вне Git.
-3. Только на подготовленном стенде загрузить кандидат штатной веб-страницей
-   обновления. Если образ отвергается — сохранить сообщение/лог, не обходить
-   проверку и не менять загрузчик вслепую.
-4. Войти обычным способом. С того же клиента запросить `/stats.json` с действующей
-   `H_P_SSID` (например, из существующего cookie jar); пароль в командной строке
-   не требуется. Пример после установки на стенд:
-
-   ```bash
-   curl --fail --max-time 15 -b /private/bench.cookies \
-     http://BENCH_IP/stats.json -o /private/stats.json
-   python3 -m json.tool /private/stats.json
-   ```
-
-5. Сравнить семь System Info полей, PoE/Recovery и штатные четыре счётчика.
-   Проверить соответствие физическим портам, известный объём трафика,
-   переполнение, повторное чтение, отключённый линк, нагрузку и нескольких клиентов.
-   Подтвердить временную единицу raw uptime двумя измерениями по UART/часам.
-6. Проверить обрывы клиента/медленное чтение, возврат официального образа и
-   штатную работу портов/PoE. Затем минимум неделя нагрузки с реальными PD,
-   контроль памяти/CPU/ошибок и питания. Только после этого обсуждать боевой свитч.
-
-**Нет данных:** проверенный RX свитча, ввод команд, команды и рабочий путь
-восстановления. TX на pin 1, R41/R42 по 0 Ом 0402 и приём 38400 подтверждены
-владельцем; нумерация и ограничения описаны в [LAB](LAB.md).
-`SignCheck Pass.` штатного boot log не является проверкой приёма нашего BIN.
+Next compare System Info, PoE/Recovery, four stock counters and configured modes
+against the UI; verify physical port mapping, known traffic, wrap/reset and
+read behavior. Measure uptime scale externally. Test real PD loads, slow or
+interrupted clients, simultaneous users and sustained operation. A possible
+rollback/recovery route must be evaluated separately; runtime CLI does not prove
+bootloader recovery commands. Future logs require their own publication scope.

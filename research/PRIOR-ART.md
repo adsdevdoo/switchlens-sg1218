@@ -1,51 +1,51 @@
-# Похожие модификации прошивок
+**English** | [Русский](PRIOR-ART.ru.md)
 
-Поиск и чтение первоисточников: 2026-10-16. Статус «проверено» здесь означает
-проверенное содержание публикации автора, а не наши испытания его устройства.
-В просмотренных источниках готового `/stats.json` для TL-SG1218MPE V5.0 не найдено.
-Это результат ограниченного поиска, не доказательство отсутствия такого проекта.
+# Related firmware projects
 
-| Проект | Проверено по первоисточнику | Применимость к SwitchLens |
-|---|---|---|
-| [TL-SG108E-V5-custom-firmware](https://github.com/YurkoWasHere/TL-SG108E-V5-custom-firmware) | Автор сообщает о прошивке и проверке добавленной страницы MAC-таблицы на одном TL-SG108E 5.0. Сборщик проверяет hash оригинала; прошивочные BIN исключены из Git. | Прямой пример добавления телеметрии в штатный Easy Smart. Гипотеза: аналогичная точечная интеграция HTTP подходит нам. |
-| [Realtek_switch_hacking: SG116M](https://github.com/libc0607/Realtek_switch_hacking/blob/master/SG116M-RE-Boot.md?plain=1) | Автор разбирает старт MIPS Big Endian RTL8382L: векторы, данные, очистка памяти, перенос кода, начальный SP `BF01F800`. | Проверено сопоставлением с нашим BIN: совпадают последовательность и SP. Это опора для анализа, не идентификация нашей платы. |
-| [RTLPlayground](https://github.com/logicog/RTLPlayground) | Исходники собственной прошивки RTL8372/RTL8373: HTTP-сервер, web upgrade, статистика; сборка SDCC/mcs51. | Полезен как пример компактного web management. Перенос его образа на нашу MIPS-платформу не предусмотрен. |
+Primary sources were searched/read on 16 October 2026. “Verified” here means
+verified content of an author's publication, not our testing of their hardware.
+No ready-made TL-SG1218MPE V5.0 stats.json implementation was found in that limited
+search; this is not proof none existed. SwitchLens has since reached its own
+[working hardware test](../docs/evidence/2026-10-17-switchlens/README.md).
 
-Проверено по [техническим заметкам TL-SG108E](https://github.com/YurkoWasHere/TL-SG108E-V5-custom-firmware/blob/main/REVERSE_ENGINEERING.md):
-там banked 8051, двадцатибайтовый заголовок и суммы байтов. У нас MIPS, заголовок
-16 байт и CRC32 — см. `REPORT.txt` и `platform-evidence.json`. Поэтому адреса,
-машинный код и алгоритм упаковки того проекта напрямую неприменимы. Его ограниченный
-вывод через штатный HTTP-буфер и отдельные тесты переходов полезны как методика.
-Заявленный аппаратный тест охватывает один прибор; долговременная стабильность
-и восстановление в публикации не установлены. Чужой код в SwitchLens не скопирован.
+| Project | Published evidence | Applicability |
+| --- | --- | --- |
+| [TL-SG108E-V5-custom-firmware](https://github.com/YurkoWasHere/TL-SG108E-V5-custom-firmware) | Author reports flashing/testing a MAC-table page on one SG108E 5.0; builder pins original hash; BINs excluded | Example of extending stock Easy Smart telemetry, not a compatible image |
+| [Realtek_switch_hacking: SG116M](https://github.com/libc0607/Realtek_switch_hacking/blob/master/SG116M-RE-Boot.md?plain=1) | Big-endian MIPS RTL8382L startup, vectors/data/zeroing/code copy, initial SP BF01F800 | Startup sequence/SP match our static analysis; not board identification |
+| [RTLPlayground](https://github.com/logicog/RTLPlayground) | RTL8372/RTL8373 firmware sources with HTTP/upgrade/statistics, SDCC/mcs51 build | Compact web-management example, not a MIPS image to port directly |
 
-Гипотеза / выбранное направление: расширить штатный HTTP-диспетчер одним
-динамическим `GET /stats.json`; читать найденные RAM/ASIC-источники и отдавать
-данные потоком. PoE и System Info входят в тот же ответ. Сохранение JSON на флеш
-не требуется. Собственный сетевой стек и замена всей прошивки сейчас не нужны.
+The [SG108E technical notes](https://github.com/YurkoWasHere/TL-SG108E-V5-custom-firmware/blob/main/REVERSE_ENGINEERING.md)
+use banked 8051, a 20-byte header and byte sums. Our image is MIPS, 16-byte header,
+CRC32. Addresses, machine code and packaging do not transfer directly. Bounded
+stock-buffer output and branch tests are useful methodology. The author's single
+unit test does not establish recovery or long-duration stability. No external
+project code was copied into SwitchLens.
 
-## Дополнительный первоисточник для таймера
+The selected approach was one stock HTTP dispatcher extension, RAM/ASIC reads and
+streaming system/ports/PoE JSON. No flash-stored JSON, replacement network stack
+or complete firmware rewrite was necessary. That approach is now implemented.
 
-Проверено: [Linux timer-rtl-otto.c](https://github.com/torvalds/linux/blob/master/drivers/clocksource/timer-rtl-otto.c)
-описывает DATA/CTRL/INT, делитель и периодический режим, соответствующие найденным
-операциям нашего образа. Комментарий указывает LXB 200 MHz для платформ кроме
-RTL930x. Гипотеза: у нашего устройства эта частота тоже 200 MHz; это ещё не
-измерение и не подтверждённая конфигурация его тактового генератора. Расчёт —
-в `PLATFORM-FOLLOWUP.md`.
+## Timer source
 
-## Воспроизводимость поиска
+[Linux timer-rtl-otto.c](https://github.com/torvalds/linux/blob/master/drivers/clocksource/timer-rtl-otto.c)
+describes matching DATA/CTRL/INT, divisor and periodic-mode behavior. Its LXB
+200 MHz comment for non-RTL930x platforms is not a measurement of this unit's
+clock. Conditional calculation: [platform follow-up](PLATFORM-FOLLOWUP.md).
 
-Поисковые запросы включали точную модель с `custom firmware`,
-`TL-SG108E-V5-custom-firmware`, `Realtek RTL8382L firmware`.
-Внешние проекты не запускались и не прошивались. Изменяемые ссылки `main/master`
-относятся к прочитанному состоянию на указанную дату; хеши прочитанных текстов
-хранятся в `prior-art-source-hashes.json`. Это хеши документов, не подписанных релизов.
+## Reproducibility
 
-## UART: дополнительный первоисточник, 17.10.2026
+Queries included the exact model with custom firmware, the SG108E project name
+and Realtek RTL8382L firmware. External projects were not executed/flashed.
+Mutable main/master URLs refer to the state read on that date; source-text hashes
+are in [prior-art-source-hashes.json](prior-art-source-hashes.json), not signed
+release hashes.
 
-**Проверено по [коммиту OpenWrt для SG2210P](https://lists.infradead.org/pipermail/lede-commits/2022-September/015377.html):**
-автор описывает отсутствующие R27/R28, установку 0–50 Ом и BOOTUTIL на 38400.
-Это другая модель; её обозначения, корпуса и команды не переносятся на нашу плату.
-На нашем экземпляре **проверено отдельно владельцем**: R41/R42 по **0 Ом 0402**,
-J2 pin 1 TX, **38400 8N1**; [лог](../docs/evidence/2026-10-17/boot-stock-38400.txt).
-Заводской номинал и интерактивная консоль на нашей модели этим не установлены.
+## Additional UART source — 17 October
+
+An [OpenWrt SG2210P commit](https://lists.infradead.org/pipermail/lede-commits/2022-September/015377.html)
+describes missing R27/R28, 0–50 Ω installation and BOOTUTIL at 38400. This is a
+different model; designators, packages and commands are not transferable.
+Our owner's independent board evidence establishes R41/R42 **0 Ω 0402**, J2 pin 1
+TX and **38400 8N1**; [stock log](../docs/evidence/2026-10-17/boot-stock-38400.txt).
+The later own-device help test establishes runtime CLI. Neither source establishes
+the factory resistor nominal values or a recovery menu on this model.

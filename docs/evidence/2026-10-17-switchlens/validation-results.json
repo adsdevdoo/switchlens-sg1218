@@ -1,0 +1,200 @@
+{
+  "kind": "analysis_of_user_supplied_hardware_observations",
+  "date": "2026-10-17",
+  "timezone": "Europe/Belgrade",
+  "firmware_package": "v0.1.1-experimental-uart",
+  "published_bin_sha256": "27e4fce8d5c0c2999a324341cea7e96e37b1c0561e8d6a3218705b32b7aeee71",
+  "on_device_binary_readback": false,
+  "schema_sha256": "91afdfa35a7d1f4c630e75d73f510ef4f60428d4ec7c83d8276ad1453ca7c664",
+  "samples": [
+    {
+      "file": "stats-01.json",
+      "json_valid": true,
+      "schema_errors": 0,
+      "port_count": 18,
+      "port_numbers": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "link_up_ports": [
+        1
+      ]
+    },
+    {
+      "file": "stats-02.json",
+      "json_valid": true,
+      "schema_errors": 0,
+      "port_count": 18,
+      "port_numbers": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "link_up_ports": [
+        1
+      ]
+    }
+  ],
+  "changes": [
+    {
+      "path": "system.uptime_ticks_raw",
+      "before": 84,
+      "after": 614,
+      "delta": 530
+    },
+    {
+      "path": "ports[0].counters.rx_bytes",
+      "before": "43610",
+      "after": "528836",
+      "delta": 485226
+    },
+    {
+      "path": "ports[0].counters.tx_bytes",
+      "before": "51604",
+      "after": "103534",
+      "delta": 51930
+    },
+    {
+      "path": "ports[0].counters.rx_good_packets",
+      "before": "347",
+      "after": "4702",
+      "delta": 4355
+    },
+    {
+      "path": "ports[0].counters.tx_good_packets",
+      "before": "137",
+      "after": "435",
+      "delta": 298
+    },
+    {
+      "path": "ports[0].counters.rx_unicast_packets",
+      "before": "91",
+      "after": "2767",
+      "delta": 2676
+    },
+    {
+      "path": "ports[0].counters.rx_multicast_packets",
+      "before": "113",
+      "after": "907",
+      "delta": 794
+    },
+    {
+      "path": "ports[0].counters.rx_broadcast_packets",
+      "before": "143",
+      "after": "1028",
+      "delta": 885
+    },
+    {
+      "path": "ports[0].counters.tx_unicast_packets",
+      "before": "95",
+      "after": "128",
+      "delta": 33
+    },
+    {
+      "path": "ports[0].counters.tx_broadcast_packets",
+      "before": "42",
+      "after": "307",
+      "delta": 265
+    },
+    {
+      "path": "ports[0].counters.rx_bridge_discards",
+      "before": "163",
+      "after": "3870",
+      "delta": 3707
+    },
+    {
+      "path": "ports[0].counters.rx_packets_64",
+      "before": "195",
+      "after": "1112",
+      "delta": 917
+    },
+    {
+      "path": "ports[0].counters.tx_packets_64",
+      "before": "103",
+      "after": "378",
+      "delta": 275
+    },
+    {
+      "path": "ports[0].counters.rx_packets_65_127",
+      "before": "60",
+      "after": "2937",
+      "delta": 2877
+    },
+    {
+      "path": "ports[0].counters.rx_packets_128_255",
+      "before": "64",
+      "after": "448",
+      "delta": 384
+    },
+    {
+      "path": "ports[0].counters.rx_packets_256_511",
+      "before": "19",
+      "after": "149",
+      "delta": 130
+    },
+    {
+      "path": "ports[0].counters.rx_packets_512_1023",
+      "before": "10",
+      "after": "39",
+      "delta": 29
+    },
+    {
+      "path": "ports[0].counters.tx_packets_512_1023",
+      "before": "4",
+      "after": "5",
+      "delta": 1
+    },
+    {
+      "path": "ports[0].counters.rx_packets_1024_1518",
+      "before": "0",
+      "after": "18",
+      "delta": 18
+    },
+    {
+      "path": "ports[0].counters.tx_packets_1024_1518",
+      "before": "29",
+      "after": "51",
+      "delta": 22
+    }
+  ],
+  "elapsed_wall_seconds": null,
+  "uptime_tick_seconds_confirmed": false,
+  "poe_loaded_test": false,
+  "long_term_stability_test": false,
+  "notes": [
+    "Schema validation is not hardware semantic validation.",
+    "No packet rate calculated: exact capture interval is unknown.",
+    "Real device observations supplied by owner; no remote access to switch performed."
+  ]
+}

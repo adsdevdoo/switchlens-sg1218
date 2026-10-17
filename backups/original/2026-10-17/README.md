@@ -1,61 +1,60 @@
-# Исходный дамп GD25Q16B — первое чтение
+**English** | [Русский](README.ru.md)
 
-Сохранён по прямому запросу владельца 17 октября 2026 года.
-[GD25Q16B-xgpro-original.bin](GD25Q16B-xgpro-original.bin) — точная копия
-присланного файла, без правок, обрезки и обезличивания. Контрольная сумма:
-[SHA256SUMS](SHA256SUMS); результаты сравнения: [analysis.json](analysis.json).
-Файл индивидуален для этого экземпляра и может содержать его настройки.
-Это узкое исключение из правил проекта об исключении полных дампов из Git.
+# Original GD25Q16B export — first supplied read
 
-Документация чипа: [GD25Q16B rev. 2.3, PDF](../../../docs/datasheets/GD25Q16B_Datasheet_2.3.pdf),
-[распиновка и страницы](../../../docs/datasheets/README.md#пзу-u6-gd25q16bsig).
-Официальные обновления TP-Link сохранены [отдельно](../../../vendor/tp-link/tl-sg1218mpe-v5/README.md)
-и не являются полными дампами ПЗУ.
+Saved at the owner's explicit request on 17 October 2026.
+[GD25Q16B-xgpro-original.bin](GD25Q16B-xgpro-original.bin) is byte-identical to the
+supplied file, without editing, trimming or anonymization.
+[SHA256SUMS](SHA256SUMS) · [analysis.json](analysis.json).
+This unit-specific file may contain its configuration; publication is an explicit
+exception to the usual exclusion of full dumps.
 
-## Проверено по байтам
+[Chip PDF](../../../docs/datasheets/GD25Q16B_Datasheet_2.3.pdf),
+[pinout and page guide](../../../docs/datasheets/README.md#u6-gd25q16bsig).
+[Official update packages](../../../vendor/tp-link/tl-sg1218mpe-v5/README.md)
+are different from a full flash export.
 
-- Размер файла: **2 097 424 байта**.
-- Основной массив памяти GD25Q16B: первые **2 097 152 байта** (2 МиБ).
-- После него: **272 байта**, начинающиеся с ASCII `-Configuration-` по `0x200000`.
-  **Гипотеза:** дополнительные данные экспорта Xgpro; формат полей не расшифрован.
-  Хвост сохранён целиком; это не дополнительные адреса 2-МиБ SPI-флеша.
-- Официальный update BIN 20230616 размером **1 013 324 байта** найден
-  побайтно целиком по смещениям `0x8000` и `0x100000`.
-  Его SHA-256: `c9ab17eda7af714f00692d41f440ce84ed0d6c7d678634c364ec1154bb7e3f32`.
-  В обеих копиях CRC32 `d31a20a5` совпадает с заголовком.
-- До первой копии находится загрузочный код MIPS32 BE. Строки:
-  `check runtime img` по `0x6188`, `Image recover done!` по `0x61e4`.
+## Byte-level findings
 
-Все смещения — от начала сохранённого BIN. Концы диапазонов исключаются.
+- Total size **2,097,424 bytes**; first **2,097,152 bytes** form the 2 MiB array.
+- A **272-byte** trailer starts with ASCII `-Configuration-` at `0x200000`.
+  It is presumed Xgpro export metadata; fields are not decoded. It is retained,
+  not treated as additional SPI addresses.
+- The complete 1,013,324-byte official 20230616 update image appears at both
+  `0x8000` and `0x100000`. SHA-256
+  `c9ab17eda7af714f00692d41f440ce84ed0d6c7d678634c364ec1154bb7e3f32`;
+  both CRC32 values are `d31a20a5` and match their headers.
+- MIPS32 BE boot code precedes the first copy. Strings: check runtime img at
+  `0x6188`, Image recover done at `0x61e4`.
 
-## Предварительный статический разбор загрузчика
+Offsets start at the saved file's beginning; range ends are excluded.
 
-**Проверено по инструкциям:** startup `0x61c..0x654` копирует
-`[0xca0,0x1a00)` в RAM `[0xbf0025a8,0xbf003308)`.
-Поэтому функции этого диапазона надо дизассемблировать с RAM-адресами,
-а не с единой базой flash для всех инструкций.
+## Initial bootloader analysis
 
-**Проверено по инструкциям:** `0x18d4..0x1928` читает заголовок staging
-по `0xb4100000`, проверяет диапазон длины, bit 0 flags, вызывает CRC
-с `a1=0xb4100010`, `a2=0xf6ff0`, затем сравнивает результат с первым словом
-заголовка. Ветви `0x1944..0x1954` и `0x1970..0x1980` передают копирующей
-функции исходник `0xb4100000` и назначение `0xb4008000`.
+Startup `0x61c..0x654` copies `[0xca0,0x1a00)` to RAM
+`[0xbf0025a8,0xbf003308)`. Disassemble those functions using RAM addresses,
+not one flash base for the whole file.
 
-**Гипотеза по этой ветви:** второй образ используется для восстановления/
-применения обновления. Это не подтверждение ручного выбора двух прошивок.
-Полный анализ всех путей проверки и записи ещё не завершён; наличие UART-shell,
-возможность загрузки через UART/TFTP и отсутствие иных проверок не установлены.
+`0x18d4..0x1928` reads staging header at `0xb4100000`, checks length/flag bit 0,
+calls CRC with `a1=0xb4100010`, `a2=0xf6ff0`, and compares the first header word.
+Branches `0x1944..0x1954` and `0x1970..0x1980` pass source `0xb4100000` and
+destination `0xb4008000` to the copier.
 
-## Состояние резервного копирования
+This supports staging application/recovery behavior, not manual selection of two
+firmwares. Later [offline path tests](../../../docs/FINAL-CHECK.md) and
+[hardware boot evidence](../../../docs/evidence/2026-10-17-switchlens/README.md)
+strengthen that specific path. They do not establish all checks or UART/TFTP
+recovery commands.
 
-Получен **один** файл. Владелец сообщил, что проверил его программатором,
-после чего запаял микросхему обратно; штатный web работает. Второй файл
-для независимого побайтного сравнения не присылался. Две копии прошивки
-внутри экспорта сами по себе не заменяют два независимых чтения.
+## Backup/recovery status
 
-**Проверено позднее по логу и сообщениям владельца:** UART TX на pin 1,
-R41/R42 по 0 Ом 0402, **38400 8N1**; [доказательства](../../../docs/evidence/2026-10-17/README.md).
-Приём команд, отдельные UID/OTP/status-регистры и восстановление записью дампа
-**ещё не проверены**. Проверка чтения не заменяет проверку восстановления.
-Присланный экспорт не следует считать готовым raw-образом для записи вслепую:
-в нём есть дополнительный хвост, а порядок его загрузки зависит от программатора.
+One file was supplied. The owner reported programmer verification and resoldering,
+after which stock web worked. No second independent file was supplied; two
+runtime copies inside one export do not replace independent reads.
+
+Stock UART TX was established at pin 1, R41/R42 0 Ω 0402, 38400 8N1.
+Later v0.1.1 help established input/output. Separate UID/OTP/status-register
+capture and successful restoration by writing this export remain unverified.
+Reading/verification does not establish recovery. The owner declined another
+desoldering exercise as a preliminary test. Do not blindly write the export as
+raw flash: it has a trailer and loading behavior depends on the programmer.

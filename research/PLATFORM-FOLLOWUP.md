@@ -1,112 +1,109 @@
-# Таймер, память и проверки прошивки
+**English** | [Русский](PLATFORM-FOLLOWUP.ru.md)
 
-Дата: 2026-10-16. Только локальный статический анализ образа с SHA-256
+# Timer, memory and firmware checks
+
+Static investigation dated **16 October 2026**, targeting SHA-256
 `c9ab17eda7af714f00692d41f440ce84ed0d6c7d678634c364ec1154bb7e3f32`.
-«Проверено» означает чтение инструкций/байтов; испытаний на устройстве нет.
-Все интервалы ниже полуоткрытые; файловые смещения включают update header.
+“Verified” in this analysis means instructions/bytes inspected, not a hardware
+measurement. Ranges are half-open and file offsets include the update header.
 
-## Результат текущего шага
+**Later status:** the original flash was identified/exported, the patch built,
+and v0.1.1 web boot/UART/JSON were observed. [Current evidence](../docs/evidence/2026-10-17-switchlens/README.md).
+Original no-build/no-dump assumptions are historical; recovery and maximum IRQ
+stack use remain unresolved.
 
-| Вопрос | Вывод и доказательство |
-|---|---|
-| Подписан ли образ? | Проверено: найденный runtime `SignCheck` хеширует UID. Данных о проверках отдельного загрузчика нет; утверждать, что весь образ не подписан, нельзя. |
-| Есть ли место под код? | Проверено: 125376 байт `FF` внутри CRC-области. Гипотеза: это кандидат под код и константы. Допустимость размещения и linker map ещё не проверены. |
-| Есть ли запас RAM? | Проверено: от конца RAM-кода до initial SP — 4800 байт. Реальный свободный стек неизвестен; в штатном коде есть отдельный кадр 3584 байта. |
-| Единица uptime? | Проверено: hardware divisor 10000, period 1000, software divider 20. Гипотеза при LXB 200 MHz: raw unit = 1 секунда. Фактическая частота не установлена. |
-| Можно ли уже прошивать? | По согласованным критериям — пока нельзя: загрузчик, запас стека и восстановление не подтверждены. Это не вывод о невозможности JSON-патча. |
+| Question | Static finding |
+| --- | --- |
+| Image signing | Located runtime SignCheck hashes UID; this does not exclude other bootloader image checks |
+| Code space | 125,376 FF bytes inside CRC coverage; later payload placement/build checks use part of this region |
+| RAM headroom | 4,800 bytes from RAM-code end to initial SP, not measured free stack; a stock frame uses 3,584 bytes |
+| Uptime scale | Divisor 10,000, period 1,000, software divider 20; one second per raw tick only if LXB is 200 MHz |
+| Hardware status | Initial planning lacked boot/recovery proof; later initial boot works, recovery is still untested |
 
-## SignCheck и обновление
+## Runtime SignCheck
 
-Проверено, функция `BFC4D718`, file `0x45718`:
+Function `BFC4D718`, file `0x45718`:
 
-1. `0x45778` вызывает `BFC1044C` с `a0=sp+0x18`.
-   Getter (`0x844c..0x8480`) копирует из `BF016A9C` длину `word[BF002E80]`.
-2. Та же длина сохраняется в `sp+0x500` (`0x457b0`, `0x457c8`).
-3. В `0x46038..0x46090` создаётся SHA-1 context; вызов `BF01E1C8` получает
-   `a1=sp+0x18`, `a2=word[sp+0x500]`. Это UID-буфер, а не диапазон update image.
-4. Подпись 128 байт берётся из `[B41FC006,B41FC086)` функцией
-   `BFC5141C` / file `0x4941c..0x49450`. RSA/PKCS#1 и сравнение SHA-1
-   описаны в предыдущем `HTTP-JSON-FOLLOWUP.txt`.
+1. `0x45778` calls `BFC1044C` with a0=sp+0x18. Getter `0x844c..0x8480`
+   copies from `BF016A9C`, length `word[BF002E80]`.
+2. The same length is stored at sp+0x500 (`0x457b0`, `0x457c8`).
+3. `0x46038..0x46090` creates SHA-1 context. `BF01E1C8` receives
+   a1=sp+0x18 and a2=word[sp+0x500]: UID buffer, not the update-image range.
+4. The 128-byte signature comes from `[B41FC006,B41FC086)` through
+   `BFC5141C`, file `0x4941c..0x49450`; RSA/PKCS#1/SHA-1 comparison is discussed
+   in [HTTP follow-up](HTTP-JSON-FOLLOWUP.md).
 
-Гипотеза: эта проверка привязывает ПО к устройству. Проверено только её входные
-данные и операции; назначение механизма производителем не документировано.
-Изменять её для нашего патча оснований пока нет. Наличие такой проверки не
-исключает отдельной проверки подписи образа на более раннем этапе загрузки.
+A device-binding purpose is an inference, not manufacturer documentation. There
+is no reason in this patch to bypass it. This finding does not rule out an
+additional image signature check earlier in boot.
 
-Проверено в web-upgrade (`0x35d20..0x36164`): образ пишется в staging
-`B4100000`; CRC32 считается по `staging+0x10`, длина `0xf6ff0`, и сравнивается
-с первым словом staging (`0x36014..0x3603c`). После совпадения вызывается запись
-16 нулевых байт по `B4008000` (`0x36040..0x36068`), а в `BF0013E0` кладётся 7.
-Обработчик `0x30048..0x300e0` уменьшает этот счётчик и при нуле печатает `reboot`,
-затем вызывает `BFC280A0` → `BFC1F564` (file `0x17564`). Это наблюдаемая
-последовательность инструкций; устройства мы не перезагружали.
+## Web upgrade and staging
 
-Гипотеза: после сброса загрузчик переносит staging на рабочее место, используя
-состояние заголовка. Его реализация отсутствует в предоставленном update BIN.
-Поэтому одного пересчёта runtime CRC недостаточно для доказательства загрузки.
-Адреса `B4...` здесь — виртуальные отображения, не готовые смещения программатора.
-Маркировка и физическая ёмкость SPI-чипа остаются неизвестны.
+File `0x35d20..0x36164` writes the image to `B4100000`. CRC is computed over
+staging+0x10 for `0xf6ff0` bytes and compared with the first word
+(`0x36014..0x3603c`). On success it writes 16 zero bytes to `B4008000`
+(`0x36040..0x36068`) and stores 7 at `BF0013E0`. Handler
+`0x30048..0x300e0` decrements the countdown, prints reboot at zero and calls
+`BFC280A0` → `BFC1F564` (file `0x17564`).
 
-## RAM и стек
+Initially, copying staging to the active image was a hypothesis because the update
+BIN omitted the bootloader. The later full export and [offline path review](../docs/FINAL-CHECK.md)
+trace a specific header/CRC/copy/handoff branch. The [hardware sequence](../docs/evidence/2026-10-17-switchlens/README.md)
+also reaches runtime. This does not establish all recovery paths. B4 addresses
+are virtual mappings, not programmer offsets.
 
-Проверено по startup `0x620..0x708`, с учётом MIPS branch delay slots:
+## RAM and stack
 
-| Операция | Источник в файле | Назначение в RAM |
-|---|---|---|
-| Копирование векторов | `[0x10,0x410)` | `[BF000000,BF000400)` |
-| Копирование начальных данных | `[0x720,0x3164)` | `[BF000400,BF002E44)` |
-| Заполнение нулями | — | `[BF002E40,BF01952C)` |
-| Копирование RAM-кода | `[0x3160,0x8178)` | `[BF019528,BF01E540)` |
-| Начальный указатель стека | — | `SP=BF01F800` |
+Startup `0x620..0x708`, including branch-delay behavior:
 
-Проверено: два перекрытия по 4 байта следуют из порядка сравнения и записи в
-циклах. Последнее слово начальных данных затем обнуляется; последнее обнулённое
-слово заменяется первой инструкцией RAM-кода. Это не ошибка границ в таблице.
+| Operation | File source | RAM destination |
+| --- | --- | --- |
+| Vectors | `[0x10,0x410)` | `[BF000000,BF000400)` |
+| Initial data | `[0x720,0x3164)` | `[BF000400,BF002E44)` |
+| Zero fill | — | `[BF002E40,BF01952C)` |
+| RAM code | `[0x3160,0x8178)` | `[BF019528,BF01E540)` |
+| Initial stack | — | `SP=BF01F800` |
 
-Проверено: разность `BF01F800-BF01E540=4800`. Код по `0x4c1dc` выделяет кадр
-`0xe00=3584` байта; соседняя функция по `0x4c2f4` — 3568. Это разные функции,
-их размеры нельзя просто складывать. Сканирование `addiu sp,sp,-N` приведено
-в `platform-evidence.json`; оно не заменяет граф вызовов и учёт прерываний.
+The 4-byte overlaps follow the loops' compare/store order: final data word is
+zeroed, final zeroed word replaced with first code instruction. They are not table
+boundary errors. `BF01F800-BF01E540=4800`. Function at `0x4c1dc` allocates
+0xe00=3584 bytes; adjacent `0x4c2f4` allocates 3568. They are different functions,
+not automatically additive frames. The negative-SP scan in platform-evidence.json
+does not replace a call graph and interrupt accounting.
 
-Проверено: RSA allocator (`0x7948..0x7b10`, RAM `BF01DD10`) выбирает фиксированные
-малые пулы и отказывает для размера выше 256 байт. Это не найденный общий heap
-для нового HTTP-обработчика. Гипотеза: SRAM-окно порядка 128 KiB; назначение
-области выше initial SP и фактический запас под новые вызовы пока неизвестны.
+RSA allocator `0x7948..0x7b10`, RAM `BF01DD10`, uses fixed small pools and rejects
+sizes over 256 bytes. It is not a general-purpose heap for the new handler.
+An approximately 128 KiB SRAM window is a hypothesis; space above initial SP
+and peak available stack need separate validation.
 
-Проектное решение: потоковая сериализация без malloc, без полного снимка JSON
-и без большого массива всех портов на стеке. Проверено в `src/sg_stats.c`:
-выходной буфер 128 байт. Это не обещание общего расхода стека 128 байт.
+The implementation therefore streams without malloc, a full JSON snapshot or
+all-port stack array. The serializer buffer is 128 bytes, not total stack usage.
 
-## Таймер и uptime
+## Timer
 
-Проверено: `BFC104B0` / `0x84b0` вызывается с index 0 (`0x86c4..0x86cc`),
-формирует base `B8003100`, пишет `0x01002710` в CTRL (+8), 1000 в DATA (+0).
-`BFC10504` включает bit 28 в CTRL и bit 20 в INT (+12).
-ISR `BF01A094` / `[0x3ccc,0x3dec)` увеличивает `uint32[BF002E94]` на каждом
-вызове; при делимости нового значения на 20 увеличивает `uint32[BF002E90]`.
-В конце подтверждает INT битом 16 по `B800310C`.
+`BFC104B0` / `0x84b0`, called with index 0 at `0x86c4..0x86cc`, forms base
+`B8003100`, writes `0x01002710` to CTRL +8 and 1000 to DATA +0.
+`BFC10504` enables CTRL bit 28 and INT +12 bit 20.
+ISR `BF01A094`, file `[0x3ccc,0x3dec)`, increments uint32 at `BF002E94` each call;
+every twentieth new value increments uint32 at `BF002E90`. It acknowledges
+INT bit 16 at `B800310C`.
 
-Проверено сопоставлением с [Linux timer-rtl-otto.c](https://github.com/torvalds/linux/blob/master/drivers/clocksource/timer-rtl-otto.c):
-совпадают смещения и биты регистров; младшие 16 бит CTRL — делитель, bit 24 —
-периодический режим. Источник описывает LXB 200 MHz для платформ кроме RTL930x.
-
-Гипотеза при применимости этой частоты к нашему устройству:
+The register layout/bits match [Linux timer-rtl-otto.c](https://github.com/torvalds/linux/blob/master/drivers/clocksource/timer-rtl-otto.c):
+CTRL low 16 bits are divisor, bit 24 periodic mode. The source describes LXB
+200 MHz outside RTL930x. Applicability to this switch's clock is unconfirmed.
 
 ```text
+Conditional on LXB = 200 MHz:
 IRQ interval = 10000 * 1000 / 200000000 = 0.05 s
 raw uptime unit = 20 * IRQ interval = 1 s
 ```
 
-Данных нет: подтверждённая частота LXB именно нашего V5.0 и измерение на стенде.
-Поэтому `uptime_ticks_raw` остаётся явным 32-битным значением, а
-`uptime_seconds=null`. Это счётчик обслуженных прерываний, а не независимые часы:
-задержки/потери прерываний и переполнение требуют проверки. Штатный таймер менять
-не требуется. Преобразование в секунды включим после подтверждения масштаба.
+Without confirmed clock/bench calibration, uptime_seconds stays null and raw
+uptime stays explicitly uint32. It counts serviced interrupts, not an independent
+wall clock; missed/delayed interrupts and wrap need consideration. No timer change
+is required. Two later samples show growth, not a measured time scale.
 
-## Воспроизведение без устройства
-
-Проверено: новый инструмент использует только Python standard library, читает
-локальный BIN, отвергает несовпадающий SHA-256; образ и устройство не меняет.
+## Reproduce
 
 ```bash
 python3 tools/audit_platform.py /path/firmware.bin > platform-evidence.local.json
@@ -116,13 +113,8 @@ python3 tools/disassemble.py /path/firmware.bin 0x45718 0x46238
 python3 tools/disassemble.py /path/firmware.bin 0x36014 0x36094
 ```
 
-Проверено локальным запуском: корректный BIN принят, пустой/усечённый/изменённый
-на один байт входы отвергнуты. Итоговый JSON сохранён рядом. Поля с трактовкой
-SignCheck опираются на указанные вручную прослеженные инструкции; инструмент
-не является автоматическим доказательством отсутствия других проверок.
-
-Следующая работа в рамках подготовки патча: целевая MIPS-сборка с картой секций
-и расходом стека, узкий HTTP-адаптер и анализ ветвей возврата/ошибок. Для закрытия
-вопросов загрузчика и восстановления нужен полный SPI-дамп отдельного V5.0.
-Первую запись на стенд разрешают только ранее согласованные UART, дамп и
-проверенное восстановление; работа с боевым устройством не выполнялась.
+The stdlib tool reads local files, rejects wrong SHA and modifies no firmware/device.
+Correct input passed; empty, truncated and single-byte-modified inputs were rejected.
+SignCheck interpretation also uses manually traced instructions; the tool is not
+an automatic proof that no other checks exist. Later build/bench work is recorded
+separately in the implementation guide and hardware journal.

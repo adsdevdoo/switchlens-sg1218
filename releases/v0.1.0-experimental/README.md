@@ -1,58 +1,35 @@
-# SwitchLens v0.1.0-experimental
+**English** | [Русский](README.ru.md)
 
-Первый версионный экспериментальный образ для **TP-Link TL-SG1218MPE(UN) V5.0**.
+# SwitchLens v0.1.0 — archived JSON-only package
 
-- [Готовый BIN](SwitchLens-SG1218MPE-V5-v0.1.0-experimental.bin)
-- [SHA256SUMS](SHA256SUMS)
-- [Манифест выпуска](release.json)
-- [Исходный манифест сборки](build-manifest.json)
+The original tagged package for TL-SG1218MPE(UN) V5.0 is retained unchanged.
+**Current working firmware is [v0.1.1](../v0.1.1-experimental-uart/README.md)**,
+which uses this JSON payload and adds UART CLI. v0.1.0 itself was not independently
+installed/tested on hardware. The historical filename/tag is not renamed.
 
-## Содержимое версии
+- [BIN](SwitchLens-SG1218MPE-V5-v0.1.0-experimental.bin)
+- [SHA256SUMS](SHA256SUMS), [release manifest](release.json), [build manifest](build-manifest.json)
 
-Обработчик `GET /stats.json` добавлен в штатный HTTP-сервер с существующей
-проверкой сессии. JSON содержит сведения о коммутаторе, параметры 18 портов,
-счётчики, PoE и Auto Recovery; неподтверждённые источники возвращают `null`.
-Семантика части дополнительных счётчиков остаётся гипотезой.
+The dynamic GET endpoint uses stock session authentication and provides system,
+18-port counters/status, PoE and Auto Recovery. Unsupported values are null;
+some additional MIB semantics remain provisional. Base: official
+`1.0.0 Build 20230616 Rel.57668`; internal strings are unchanged.
 
-Основа: официальный образ `1.0.0 Build 20230616 Rel.57668`.
-Версия `v0.1.0-experimental` обозначает Git-тег и пакет выпуска.
-Собранный ранее BIN не изменён; его внутренняя строка версии не переименована.
+Verified offline: size **1,013,324 bytes**, SHA-256
+`58d48cf69cac4024eddfb4ede1bb5a925420521a0f0e44011ff4fa08940c2e25`,
+CRC32 `5e9ceeca` over `[0x10,0xf7000)`, field at 0; source/build hashes match
+manifest. [MIPS results](../../docs/target-test-results.json),
+[implementation](../../docs/FIRMWARE.md).
 
-## Проверено
-
-- Размер BIN: `1013324` байта.
-- SHA-256: `58d48cf69cac4024eddfb4ede1bb5a925420521a0f0e44011ff4fa08940c2e25`.
-- CRC32: `5e9ceeca`, диапазон `[0x10, 0xf7000)`, поле по смещению `0`.
-- Хеши всех исходников и сборщика совпадают с `build-manifest.json`.
-- Этот машинный образ прошёл ранее выполненные офлайн-проверки:
-  [результаты MIPS-тестов](../../docs/target-test-results.json) и
-  [описание проверки](../../docs/FIRMWARE.md).
-
-## Не проверено
-
-Загрузка на устройстве, работа реального ASIC, поведение под нагрузкой,
-восстановление и совместимость с платой `Ver:5.40`, показанной в README.
-Модель основного SoC и загрузчик этой платы по фотографиям не установлены.
-
-Это не подтверждённая рабочая прошивка для боевого устройства. До первой
-прошивки стенда нужны UART-консоль, полный SPI-дамп программатором и проверка
-восстановления. Недельные стендовые испытания ещё не проводились.
-
-
-Актуализация стенда 17.10.2026: штатный boot log получен на pin 1 J2 при
-38400 8N1 после установки R41/R42 по 0 Ом 0402; полный экспорт SPI сохранён.
-Это не аппаратное испытание данного выпуска. RX, команды и восстановление
-ещё не проверены. См. [LAB](../../docs/LAB.md).
-
-## Проверка скачанного файла
-
-PowerShell:
+Later bench evidence applies to v0.1.1: web boot, RTK#/help, two changing JSON
+replies on the Ver:5.40 board. [Hardware record](../../docs/evidence/2026-10-17-switchlens/README.md).
+Loaded PoE, sustained operation and recovery remain outstanding. The original
+SPI export and stock UART are archived; do not infer a recovery menu from runtime CLI.
+The owner's decision against preliminary repeat desoldering is recorded in [LAB](../../docs/LAB.md).
 
 ```powershell
 Get-FileHash .\SwitchLens-SG1218MPE-V5-v0.1.0-experimental.bin -Algorithm SHA256
 ```
-
-Linux:
 
 ```bash
 sha256sum -c SHA256SUMS

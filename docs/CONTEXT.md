@@ -1,161 +1,114 @@
-# SwitchLens: контекст для продолжения работы
+**English** | [Русский](CONTEXT.ru.md)
 
-Обновлено: **17.10.2026**. Сводка подготовлена по документам ветки `main`
-на коммите [84f4bb6](https://github.com/adsdevdoo/switchlens-sg1218/commit/84f4bb63f48fcf185945dcdc2785ac26d5bca87c).
-Это краткая точка входа, а не полная стенограмма прежнего чата.
-При продолжении проверить новые коммиты и актуальные README / ROADMAP.
+# SwitchLens continuation context
 
-## Цель и границы
+Updated **17 October 2026 after the first successful v0.1.1 hardware test**.
+This is the entry point for a new chat; read current `main` before continuing.
 
-**SwitchLens** — динамический read-only `GET /stats.json` в штатном
-HTTP-сервере TP-Link TL-SG1218MPE(UN) V5.0: система, порты, счётчики и PoE,
-для последующего сбора в Prometheus и отображения в Grafana.
-Текущая цель — JSON; SNMP в неё не входит.
+## Goal and current state
 
-Экспериментальный BIN `v0.1.0-experimental` уже собран и сохранён
-в [releases](../releases/v0.1.0-experimental/README.md).
-Образ основан на официальной `1.0.0 Build 20230616 Rel.57668`.
-SHA-256 исходного update BIN:
+Read-only `GET /stats.json` inside the stock TL-SG1218MPE(UN) V5.0 HTTP server,
+for later Prometheus/Grafana collection. SNMP is outside current scope.
+No exporter/dashboard has been created yet.
+
+**Working firmware:** web installation, runtime boot, bidirectional UART help
+and two valid changing JSON replies are hardware verified on the owner's unit.
+[JSON reference](JSON-API.md) · [Messages, screenshots and full samples](evidence/2026-10-17-switchlens/README.md).
+Do not repeat obsolete claims that modified firmware has never booted, UART is
+output-only or JSON only exists in the emulator.
+
+## Completed sequence
+
+1. Original SPI export, official V5 firmware packages and datasheets archived.
+2. Stock UART boot obtained: R41/R42 0 Ω 0402, 38400 8N1.
+3. Stock CLI dispatcher found disabled in code. Enter silence did not diagnose RX soldering.
+4. v0.1.1 package built: v0.1.0 JSON payload, two CLI instructions, updated CRC.
+   Offline review: 20 MIPS tests, host tests, ASan/UBSan. [Report](FINAL-CHECK.md).
+5. Owner performed stock web upgrade. Image recover done, runtime entry,
+   SignCheck Pass, RTK# and completed code init observed.
+6. Owner typed help and received the command list: UART input and output work.
+7. Two full JSON responses validated, each with ports 1–18 and changing counters/raw uptime.
+
+## Exact package identity
+
+[GitHub Release](https://github.com/adsdevdoo/switchlens-sg1218/releases/tag/v0.1.1-experimental-uart).
+Path: `releases/v0.1.1-experimental-uart/SwitchLens-SG1218MPE-V5-v0.1.1-experimental-uart.bin`.
+Size **1,013,324 bytes**; SHA-256:
+
+```text
+27e4fce8d5c0c2999a324341cea7e96e37b1c0561e8d6a3218705b32b7aeee71
+```
+
+Official base: `1.0.0 Build 20230616 Rel.57668`, SHA-256
 `c9ab17eda7af714f00692d41f440ce84ed0d6c7d678634c364ec1154bb7e3f32`.
+Internal version strings and historical artifact names remain unchanged.
+The stock version string does not prove rollback. No installed-flash readback
+hash was supplied. Do not change BINs or frozen test assets to update their status.
 
-Проверены офлайн сборка, CRC, сериализация и MIPS-код с HTTP-функциями
-в Unicorn; память, сокет и аппаратные показания в эмуляции синтетические.
-**Изменённая прошивка на устройстве ещё не запускалась.**
-Неизвестные показания остаются `null`; семантика части MIB-счётчиков —
-гипотеза. Секунды uptime, `rx_discards` и `tx_packets_256_511`
-не объявляются установленными показаниями.
+## Bench
 
-## Устройство и текущий стенд
+One owner's switch, not yet in production. External/UI version V5.0; board label
+Ver:5.40, PCB 2060500612. Visible RTL8214FC does not identify the main SoC.
+U6 is GD25Q16BSIG, 16 Mbit / 2 MiB.
 
-Один коммутатор владельца, **пока не введённый в эксплуатацию**.
-Аппаратные действия выполняет владелец.
-
-- Внешняя версия V5.0 сообщена владельцем; на плате сфотографированы
-  `Ver:5.40` и PCB `2060500612`.
-- Совместимость экспериментального образа с этой платой не проверена.
-- На фото читается RTL8214FC; это не доказательство модели основного SoC.
-- SPI-флеш U6: **GD25Q16BSIG**, 16 Мбит / 2 МиБ.
-- Владелец сообщил о проверке программатором и обратной пайке;
-  штатный web работает. Штатный UART boot log получен.
-
-Подробности: [LAB](LAB.md), [фото и текущий статус](../README.md).
-
-## UART: уже работающий результат
-
-Не возвращаться к раннему предположению, что UART вообще не работает:
-оно устарело после доработки и выбора скорости.
-
-| Параметр | Подтверждённый статус |
+| Item | Status |
 | --- | --- |
-| R41 / R42 | Установлены **по 0 Ом, корпус 0402**, после прозвонки владельцем; заводской номинал по схеме не установлен |
-| J2 pin 1 | **TX свитча → RXD USB-UART**, читаемый вывод подтверждён |
-| J2 pin 2 | Предполагаемый RX свитча; ввод команд **не проверен** |
-| J2 pin 3 | GND по проверке, сообщённой владельцем |
-| J2 pin 4 | 3,3 В по измерению владельца; к питанию адаптера не подключается |
-| Параметры | **38400 бод, 8N1, Flow control None** |
-| Порт Windows | **COM3** на последнем рабочем стенде |
-| Получено | Вывод штатной загрузки от `check runtime img` до `code init` |
-| Не установлено | Приём команд, интерактивная консоль и команды восстановления |
+| R41/R42 | Both 0 Ω 0402, owner-reported continuity/population |
+| J2 pin 1 | Switch TX → adapter RXD |
+| J2 pin 2 | RX in described wiring; help proves two-way exchange; no new wiring photo |
+| J2 pin 3 | Owner-checked GND |
+| J2 pin 4 | Owner-measured 3.3 V; not connected to adapter power |
+| UART | CP2102, COM3, 38400, 8N1, Flow None |
 
-Нумерация J2 — нумерация владельца при измерениях.
-Привязка к ориентации фото и заводскому маркеру отдельно не установлена.
-Ранние 115200 / COM5 относятся к предыдущим опытам; не заменять ими
-последние подтверждённые настройки.
+Numbers follow the owner's measurement convention, not universal photograph
+orientation. “Set adapter to 3.3” is a setting report, not an independent TXD
+measurement. [Bench guide](LAB.md), [UART analysis](../research/UART-CONSOLE.md).
 
-Для уже проверенного приёма используются земля и pin 1 → RXD.
-TXD и питание адаптера оставлены свободными.
-Перед проверкой ввода отдельно установить уровень TXD адаптера и цепь RX;
-не выдавать предполагаемый pin 2 за проверенный.
+## Real observations
 
-Полный текст загрузки: [boot-stock-38400.txt](evidence/2026-10-17/boot-stock-38400.txt).
-Это текст, присланный в чат, **не сырая запись `rx.bin`**.
-`SignCheck Pass.` относится к штатному образу.
-Скриншоты, подтверждения и исправления прежних выводов:
-[журнал доказательств](evidence/2026-10-17/README.md).
+[Sample 1](evidence/2026-10-17-switchlens/stats-01.json),
+[sample 2](evidence/2026-10-17-switchlens/stats-02.json),
+[comparison](evidence/2026-10-17-switchlens/validation-results.json).
+Port 1 is up, 1000 Mbps/full; 2–18 are down.
+RX bytes 43,610 → 528,836; TX bytes 51,604 → 103,534.
+Raw uptime 84 → 614, without exact request timing.
+PoE budget 250 W, consumption 0 W, all PoE statuses OFF.
+Bridge discards 163 → 3870; cause unconfirmed.
 
-Скрипт захвата: [UART-CAPTURE](UART-CAPTURE.md),
-`tools/start-uart.cmd` и `tools/uart-capture.ps1`.
-Ошибка определения каталога PowerShell уже исправлена в `0557e85`.
+Uptime seconds, general RX discards, TX 256–511 bucket, lag ID, measurement
+validity and several flags intentionally remain null. Two changing replies
+prove dynamic output, not all metric semantics, read-side effects or stability.
 
-### Уточнение после сводки: CLI программно отключён
+## Recovery and owner decision
 
-Статический разбор выявил bit 0 слова `0xbfcff018` / runtime offset `0xf7018` = 0.
-Диспетчер обходит вызов CLI до опроса UART. **Тишина после Enter не является
-проверкой качества пайки RX.** [Доказательства](../research/UART-CONSOLE.md).
+Original export: `backups/original/2026-10-17/GD25Q16B-xgpro-original.bin`,
+2,097,424 bytes: first 2,097,152 bytes SPI array, then 272-byte Xgpro trailer.
+SHA-256 `b80e10d5fb75ee2d4d8a45dba305090fe204d521c96d24202876273959589a87`.
+Both runtime copies match the official update image; they are not independent reads.
+Owner used T56/Xgpro to read/verify the chip, then resoldered it.
 
-Подготовлен [v0.1.1-experimental-uart](../releases/v0.1.1-experimental-uart/README.md):
-тот же JSON-payload плюс две инструкции включения штатного CLI и новая CRC.
-В CPU-эмуляции работают RTK#, Enter, help и /stats.json. На железе не испытано.
-Это консоль основной прошивки, не аварийная консоль загрузчика.
+**Owner declined another desoldering exercise as a preliminary recovery test.**
+Do not reintroduce it as a mandatory step. Restoration by writing the dump,
+separate UID/OTP/status data and UART/TFTP recovery are unverified. Runtime RTK#
+does not establish a bootloader emergency console.
 
-## Оригинальный дамп и восстановление
+## Continue with
 
-[Исходный экспорт](../backups/original/2026-10-17/README.md)
-сохранён **без изменения** в
-`backups/original/2026-10-17/GD25Q16B-xgpro-original.bin`.
+1. Real PoE consumer and comparison with the stock PoE page.
+2. Settings/counters, physical port mapping and discard investigation.
+3. Raw uptime calibration against external time.
+4. Sustained polling, slow/disconnected clients, counter reset/wrap and long load.
+5. Collection integration based on verified fields; deployment decided separately.
 
-- Размер: **2 097 424 байта**.
-- Основной массив SPI: первые **2 097 152 байта**.
-- Хвост: **272 байта** с `-Configuration-` по `0x200000`;
-  предполагаемые дополнительные данные Xgpro, формат не расшифрован.
-- Официальный update BIN найден целиком по `0x8000` и `0x100000`.
-  Это две копии внутри одного чтения, не два независимых чтения.
-- Получен один файл; отдельное второе чтение для сравнения не прислано.
-- Запись дампа с последующим успешным восстановлением **не проверена**.
-  Отдельные UID/OTP/status-регистры не проверены.
-- Наличие двух образов и строки `Image recover done!` не доказывает
-  доступный выбор прошивки или установленный UART/TFTP-путь восстановления.
+## Repository workflow
 
-Официальный **update BIN** и полный экспорт SPI — разные форматы.
-Не изменять архивный оригинал и не считать его 272-байтовый хвост
-адресным пространством флеша.
+Owner requests GitHub-plugin publication, not downloadable archives for manual
+upload. They authorized detailed documentation and this session's messages/images,
+then requested English-first/Russian-switch documentation and working status.
+[Contribution rules](../CONTRIBUTING.md) record the scope. Future logs/secrets
+are not automatically authorized.
 
-## Что уже сохранено в репозитории
-
-| Материалы | Где искать |
-| --- | --- |
-| Актуальная сводка, фото, UART и полный boot log | [README](../README.md) |
-| Текущий стенд и допуск к аппаратным испытаниям | [LAB](LAB.md), [ROADMAP](ROADMAP.md) |
-| Границы офлайн-проверок и сборка | [FIRMWARE](FIRMWARE.md) |
-| Исходный SPI-экспорт, SHA-256 и анализ | [backups/original/2026-10-17](../backups/original/2026-10-17/README.md) |
-| PDF GD25Q16B rev. 2.3 и Realtek, распиновка U6 | [datasheets](datasheets/README.md) |
-| Четыре официальные прошивки V5: 20220921, 20221012, 20230220, 20230616; ZIP, BIN, инструкции, SHA-256 | [vendor/tp-link](../vendor/tp-link/tl-sg1218mpe-v5/README.md) |
-| Экспериментальный BIN, SHA-256, манифест | [release](../releases/v0.1.0-experimental/README.md) |
-| Статический анализ, адреса, источники и неизвестные | [research](../research/README.md) |
-
-## Точка продолжения
-
-**UART TX уже получен; штатный CLI программно отключён. Диагностический
-образ с включённым CLI подготовлен. Финальная офлайн-проверка включает 20
-MIPS-тестов; [результаты](../releases/v0.1.1-experimental-uart/FINAL-CHECK.md).
-Следующий аппаратный этап по текущему решению владельца — web-обновление.**
-
-Владелец отказался от повторной выпайки ради предварительного испытания отката.
-Не предлагать её снова как обязательный этап. Это решение не означает,
-что восстановление проверено: если runtime не стартует, web-откат не гарантирован.
-Перечень ниже сохраняет незавершённые проверки, но не отменяет это уточнение.
-
-Дальнейшая последовательность из LAB / ROADMAP:
-
-1. Сохранить приём UART. Физический RX ещё не подтверждён; проверять его
-   после допуска и загрузки диагностического образа с включённым CLI.
-2. Подготовить восстановление с учётом формата экспорта; отдельно учитывать,
-   что независимое повторное чтение не получено.
-3. Проверить восстановление исходного содержимого и штатные загрузку, web, PoE.
-4. Закрыть критерии допуска из ROADMAP, включая проверки образа, памяти и стека.
-5. Затем испытать кандидат `/stats.json`, откат и не менее недели работы
-   с нагрузкой и реальными PoE-потребителями.
-6. После результатов — отдельное решение владельца о вводе в эксплуатацию.
-
-## Как продолжать в новом чате
-
-Передавать ссылку на репозиторий и просить прочитать этот файл,
-README, ROADMAP и LAB из актуальной `main`.
-Если с этой даты появились новые аппаратные результаты, внести их
-с источником и разграничением «проверено» / «гипотеза».
-
-Работать с файлами в GitHub; владелец просил не заставлять его переносить
-исправления скачиванием очередных архивов.
-Соблюдать [CONTRIBUTING](../CONTRIBUTING.md):
-не добавлять автоматически новые дампы, журналы и сетевые данные;
-сохранённые оригиналы, даташиты и прошивки производителей не менять.
+Vendor originals: `vendor/tp-link/`, `docs/datasheets/`; original export:
+`backups/original/`; stock logs: `docs/evidence/2026-10-17/`; successful test:
+`docs/evidence/2026-10-17-switchlens/`. Historical reports/frozen assets describe
+their own dates. Current status is here, in README and [roadmap](ROADMAP.md).

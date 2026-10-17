@@ -1,34 +1,43 @@
-# Изменения в проекте
+**English** | [Русский](CONTRIBUTING.ru.md)
 
-Перед изменением схемы пересоздайте таблицы `make generated`, затем выполните
-`make test` и `make sanitize`. Добавляйте проверки поведения и реальных границ,
-а не копию реализации. Синтетические примеры должны быть явно подписаны.
+# Contributing and publishing evidence
 
-Для фактов о прошивке указывайте SHA-256, файловое смещение или VA и способ
-получения. Разделяйте «проверено статически», «проверено на стенде» и «гипотеза».
-Не выдавайте имя регистра из SDK другой платы за доказанную аппаратную семантику.
+SwitchLens is working firmware with boot, UART `help` and dynamic JSON verified
+on the owner's unit. Distinguish code/emulator checks, observed hardware results
+and hypotheses about unverified metric semantics. Always identify firmware facts
+by SHA-256, file offset or VA and the method used to establish them.
 
-Без отдельного запроса владельца в Git не добавляются полные дампы, пароли,
-cookies, реальные IP/MAC, полные UART-журналы и скриншоты панели.
-Исключение по запросу владельца проекта: версионный экспериментальный BIN
-в `releases/` вместе с SHA-256, манифестом и явным статусом аппаратной проверки.
-Фото платы также включены с разрешения владельца. Используйте обезличенные
-выдержки из журналов и настроек.
-Не вводите операции записи/сброса в reader и не тестируйте патчи на боевой сети.
-Переходы между этапами согласовываются отдельно.
+Before changing the schema, regenerate field tables with `make generated`, then
+run `make test` and `make sanitize`. Tests should exercise behavior and meaningful
+boundaries. Label synthetic examples. An SDK register name from another board
+does not establish the hardware semantics of this unit.
 
-Исключение по прямому запросу владельца от 2026-10-17: исходный экспорт
-GD25Q16B включён без изменений в `backups/original/2026-10-17/`
-вместе с SHA-256 и результатами первичной проверки. Остальные дампы
-не добавляются автоматически.
+Keep the telemetry reader read-only: no configuration setters, counter resets,
+PoE switching or flash writes. Experiments use the owner's bench, not production
+network equipment. Changes between project phases follow the owner's instructions.
 
-Исключение по прямому запросу владельца от 2026-10-17: полный присланный текст
-штатной загрузки, включая MAC данного экземпляра, и присланные UART-скриншоты
-сохранены в `docs/evidence/2026-10-17/` и `docs/images/uart/`, встроены в README.
-Это не разрешение автоматически добавлять следующие сеансы или другие сетевые данные.
+English is the default documentation language. Maintain the matching `.ru.md`
+version and the **English | Русский** links on every reader document. Preserve
+code, field names, hashes and observed outputs exactly. Original messages/logs,
+JSON samples, PDFs and frozen release artifacts remain primary evidence; paired
+reader guides explain them without rewriting the originals.
 
-По прямому запросу владельца официальные ZIP и BIN V5 за 20220921, 20221012,
-20230220 и 20230616 сохранены в `vendor/tp-link/tl-sg1218mpe-v5/`.
-Не изменяйте эти файлы: сохраняйте происхождение, исходные имена в manifest и SHA-256.
-Даташиты в `docs/datasheets/` также сохранены без изменений; лицензия исходников
-проекта не распространяется на материалы производителей.
+Without a specific owner request, do not publish dumps, credentials, cookies,
+real IP/MAC data, complete UART logs or panel screenshots. Use anonymized examples.
+The following explicit exceptions were authorized on 17 October 2026:
+
+- Versioned firmware BINs in `releases/`, with SHA-256, manifests and accurate
+  verification status; authorized board photographs.
+- The unchanged original GD25Q16B/Xgpro export in `backups/original/2026-10-17/`.
+- The complete supplied stock boot text, including the unit MAC, and supplied
+  UART screenshots in `docs/evidence/2026-10-17/` and `docs/images/uart/`.
+- All four official V5 ZIP/BIN packages and upgrade guides in `vendor/tp-link/`,
+  plus original manufacturer datasheets. Preserve bytes, provenance and hashes.
+- The successful v0.1.1 session in `docs/evidence/2026-10-17-switchlens/`: selected
+  owner messages, supplied boot/help text, eight original screenshots and two full
+  JSON replies including this bench's IP/MAC information.
+
+These exceptions are session-specific; they do not authorize future logs or secrets.
+Do not modify the original dump/vendor files or released firmware just to update
+documentation. Additional hardware observations belong in a new evidence record.
+The software license does not automatically cover manufacturers' materials.

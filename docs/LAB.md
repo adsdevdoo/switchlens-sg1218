@@ -1,67 +1,60 @@
-# Стенд: состояние на 17 октября 2026
+**English** | [Русский](LAB.ru.md)
 
-По уточнению владельца используется один свитч, пока не установленный
-в эксплуатацию. Все аппаратные действия выполняет владелец.
+# Bench status — 17 October 2026
 
-## Подтверждено
+The owner performs all hardware actions on one switch that is not yet deployed.
+**Working firmware:** v0.1.1 boots after stock web upgrade, accepts UART `help`
+and returns two valid, changing JSON replies. [Full evidence](evidence/2026-10-17-switchlens/README.md).
 
-| Факт | Источник и границы |
+| Fact | Source and scope |
 | --- | --- |
-| PCB 2060500612, наклейка Ver:5.40 | Проверено по фото в README; внешняя версия V5.0 заявлена владельцем |
-| SPI U6 GD25Q16BSIG | Проверено по [фото маркировки](images/uart/flash-marking.jpeg) |
-| ПЗУ: 16 Мбит / 2 МиБ, 2,7–3,6 В, SOP8 208mil | Проверено по [GD25Q16B PDF](datasheets/GD25Q16B_Datasheet_2.3.pdf), страницы 4 и 41; это спецификация, не измерение платы |
-| Полный экспорт SPI получен | Проверено по [сохранённому файлу и анализу](../backups/original/2026-10-17/README.md) |
-| Проверка программатором, обратная пайка, штатный web работает | Проверено владельцем по его сообщениям; отдельное второе чтение не получено |
-| R41 и R42 — последовательные разрывы | Проверено владельцем прозвонкой |
-| Рабочая доработка R41/R42 | По **0 Ом, 0402**, подтверждено владельцем; заводской номинал по схеме неизвестен |
-| J2 pin 1 — TX свитча | Проверено читаемым выводом и указанием владельца на pin 1 |
-| 38400, 8N1, Flow None | Проверено логом и подтверждением владельца «38400 отлично работает» |
+| PCB 2060500612, Ver:5.40 | Owner photographs; external/reported UI hardware version V5.0 |
+| U6 GD25Q16BSIG | [Chip photograph](images/uart/flash-marking.jpeg) |
+| 16 Mbit / 2 MiB, 2.7–3.6 V, SOP8 208mil | [GD25Q16B datasheet](datasheets/GD25Q16B_Datasheet_2.3.pdf), PDF pp. 4 and 41; specification, not a board measurement |
+| Original SPI export | [Stored file and byte analysis](../backups/original/2026-10-17/README.md) |
+| Programmer verification and resoldering | Reported by owner; no second independent read file supplied; stock web worked afterward |
+| R41/R42 | Owner traced series gaps and populated both with 0 Ω 0402; factory nominal value unknown |
+| J2 pin 1 TX | Readable output and owner's identified contact |
+| J2 pin 2 RX | Owner-described wiring; help confirms bidirectional exchange, no new wiring photograph |
+| Serial settings | CP2102, COM3, 38400 baud, 8N1, Flow None |
+| Modified-runtime boot | Web upgrade, SignCheck Pass, RTK# and code init observed |
+| JSON | Both samples validate; all 18 ports; uptime and counters change |
 
-Нумерация J2 — нумерация владельца при измерениях, не автоматически номера
-от верхнего края фото или треугольника на плате. RX свитча и ввод команд
-не проверены; pin 2 как RX — **гипотеза**. Полный присланный лог и все UART-скриншоты:
-[README](../README.md#uart-на-стенде), [evidence](evidence/2026-10-17/README.md).
+J2 numbers follow the owner's measurements, not an assumed image orientation.
+Pin 3 GND and pin 4 3.3 V are based on the owner's checks. The flash chip pinout
+is separate from J2: [datasheets](datasheets/README.md#u6-gd25q16bsig).
+[Earlier stock evidence](evidence/2026-10-17/README.md), [vendor images](../vendor/tp-link/tl-sg1218mpe-v5/README.md).
 
-Полная таблица J2 со статусом каждого контакта — в README. Pin 3 как GND
-и pin 4 как 3,3 В приведены по сообщениям владельца; pin 2 как RX не проверен.
-Распиновка самой U6 и указатель разделов даташита:
-[документация ПЗУ](datasheets/README.md#пзу-u6-gd25q16bsig).
-Официальные update BIN и ZIP: [архив TP-Link](../vendor/tp-link/tl-sg1218mpe-v5/README.md).
+## UART connection
 
-## Приём UART
+1. Disconnect switch power and USB-UART before soldering or rewiring. On another
+   board verify traces and ground before populating empty resistor sites.
+2. Connect common GND and switch J2 pin 1 TX to adapter RXD. For command input,
+   the described bench connects pin 2 RX to compatible-level adapter TXD.
+   Do not connect adapter VCC/3V3/5V to the switch. A 3.3 V selector position
+   alone does not measure the adapter's TXD logic level.
+3. Close PuTTY before using the receive-only capture script. Defaults: COM3,
+   38400 8N1, 60 seconds; power up after LISTENING. [Capture guide](UART-CAPTURE.md).
 
-1. Пайка и перестановка проводов — при отключённом питании и USB-UART.
-   На другой плате сначала прозвонить цепи R41/R42, не замыкать любые пустые места.
-2. Подключить подтверждённую землю к GND адаптера, **pin 1 J2 к RXD адаптера**.
-   TXD, VCC, 3V3, 5V адаптера оставить свободными. Перед будущим подключением
-   TXD отдельно измерить его логический уровень; выбор питания адаптера его не доказывает.
-3. Закрыть PuTTY перед запуском `tools/start-uart.cmd`. По умолчанию COM3,
-   **38400, 8N1**, 60 секунд. После `LISTENING` включить стенд. См. [инструкцию](UART-CAPTURE.md).
+## Why stock Enter was silent
 
-## UART CLI: уточнение по статическому анализу
+[Static analysis](../research/UART-CONSOLE.md) found bit 0 at `0xbfcff018` cleared;
+the periodic dispatcher skips UART CLI input. Thus silence did not test RX soldering.
+v0.1.1 enables the dispatcher and command permissions with two instructions.
+The owner then obtained RTK# and help on hardware. This is runtime CLI, not a
+confirmed bootloader recovery interface.
 
-[Проверено по дампу](../research/UART-CONSOLE.md): bit 0 слова `0xbfcff018`
-равен нулю; периодический обработчик обходит чтение UART и CLI.
-Отсутствие ответа на Enter ожидаемо по этому пути и не проверяет пайку RX.
-Подготовлен отдельный [диагностический образ](../releases/v0.1.1-experimental-uart/README.md),
-в котором диспетчер и разрешения CLI включаются двумя инструкциями в коде.
-В эмуляторе работают `RTK#`, Enter, `help`; на устройстве не проверено.
-Путь восстановления программатором не зависит от интерактивной консоли runtime.
+## Next checks
 
-## До первого изменённого образа
+Compare JSON against stock UI and a real PoE consumer; check physical port mapping,
+settings and discard behavior; calibrate raw uptime against external time; test
+polling under traffic, disconnected/slow clients and extended operation.
 
-1. Сохранить рабочий UART TX для наблюдения за загрузкой. Штатный CLI
-   программно отключён; проверку физического RX отложить до образа с включённым
-   обработчиком. UART/TFTP-восстановление по-прежнему не установлено.
-2. Подготовить восстановление с учётом формата Xgpro: полученный файл длиннее
-   2-МиБ массива SPI на 272 байта; этот хвост не относится к адресам микросхемы.
-3. Проверить запись исходного содержимого программатором и возврат штатной
-   загрузки, web и PoE. Проверка чтения программатором не заменяет восстановление.
-   UART/TFTP-путь рассматривать только после установления конкретных команд.
-4. После выполнения критериев допуска — изменённый BIN, проверка `/stats.json`,
-   откат, затем не менее недели нагрузки с реальными PoE-потребителями.
+Recovery has not been verified. The owner declined another desoldering exercise
+as a prerequisite; do not reintroduce that requirement. The Xgpro export has a
+272-byte trailer beyond the 2 MiB array. An update BIN is not a full flash dump.
+No working UART/TFTP recovery commands have been established.
 
-Блок питания содержит сетевое напряжение; работа с его первичной стороной
-не требуется. Эксперименты на введённом в эксплуатацию оборудовании не проводятся.
-Текущие материалы сохранены по прямому запросу владельца; новые сеансы
-не публикуются автоматически.
+The supply contains mains voltage; work on its primary side is not required.
+This test session was explicitly authorized for publication; future sessions are
+not published automatically.

@@ -1,0 +1,146 @@
+{
+  "authorization": "Владелец 17.10.2026 попросил опубликовать результаты с сообщениями и скриншотами.",
+  "date": "2026-10-17",
+  "files": [
+    {
+      "file": "01-stock-uart.png",
+      "source_upload_name": "70b52b06-cce5-414a-8280-e33820c85774.png",
+      "kind": "original_screenshot",
+      "description": "Штатная загрузка до включения CLI",
+      "sha256": "f3ed905e49ccac861ac95557cb5d754ed4be17bcebc5e3dfe33739d6ab51c307",
+      "size_bytes": 66335,
+      "byte_identical_to_upload": true
+    },
+    {
+      "file": "02-system-info.png",
+      "source_upload_name": "f6d1d1a6-032a-4b22-abb5-7076be75e82f.png",
+      "kind": "original_screenshot",
+      "description": "System Info: TL-SG1218MPE 5.0 и исходная строка версии",
+      "sha256": "3a8bb48742d9d86072e30afb4020acb55c7cf1134ac8af482ddbeaf6b2feaf50",
+      "size_bytes": 131481,
+      "byte_identical_to_upload": true
+    },
+    {
+      "file": "03-upgrade-form.png",
+      "source_upload_name": "e87d87e7-6e9c-4a99-9685-52f6f598af31.png",
+      "kind": "original_screenshot",
+      "description": "Страница Firmware Upgrade до выбора файла",
+      "sha256": "09b3377230f47d352b7b0c03aa1cc08d1fe8086bbc2ab658973647118f091b5b",
+      "size_bytes": 56486,
+      "byte_identical_to_upload": true
+    },
+    {
+      "file": "04-upgrade-progress.png",
+      "source_upload_name": "fe2cacba-5876-4ceb-9773-50a933dd2de4.png",
+      "kind": "original_screenshot",
+      "description": "Firmware Upgrade: 5%",
+      "sha256": "692d0546340e0f97aa46a1d1494a32266cac09ade998d71e8d5c594fd5e66e73",
+      "size_bytes": 30510,
+      "byte_identical_to_upload": true
+    },
+    {
+      "file": "05-reboot-start.png",
+      "source_upload_name": "55b1dfc4-5ea3-472f-9a41-b436bd759582.png",
+      "kind": "original_screenshot",
+      "description": "Перезагрузка после back up, начало check runtime img",
+      "sha256": "07093a6da5ebb58e2f50c439b4ed677fb680867411ea37716450fd59f0b06323",
+      "size_bytes": 72544,
+      "byte_identical_to_upload": true
+    },
+    {
+      "file": "06-boot-rtk.png",
+      "source_upload_name": "78caa9b8-88c9-46e1-861c-207615159ce6.png",
+      "kind": "original_screenshot",
+      "description": "Image recover done, SignCheck Pass и RTK#",
+      "sha256": "031107c2be3839da65e1d7311025e61b56feff95b389d02dccf8b09a2092dcb1",
+      "size_bytes": 335404,
+      "byte_identical_to_upload": true
+    },
+    {
+      "file": "07-uart-help.png",
+      "source_upload_name": "2820e5e0-e2c3-4173-9091-b7f50fd4a873.png",
+      "kind": "original_screenshot",
+      "description": "Реальный ответ на RTK# help",
+      "sha256": "4b3275c3eaed386df566bc3954d529334f18b4139a4a0e5615df93e1a33daec6",
+      "size_bytes": 35274,
+      "byte_identical_to_upload": true
+    },
+    {
+      "file": "08-stats-json.png",
+      "source_upload_name": "9eac81e8-122e-4b03-b21d-f33abb404104.png",
+      "kind": "original_screenshot",
+      "description": "Первый stats.json в браузере; только видимая часть ответа",
+      "sha256": "d3a3d28f284af9e8657b5ead55e266e82e761167cd1a9dc29d7d103e5cf3fc9d",
+      "size_bytes": 310658,
+      "byte_identical_to_upload": true
+    },
+    {
+      "file": "stats-01-submitted.md",
+      "source_upload_name": "Вставленная ​​уценка.md",
+      "kind": "original_attachment",
+      "description": "Полный текст JSON, присланный владельцем",
+      "sha256": "96d31d2924bdefa47f947990e630ac59a66b60852414bee9836966830907afab",
+      "size_bytes": 48066,
+      "byte_identical_to_upload": true
+    },
+    {
+      "file": "stats-01.json",
+      "derived_from": "stats-01-submitted.md",
+      "transformation": "Removed Markdown fence and surrounding whitespace; preserved JSON text.",
+      "sha256": "e1ec7f21e1de10f47683902e008b08dc3a1eeb9d4195e2b58f8271e7b86ec469",
+      "size_bytes": 48059
+    },
+    {
+      "file": "stats-02-submitted.md",
+      "source_upload_name": "Вставленная ​​уценка(1).md",
+      "kind": "original_attachment",
+      "description": "Полный текст JSON, присланный владельцем",
+      "sha256": "878223758030986b7e48140bad8e2e0feab9faa51675881ee018b3f2561ff6db",
+      "size_bytes": 32889,
+      "byte_identical_to_upload": true
+    },
+    {
+      "file": "stats-02.json",
+      "derived_from": "stats-02-submitted.md",
+      "transformation": "Removed Markdown fence and surrounding whitespace; preserved JSON text.",
+      "sha256": "959d2c53784dab5f2c24cbecf47f0ff14ab3a52299980d56a61460d391b6e76c",
+      "size_bytes": 32882
+    },
+    {
+      "file": "boot-after-upgrade.txt",
+      "kind": "derived_record",
+      "description": "UTF-8/LF text transcribed from the owner’s full pasted UART message; not raw serial bytes.",
+      "sha256": "f6a8f11e5c0c8d71e269b9662c3af36116829541151da831c5ac8aacec3e8ebd",
+      "size_bytes": 1165
+    },
+    {
+      "file": "uart-help.txt",
+      "kind": "derived_record",
+      "description": "UTF-8/LF copy of the owner’s pasted help output; trailing prompt additionally appears in screenshot.",
+      "sha256": "c7d42b818cb1d033036f8b2a2768011bb1f015bfd6b2cdb550b5c0feddf944cd",
+      "size_bytes": 410
+    },
+    {
+      "file": "messages.md",
+      "kind": "derived_record",
+      "description": "Selected original quotations with English translations and editorial context.",
+      "sha256": "0d76576d84687ccfc9e367233d280fbe5ca414dd73f39ee01ea43a494fc27d51",
+      "size_bytes": 3838
+    },
+    {
+      "file": "messages.ru.md",
+      "kind": "derived_record",
+      "description": "Selected original quotations and Russian editorial context.",
+      "sha256": "3b2d447290e04357f65117d41f6a486e7bd0ac25ecd888003b147970dfa4e812",
+      "size_bytes": 4296
+    },
+    {
+      "file": "validation-results.json",
+      "kind": "derived_record",
+      "description": "Derived comparison and schema validation of two original attachments.",
+      "sha256": "4891925af4ada0510ac909fccae445acc5f9618138e00c50ae9a019e1d4f07cc",
+      "size_bytes": 4187
+    }
+  ],
+  "authorization_en": "Owner requested publication of this successful test, messages and screenshots, followed by English/Russian documentation."
+}

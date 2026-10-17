@@ -1,34 +1,37 @@
-# Этапы SwitchLens
+**English** | [Русский](ROADMAP.ru.md)
 
-Проверено: экспериментальный BIN собран; MIPS-код и патч HTTP-роутера прошли
-эмуляцию с синтетической памятью. Испытаний изменённого образа на железе ещё нет.
-Штатная загрузка по UART уже получена; полный экспорт SPI сохранён.
-Оригинальные ZIP/BIN четырёх версий V5 доступны в [архиве TP-Link](../vendor/tp-link/tl-sg1218mpe-v5/README.md),
-PDF ПЗУ и Realtek — в [даташитах](datasheets/README.md).
+# SwitchLens roadmap
 
-| Этап | Статус / критерий |
-|---|---|
-| Статический анализ runtime | Частично выполнен; факты и неизвестные — `research/` |
-| Контракт JSON и host-прототип | Проверено локальными тестами |
-| Загрузчик, подпись, RAM/flash | Runtime SignCheck проверяет UID; CRC и staging прослежены. Загрузчик и запас стека не закрыты; см. PLATFORM-FOLLOWUP |
-| Таймер / uptime | Параметры найдены; секунда на tick — гипотеза при LXB 200 MHz |
-| Похожие прошивки | Найдены и сопоставлены три проекта; прямого переносимого образа для нашей модели не найдено |
-| Стенд, штатная прошивка | Проверено: SPI-экспорт сохранён; UART TX на pin 1, R41/R42 по 0 Ом 0402, 38400 8N1. Ввод команд и восстановление ещё не проверены; см. LAB и README |
-| UART CLI | Статически установлен программный запрет в штатном образе. Отдельный вариант v0.1.1-experimental-uart показывает RTK#, принимает Enter и help в эмуляторе; железо не проверено. См. research/UART-CONSOLE.md |
-| Адаптер HTTP/RAM/ASIC | Реализован, собран MIPS32r2 BE o32, есть ELF/map/manifest |
-| Минимальный `/stats.json` | Встроен двумя патчами переходов; проверен в CPU-эмуляции, на стенде не проверен |
-| Недельное испытание | Предстоит: нагрузка, реальные PD, PoE, память, HTTP, откат |
-| Боевой коммутатор | Отдельное решение владельца после предыдущих этапов |
+Status after the first successful v0.1.1 hardware test, **17 October 2026**.
+[Evidence](evidence/2026-10-17-switchlens/README.md) · [JSON reference](JSON-API.md) · [Handoff](CONTEXT.md).
 
-Актуальные доказательства: `docs/FIRMWARE.md`, `docs/target-test-results.json`, `research/PLATFORM-FOLLOWUP.md`,
-`research/platform-evidence.json`, `research/PRIOR-ART.md`.
+| Stage | Status / remaining criterion |
+| --- | --- |
+| Runtime analysis | Required paths identified; additional MIB meanings remain provisional |
+| JSON contract and host prototype | Locally tested; all fields documented |
+| Boot, signature, RAM/flash | CRC/staging traced and boot observed; peak stack/IRQ behavior and recovery outstanding |
+| Timer / uptime | Raw counter changes on hardware; time unit unconfirmed |
+| Stock bench | SPI export saved; UART at 38400 8N1, R41/R42 populated with 0 Ω 0402 |
+| v0.1.1 package | Published in GitHub Releases; 20 MIPS tests plus host checks |
+| Web installation and boot | Confirmed on owner's unit |
+| UART CLI | RTK# and help confirmed; other commands not exercised |
+| `/stats.json` | Two complete schema-valid replies, 18 ports, changing counters |
+| Accuracy and UI agreement | Compare all settings/ports and counters against known traffic |
+| PoE under load | Only OFF/0 W observed; real PDs and measurement comparison pending |
+| Extended testing | Sustained traffic, memory/CPU, multiple HTTP clients and real PDs pending |
+| Recovery / rollback | Untested; owner declined repeat desoldering as a preliminary prerequisite |
+| Prometheus / Grafana | Next integration goal; exporter/dashboard not yet created |
+| Production deployment | Separate owner decision after bench checks |
 
-Условия «можно» для изменённого образа: проверка целостности/подписи проходима
-без изменения загрузчика; места для кода и стека достаточно; функции чтения
-и HTTP-отправки проверены; есть испытанный путь восстановления. Наличие FF
-в образе и успешная host-сборка сами по себе эти условия не подтверждают.
+Next: connect a real PoE consumer and compare JSON with the stock page, then
+verify physical numbering/settings, discard causes and uptime scale. Two manual
+requests do not establish a safe continuous polling interval.
 
-Адаптер читает System Info, PoE, конфигурацию Auto Recovery, byte counters
-и отдельные MIB-счётчики. Неизвестные поля остаются null. Дополнительная семантика
-MIB экспериментальна и обозначена как гипотеза. SNMP в текущую цель не входит.
-Образ собирается воспроизводимым скриптом только из ожидаемого SHA-256.
+This is working firmware; the successful first run does not close recovery or
+stress testing. The owner proceeded with web installation without another
+preliminary desoldering test. Do not turn the old planning checklist into a new
+mandatory condition for continuing.
+
+[Vendor ZIP/BIN archive](../vendor/tp-link/tl-sg1218mpe-v5/README.md),
+[datasheets](datasheets/README.md), [implementation and emulator scope](FIRMWARE.md).
+Unknown fields remain null. Provisional MIB names are not promised IF-MIB equivalents.

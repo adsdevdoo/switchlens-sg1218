@@ -1,62 +1,51 @@
-# Официальные прошивки TP-Link TL-SG1218MPE(UN) V5
+**English** | [Русский](README.ru.md)
 
-**Проверено:** 17 октября 2026 скачаны четыре архива по ссылкам со
-[страницы TP-Link V5](https://www.tp-link.com/us/support/download/tl-sg1218mpe/v5/).
-Оригинальные ZIP сохранены побайтно. BIN и инструкции PDF извлечены без изменения
-содержимого; локальные имена упрощены. Исходные имена внутри ZIP, прямые URL,
-размеры и SHA-256 всех файлов перечислены в [sources.json](sources.json).
+# Official TP-Link TL-SG1218MPE(UN) V5 firmware
 
-| Build | Оригинальный ZIP | Update BIN | Дата публикации TP-Link | Изменение по TP-Link |
+Four archives were downloaded on 17 October 2026 from links on the
+[TP-Link V5 support page](https://www.tp-link.com/us/support/download/tl-sg1218mpe/v5/).
+Original ZIP bytes are retained. BIN/PDF contents were extracted unchanged,
+with simplified local names. [sources.json](sources.json) records original
+archive names, URLs, sizes and hashes.
+
+| Build | Original archive | Update image | TP-Link publication date | Vendor change summary |
 | --- | --- | --- | --- | --- |
-| 20220921 | [ZIP](20220921/TL-SG1218MPE-UN-V5-1.0.0-Build-20220921.zip) | [BIN](20220921/TL-SG1218MPE-UN-V5-1.0.0-Build-20220921-up.bin) | 2022-10-08 | Первая версия для V5.0/V5.6 |
-| 20221012 | [ZIP](20221012/TL-SG1218MPE-UN-V5-1.0.0-Build-20221012.zip) | [BIN](20221012/TL-SG1218MPE-UN-V5-1.0.0-Build-20221012-up.bin) | 2022-10-26 | Исправление loop detection; V5 |
-| 20230220 | [ZIP](20230220/TL-SG1218MPE-UN-V5-1.0.0-Build-20230220.zip) | [BIN](20230220/TL-SG1218MPE-UN-V5-1.0.0-Build-20230220-up.bin) | 2023-02-20 | Изменение протокола управления для безопасности; V5/V5.6 |
-| 20230616 | [ZIP](20230616/TL-SG1218MPE-UN-V5-1.0.0-Build-20230616.zip) | [BIN](20230616/TL-SG1218MPE-UN-V5-1.0.0-Build-20230616-up.bin) | 2023-07-24 | Исправления PoE при первом включении и безопасности |
+| 20220921 | [ZIP](20220921/TL-SG1218MPE-UN-V5-1.0.0-Build-20220921.zip) | [BIN](20220921/TL-SG1218MPE-UN-V5-1.0.0-Build-20220921-up.bin) | 2022-10-08 | First V5.0/V5.6 release |
+| 20221012 | [ZIP](20221012/TL-SG1218MPE-UN-V5-1.0.0-Build-20221012.zip) | [BIN](20221012/TL-SG1218MPE-UN-V5-1.0.0-Build-20221012-up.bin) | 2022-10-26 | Loop-detection fix; V5 |
+| 20230220 | [ZIP](20230220/TL-SG1218MPE-UN-V5-1.0.0-Build-20230220.zip) | [BIN](20230220/TL-SG1218MPE-UN-V5-1.0.0-Build-20230220-up.bin) | 2023-02-20 | Management-protocol security change; V5/V5.6 |
+| 20230616 | [ZIP](20230616/TL-SG1218MPE-UN-V5-1.0.0-Build-20230616.zip) | [BIN](20230616/TL-SG1218MPE-UN-V5-1.0.0-Build-20230616-up.bin) | 2023-07-24 | First-power-on PoE and security fixes |
 
-В каждой папке также сохранён `TP-Link-Upgrade-Guide.pdf` из соответствующего ZIP.
-Разрешённые аппаратные версии в таблице — сведения страницы производителя,
-не результат испытаний нашего патча на V5.6.
+Each folder also contains its `TP-Link-Upgrade-Guide.pdf`. Hardware compatibility
+in this table is vendor information, not a SwitchLens test on V5.6.
 
-## Какой файл для чего
-
-| Материал | Назначение и статус |
+| Material | Purpose |
 | --- | --- |
-| Официальные ZIP в этом каталоге | Неизменённые дистрибутивы производителя |
-| Официальные `*-up.bin` | Образы обновления. **Проверено по файлам:** каждый имеет размер 1 013 324 байта; это не полный 2-МиБ SPI-дамп |
-| [Оригинальный экспорт ПЗУ](../../../backups/original/2026-10-17/README.md) | Дамп конкретного экземпляра: 2 097 424 байта, включая 272-байтный хвост экспорта. Формат хвоста полностью не установлен |
-| [SwitchLens experimental](../../../releases/v0.1.0-experimental/README.md) | Изменённый образ; работа на железе и восстановление пока не проверены |
+| Official ZIPs | Unchanged manufacturer distributions |
+| Official `*-up.bin` | Update images, each 1,013,324 bytes; not full 2 MiB SPI dumps |
+| [Original unit export](../../../backups/original/2026-10-17/README.md) | 2,097,424 bytes including a 272-byte export trailer |
+| [SwitchLens 0.1.1](../../../releases/v0.1.1-experimental-uart/README.md) | Working modified firmware: boot, UART and JSON confirmed on owner's unit; recovery untested |
 
-**Проверено по SHA-256:** извлечённый 20230616 совпадает с ранее полученным
-входным файлом сборки SwitchLens:
+The extracted 20230616 matches the builder's expected input:
 
 ```text
 c9ab17eda7af714f00692d41f440ce84ed0d6c7d678634c364ec1154bb7e3f32
 ```
 
-Сборщик SwitchLens принимает только этот входной хеш. Старые версии сохранены
-для анализа истории изменений; их присутствие не означает разрешённый или
-проверенный downgrade. Проверка восстановления остаётся отдельным пунктом
-[стенда](../../../docs/LAB.md).
+Older builds are archived for research, not proof of permitted/tested downgrade.
+Recovery remains a separate [bench](../../../docs/LAB.md) concern.
 
-## Проверка целостности
-
-Из этого каталога в Linux / Git Bash:
+From this directory:
 
 ```bash
 sha256sum -c SHA256SUMS
 ```
-
-В PowerShell из этого каталога:
 
 ```powershell
 Get-ChildItem -Recurse -File | Where-Object Extension -In '.bin','.zip','.pdf' |
     Get-FileHash -Algorithm SHA256
 ```
 
-Сверить результат с [SHA256SUMS](SHA256SUMS) или `sources.json`.
-Хеши вычислены нами по скачанным файлам, не являются подписью производителя.
-
-Файлы добавлены по прямому запросу владельца проекта. Права на прошивки и
-инструкции принадлежат TP-Link и соответствующим правообладателям; лицензия
-исходников SwitchLens не распространяется на них. Условия производителя
-сохранены внутри оригинальных ZIP/PDF.
+Compare with SHA256SUMS/sources.json. These hashes are our file checks, not vendor
+signatures. Files were included at the owner's request. Firmware/manual rights
+remain with TP-Link and other rights holders; project source licensing does not
+cover them. Original license notices remain inside ZIP/PDF files.

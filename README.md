@@ -1,294 +1,167 @@
+**English** | [Русский](README.ru.md)
+
 # SwitchLens
 
-Read-only JSON telemetry for the **TP-Link TL-SG1218MPE(UN) V5.0**.
+Working firmware for the **TP-Link TL-SG1218MPE(UN) V5.0**, adding read-only JSON
+telemetry and the stock UART command console.
 
-Цель проекта — один динамический `GET /stats.json` со статистикой портов,
-PoE и информацией о коммутаторе для последующего сбора в Prometheus.
-Репозиторий: [adsdevdoo/switchlens-sg1218](https://github.com/adsdevdoo/switchlens-sg1218).
+**Hardware verified on 17 October 2026:** the owner installed v0.1.1 through the
+stock web interface, booted the switch, ran UART `help`, and retrieved two valid
+`/stats.json` responses with changing counters. The tested unit has PCB label
+**Ver:5.40**, PCB **2060500612**, and reports hardware version **5.0** in the UI.
 
-**Продолжение в новом чате:** [контекст проекта и следующий шаг](docs/CONTEXT.md).
+- **[JSON API reference: every field, units, codes and null values](docs/JSON-API.md)**
+- **[Successful hardware test: owner messages, eight screenshots, logs and JSON](docs/evidence/2026-10-17-switchlens/README.md)**
+- **[Download v0.1.1](https://github.com/adsdevdoo/switchlens-sg1218/releases/tag/v0.1.1-experimental-uart)** · [Release notes](releases/v0.1.1-experimental-uart/README.md)
+- [Documentation index](docs/README.md) · [Continue in a new chat](docs/CONTEXT.md)
 
-**Проверено:** собран экспериментальный прошивочный BIN с MIPS-обработчиком
-`/stats.json`, адаптером RAM/ASIC и патчем штатного HTTP-роутера. Машинный код
-прошёл тесты в Unicorn вместе со штатными HTTP-функциями; сокет и показания
-оборудования в тесте синтетические. Исходники: [target](target/),
-[сборщик](tools/build_firmware.py), [тесты](tests/test_target.py).
+The historical `experimental-uart` suffix remains in the existing tag and filename
+so that download links, hashes and archived artifacts remain valid. The current
+status is **working firmware with hardware-verified boot, UART and JSON**.
+Loaded PoE operation, all counter semantics, recovery and long-duration operation
+are separate outstanding checks. See [roadmap](docs/ROADMAP.md).
 
-**Гипотеза:** образ загрузится и корректно работает на реальном V5.0.
-Испытаний изменённого образа и восстановления пока нет. Приём UART штатной
-прошивки уже подтверждён на стенде; подробности ниже.
-Это кандидат для отдельного стенда, не выпуск для боевого коммутатора.
-Сборка, точные границы проверки и оставшиеся неизвестные:
-[FIRMWARE](docs/FIRMWARE.md).
+## Current firmware
 
-## Диагностическая сборка с UART CLI
+File: `SwitchLens-SG1218MPE-V5-v0.1.1-experimental-uart.bin`, **1,013,324 bytes**.
 
-[**v0.1.1-experimental-uart**](releases/v0.1.1-experimental-uart/README.md)
-сохраняет `/stats.json` и включает штатную консоль основной прошивки.
-**Проверено в CPU-эмуляции:** приглашение `RTK#`, Enter, `help`, обработчик JSON.
-**На железе и восстановлении не испытано.** Это не консоль загрузчика;
-штатные CLI-команды включают операции изменения/сброса.
+```text
+SHA-256 27e4fce8d5c0c2999a324341cea7e96e37b1c0561e8d6a3218705b32b7aeee71
+```
 
-Статический разбор исходного дампа объяснил отсутствие реакции на Enter:
-диспетчер CLI выключен словом параметров. Перепайка RX не может проверить
-этот программный запрет. [Адреса, инструкции и границы вывода](research/UART-CONSOLE.md).
+The base is TP-Link `1.0.0 Build 20230616 Rel.57668`. Its internal version string
+is intentionally unchanged. v0.1.1 uses the same JSON payload as v0.1.0 and adds
+two UART-enabling instructions plus a recalculated CRC. The bootloader, existing
+HTTP authentication and the parameter word outside the CRC region are unchanged.
+The UART console includes stock configuration/reset commands; `/stats.json`
+itself only reads telemetry.
 
-## Готовый образ: v0.1.0-experimental
+The earlier [v0.1.0 package](releases/v0.1.0-experimental/README.md) is retained
+for reproducibility. Its SHA-256 is
+`58d48cf69cac4024eddfb4ede1bb5a925420521a0f0e44011ff4fa08940c2e25`;
+it was not independently tested on hardware. Hardware observations concern v0.1.1.
 
-[Скачать собранный BIN](releases/v0.1.0-experimental/SwitchLens-SG1218MPE-V5-v0.1.0-experimental.bin)
-· [Описание версии](releases/v0.1.0-experimental/README.md)
-· [SHA256SUMS](releases/v0.1.0-experimental/SHA256SUMS)
+## What the JSON provides
 
-Git-тег: **`v0.1.0-experimental`**. Размер BIN: **1 013 324 байта**.
-**Проверено:** SHA-256, CRC32 заголовка и соответствие исходников манифесту сборки.
-Это тот же машинный образ, который проходил офлайн-тесты; версия присвоена
-пакету выпуска и Git-тегу, содержимое BIN при упаковке не менялось.
+Log in to the stock web interface and open `http://<switch-address>/stats.json`
+in the same browser. The existing session is required.
 
-**Не проверено:** загрузка на железе, восстановление и совместимость с платой
-с маркировкой `Ver:5.40` на фото. Образ предназначен для отдельного стенда
-после подготовки UART, полного SPI-дампа и проверенного восстановления.
+- System description, MAC, IPv4, subnet, gateway, hardware/software strings.
+- Status and settings of 18 ports, including link speed and duplex.
+- A fixed structure of 49 counter fields per port, including byte totals,
+  packet categories, errors/discards and size categories.
+- Global PoE budget/consumption/remaining power, per-port status and measurements,
+  priority, power limits and Auto Recovery configuration/statistics.
+- Raw uptime and loop-prevention masks; unconfirmed values remain `null`.
 
-## Возможности экспериментального образа
+Counter values use decimal strings to preserve integer precision. Many underlying
+counters are 32-bit; a JSON string does not make them hardware 64-bit counters.
+Additional MIB names are based on a statically matched RTL838x register map;
+their precise semantics remain subject to device testing. They are not asserted
+to be IF-MIB equivalents. `uptime_seconds`, `rx_discards` and
+`tx_packets_256_511` intentionally remain `null`.
 
-Проверено по [схеме](schema/stats.schema.json) и [тестам](tests/test_serializer.py):
+The handler streams data through the stock HTTP server, without a new task, heap
+allocation or a stored JSON file in flash. See [implementation](docs/FIRMWARE.md).
+[Demo data](examples/demo.synthetic.json) is synthetic; the separately labelled
+[hardware samples](docs/evidence/2026-10-17-switchlens/README.md) are real.
+Prometheus collection and Grafana dashboards are the next integration goal;
+an exporter/dashboard is not included yet. SNMP is outside the current scope.
 
-- Поля System Info: описание, MAC, IP, маска, шлюз, аппаратная и программная версии.
-- Состояние и параметры 18 портов; структура для 49 счётчиков на порт.
-- Общий бюджет PoE, потребление и остаток; структура измерений, статусов,
-  приоритетов, лимитов и Auto Recovery по портам.
-- Точный вывод `uint64` десятичными строками, ограниченный буфер128байт,
-  экранирование строк и проверка ошибок источника/отправки.
-- Отдельный reader с разрешённым набором selector и ограниченными повторами
-  чтения двухсловных RX/TX byte counters.
-- Динамический JSON через штатный HTTP-сервер с существующей проверкой сессии,
-  без новых задач, heap и глобальной RAM. Проверено исходниками и ELF.
+## Successful hardware test
 
-**Гипотеза:** названия дополнительных MIB-счётчиков соответствуют поведению ASIC.
-Их регистры и код чтения установлены статически, семантика сопоставлена с RTL838x.
-Образ выдаёт эти значения экспериментально; стенд должен подтвердить смысл,
-разрядность, сброс и влияние чтения. Они не объявляются эквивалентом IF-MIB.
+![UART help on the installed firmware](docs/evidence/2026-10-17-switchlens/07-uart-help.png)
 
-Наличие поля в JSON не означает найденный и проверенный источник на устройстве.
-Неизвестные показания — `null`. Для uptime найдены параметры таймера; гипотеза
-о секунде на raw tick зависит от неподтверждённой частоты LXB, поэтому seconds
-остаются `null`. `rx_discards` и `tx_packets_256_511` принудительно `null`.
-Все показания в [примере](examples/demo.synthetic.json) синтетические.
+![First real stats.json response in the browser](docs/evidence/2026-10-17-switchlens/08-stats-json.png)
 
-## Плата и аппаратная ревизия
+Both full JSON responses pass the schema and contain ports 1–18. Port 1 reports
+1000 Mbps/full duplex. RX bytes changed from 43,610 to 528,836; TX bytes from
+51,604 to 103,534; raw uptime from 84 to 614. Exact elapsed capture time was not
+measured. PoE reports 0 W used from a 250 W budget. `rx_bridge_discards` increased
+from 163 to 3,870; the cause has not been established.
 
-**Проверено по предоставленным фотографиям:** на наклейке платы указано
-`TL-SG1218MPE(UN) Ver:5.40`. Это маркировка именно сфотографированной платы;
-она не подтверждает, что плата идентична V5.0, для которой исследован образ.
-**Гипотеза:** совместимость этой платы с экспериментальной прошивкой.
-До проверки аппаратной ревизии, загрузчика и восстановления прошивать её нельзя.
+[The complete chronology](docs/evidence/2026-10-17-switchlens/README.md) includes
+System Info, the upgrade form/progress, reboot and runtime logs, `RTK#`, `help`,
+the browser screenshot, both complete JSON attachments and machine validation.
+No flash readback hash was provided after installation; the package association
+comes from the documented session and appearance of both added features.
 
-### Общий вид платы
+## Board and UART
 
-![Общий вид платы TL-SG1218MPE с радиаторами, разъёмами и наклейкой Ver:5.40](docs/images/board-overview.png)
+![Board overview and Ver:5.40 label](docs/images/board-overview.png)
 
-**Проверено по фото:** видны радиаторы, сетевые разъёмы и маркировка PCB
-`2060500612`. Маркировки микросхем под радиаторами на этом снимке не читаются.
+![RTL8214FC marking](docs/images/rtl8214fc-marking.png)
 
-### Маркировка микросхемы
+The visible RTL8214FC marking identifies that chip, not the processor under a
+heatsink. RTL838x remains the researched platform family; photographs do not
+prove the exact SoC model. Additional original photographs:
+[close-up](docs/images/chip-detail.png), [header backside](docs/images/header-backside.png).
+The successful test on this unit does not establish compatibility with every
+board carrying the same label.
 
-![Крупный план микросхемы с маркировкой RTL8214FC и наклейки платы](docs/images/rtl8214fc-marking.png)
+### UART on the owner's bench
 
-**Проверено по фото:** на открытой микросхеме читается `RTL8214FC`, на наклейке —
-`Ver:5.40`. По одному этому снимку нельзя установить процессор, который исполняет
-исследуемую прошивку; `RTL8214FC` здесь не объявляется моделью основного SoC.
-
-<details>
-<summary>Дополнительный крупный план той же области платы</summary>
-
-![Дополнительный крупный план микросхемы и окружающих компонентов](docs/images/chip-detail.png)
-
-</details>
-
-### Обратная сторона возле четырёх контактов
-
-![Дорожки на обратной стороне платы возле ряда из четырёх контактных отверстий](docs/images/header-backside.png)
-
-**Проверено по фото:** виден ряд из четырёх контактных отверстий и дорожки рядом.
-**Проверено позднее на стенде:** pin 1 J2 по нумерации владельца выдаёт UART TX
-на 38400 после установки R41/R42 по 0 Ом 0402. RX и интерактивная консоль
-ещё не проверены. Ориентация этого снимка отличается от лицевой стороны;
-номера контактов по расположению отверстий здесь не назначаются.
-
-Фото добавлены по разрешению владельца без изменения пикселей, поворота или
-скрытия наклеек. Исходные имена и SHA-256: [sources.json](docs/images/sources.json).
-
-## UART на стенде
-
-**Проверено на данном экземпляре 17.10.2026** по прозвонке и сообщениям владельца,
-скриншоту PuTTY и полному тексту штатной загрузки:
-
-| Параметр | Результат и источник |
+| Item | Observed status |
 | --- | --- |
-| R41, R42 | **По 0 Ом, корпус 0402**. Владелец подтвердил последовательные разрывы прозвонкой и рабочую доработку. Заводской номинал по схеме не установлен |
-| J2, pin 1 | **TX свитча → RXD USB-UART**; владелец подтвердил, что вывод идёт с pin 1 |
-| J2, pin 2 | **Гипотеза:** RX свитча. Приём команд не проверен |
-| J2, pin 3 | GND по ранее сообщённой владельцем проверке; перед подключением другой платы проверить заново |
-| J2, pin 4 | 3,3 В по измерению владельца. К питанию адаптера не подключать |
-| Параметры порта | **38400 бод, 8N1, Flow control None**. Владелец: «38400 отлично работает» |
-| Порт компьютера | COM3 на стенде владельца; на другом компьютере номер может отличаться |
-| Подтверждённое поведение | Читаемый вывод загрузчика и штатной прошивки вплоть до `code init` |
-| Ещё не проверено | Ввод команд, интерактивная консоль, восстановление, загрузка SwitchLens |
+| R41/R42 | Both populated with **0 Ω, 0402**; continuity and modification confirmed by owner; factory schematic value unknown |
+| J2 pin 1 | Switch TX → USB-UART RXD; readable output confirmed |
+| J2 pin 2 | Switch RX in the owner's described wiring; `help` proves bidirectional communication; no new wiring photo |
+| J2 pin 3 | GND according to owner's checks |
+| J2 pin 4 | 3.3 V according to owner's measurement; do not connect adapter power here |
+| Serial settings | **38400 baud, 8N1, Flow control None**, CP2102, COM3 on this PC |
+| Verified | Stock boot output, v0.1.1 boot, RTK# and response to help |
+| Outstanding | Other CLI commands, recovery, loaded PoE and long-duration testing |
 
-**Нумерация 1–4 здесь — нумерация владельца при измерениях.** Привязка к
-ориентации фото и заводскому треугольнику отдельно не установлена. Не считать
-верхний или нижний контакт pin 1 только по расположению снимка.
+Pin numbers follow the owner's measurement convention. Do not infer numbering
+from the top/bottom of a photograph or assume it applies to another board.
+For bidirectional operation connect common ground, switch TX to adapter RXD,
+and switch RX to compatible-level adapter TXD. Adapter VCC/5V/3V3 remain
+unconnected. Soldering or rewiring is performed with switch power and USB-UART
+disconnected. For receive-only capture, leave adapter TXD unconnected.
 
-![J2 и места R41/R42 до установки компонентов](docs/images/uart/j2-before-mod.jpeg)
+![J2 and R41/R42 before population](docs/images/uart/j2-before-mod.jpeg)
 
-**Проверено по фото:** показана плата **до** установки R41/R42. Корпус 0402,
-номинал 0 Ом и результат после доработки подтверждены владельцем; отдельного
-фото установленной пары пока нет. Для другой платы до пайки нужно прозвонить
-цепи: пустой резистор может иметь другое назначение.
+This photograph predates resistor installation; component value/package and the
+successful modification were reported by the owner. Verify traces on a different
+board before assuming empty resistor positions serve the same purpose.
 
-Для приёма подключаются только подтверждённая земля к GND адаптера и pin 1 к
-RXD адаптера. TXD, VCC, 5V и 3V3 адаптера остаются свободными. Пайка и перестановка
-проводов выполняются при отключённом питании и отсоединённом USB-UART.
+The original firmware contains the CLI code but disables its dispatcher. Silence
+after Enter on stock firmware was not a solder-joint test. [Code evidence](research/UART-CONSOLE.md).
+`RTK#` is the runtime console, not a confirmed bootloader recovery menu.
 
-Настройки PuTTY: **Serial / COM3 / 38400**, **8 data bits / 1 stop bit /
-Parity None / Flow control None**. Для сохранения сырых байтов закройте PuTTY
-и выполните из корня репозитория:
+### Capture and original evidence
+
+Close PuTTY before running the receive-only capture script from the repository:
 
 ```powershell
 .\tools\start-uart.cmd -Port COM3 -Baud 38400 -OutputDirectory "$PWD\uart-logs"
 ```
 
-После `LISTENING` включите стенд. Скрипт по умолчанию слушает 60 секунд,
-ничего не отправляет и сохраняет `rx.bin`, `rx.txt`, `rx.hex.txt`, `session.json`.
-[Подробная инструкция](docs/UART-CAPTURE.md).
+After `LISTENING`, power up the bench. Default capture length is 60 seconds;
+outputs are `rx.bin`, `rx.txt`, `rx.hex.txt`, `session.json`.
+[Full instructions](docs/UART-CAPTURE.md).
 
-### Полный присланный лог штатной загрузки
+[Original stock boot text](docs/evidence/2026-10-17/boot-stock-38400.txt) is the
+owner's complete pasted message, not raw UART bytes. Its `SignCheck Pass.` refers
+to the stock session; the later modified-runtime observation is archived separately.
+The `phy is 0xc984` line does not establish an exact SoC model; firmware port
+numbers 24–27 do not by themselves establish front-panel mapping. `POE init`
+is not a loaded-PoE test.
 
-**Проверено:** ниже весь текст, присланный владельцем; он также сохранён в
-[boot-stock-38400.txt](docs/evidence/2026-10-17/boot-stock-38400.txt).
-Это текст из чата, не исходный `rx.bin`. Сохранён целиком по запросу владельца.
+![Readable stock boot output](docs/images/uart/putty-boot-38400.png)
 
-```text
-check runtime img
-go to runtime addr 0xb4008010
-uart 0 init!---------- Done!
+Earlier diagnosis is retained in the [stock evidence journal](docs/evidence/2026-10-17/README.md):
+[COM3 loopback](docs/images/uart/loopback-com3.png),
+[path error](docs/images/uart/capture-path-error.png),
+[pin 1 no data](docs/images/uart/pin1-no-data.png),
+[repeat pin 1](docs/images/uart/pin1-no-data-repeat.png),
+[pin 2 no data](docs/images/uart/pin2-no-data.png),
+[unreadable output](docs/images/uart/putty-unreadable.png),
+[old serial settings](docs/images/uart/putty-serial-initial.png).
+The 115200 settings in those old images are historical; the working rate is 38400.
+Original filenames and hashes: [image provenance](docs/images/sources.json).
 
-flash driver init!---------- Done!
-
-Config signature ok.
-sal_config_init!---------- Done!
-
-timer init!---------- Done!
-
-soc interrupt init!---------- Done!
-
-phy is 0xc984
-get switch_mac = 58:4:4f:95:41:a1!---------- Done!
-
-tddp_tsdp_dhcp_igmp trap cpu set ---------- Done!
-
-QoS init ---------- Done!
-
-DHCPC init!---------- Done!
-
-IGMP init!---------- Done!
-
-Trunk init!---------- Done!
-
-port init!---------- Done!
-
-port mirror init!---------- Done!
-
-POE init!---------- Done!
-
-vlan init!---------- Done!
-
-SignCheck start!
-SignCheck Pass.
-Led init!---------- Done!
-
-Config Restore!---------- Done!
-
-HTTPD && TSDP init!---------- Done!
-
-TDDP init!---------- Done!
-
-set port 24 to copper mode
-set port 25 to copper mode
-set port 26 to fiber mode
-set port 27 to fiber mode
- code init !---------- Done!
-```
-
-`SignCheck Pass.` показывает результат штатной загрузки, а не испытание нашего
-патча. `phy is 0xc984` сохраняем как наблюдаемое значение, без вывода о точной
-модели SoC. Номера 24–27 в логе — номера, выведенные прошивкой; их соответствие
-лицевым портам этим логом не установлено. Строка `POE init ... Done!` не заменяет
-испытание PoE с реальной нагрузкой.
-
-### Скриншоты и история диагностики
-
-**Проверено:** читаемое начало загрузки на рабочей скорости 38400, подтверждённой
-владельцем. Скриншот показывает только начало; продолжение находится в тексте выше.
-
-![Читаемый UART boot log в PuTTY](docs/images/uart/putty-boot-38400.png)
-
-Остальные присланные UART-скриншоты сохранены ниже как история проверок.
-115200 в старых снимках — параметры прежних тестов; рабочая скорость — 38400.
-
-<details>
-<summary>Петля COM3, 115200, PASS</summary>
-
-![Петля COM3, 115200, PASS](docs/images/uart/loopback-com3.png)
-
-</details>
-
-<details>
-<summary>Первоначальная ошибка Join-Path до открытия порта</summary>
-
-![Первоначальная ошибка Join-Path до открытия порта](docs/images/uart/capture-path-error.png)
-
-</details>
-
-<details>
-<summary>Pin 1: 0 байт при 115200 до доработки</summary>
-
-![Pin 1: 0 байт при 115200 до доработки](docs/images/uart/pin1-no-data.png)
-
-</details>
-
-<details>
-<summary>Повтор pin 1: владелец уточнил, что провод ещё не переставлял</summary>
-
-![Повтор pin 1: владелец уточнил, что провод ещё не переставлял](docs/images/uart/pin1-no-data-repeat.png)
-
-</details>
-
-<details>
-<summary>Pin 2: 0 байт при 115200 до доработки</summary>
-
-![Pin 2: 0 байт при 115200 до доработки](docs/images/uart/pin2-no-data.png)
-
-</details>
-
-<details>
-<summary>Нечитаемые символы до выбора рабочей скорости</summary>
-
-![Нечитаемые символы до выбора рабочей скорости](docs/images/uart/putty-unreadable.png)
-
-</details>
-
-<details>
-<summary>Исторические настройки 115200; рабочая скорость затем установлена 38400</summary>
-
-![Исторические настройки 115200; рабочая скорость затем установлена 38400](docs/images/uart/putty-serial-initial.png)
-
-</details>
-
-Исходные файлы не изменялись. Имена загрузок и контрольные суммы:
-[sources.json](docs/images/sources.json). Область доказанности каждого результата:
-[журнал стенда](docs/evidence/2026-10-17/README.md).
-
-## Быстрый запуск на компьютере
+## Build and local verification
 
 ```bash
 python3 -m venv .venv
@@ -296,49 +169,25 @@ python3 -m venv .venv
 python3 -m pip install -r requirements-dev.txt
 make test
 ./build/fixture > demo.synthetic.json
-```
-
-Проверено: эти тесты не обращаются к коммутатору и не меняют образ прошивки.
-Нужны C99-компилятор, make и Python3. CI использует Ubuntu и Python3.12.
-Локально проверены GCC и ASan/UBSan; запуск GitHub Actions ещё не выполнен.
-
-```bash
-make sanitize
+ASAN_OPTIONS=detect_leaks=0 make sanitize
 python3 tools/generate_fields.py
 git diff --exit-code -- include/sg_fields.h src/sg_fields.inc
 ```
 
-В среде с ограничением ptrace LeakSanitizer может не запускаться. Для такой
-среды проверено `ASAN_OPTIONS=detect_leaks=0 make sanitize`; ASan/UBSan остаются
-включены. Причина и результаты описаны в [IMPLEMENTATION](docs/IMPLEMENTATION.txt).
+These host checks do not access or flash a switch. They require a C99 compiler,
+make and Python. LeakSanitizer was disabled in the preparation environment;
+AddressSanitizer and UndefinedBehaviorSanitizer remained enabled.
+The firmware additionally passed 6 UART, 10 HTTP/JSON and 4 scheduler/boot-path
+MIPS tests. [Final offline review](docs/FINAL-CHECK.md) explains their limits.
 
-## Структура
-
-| Каталог | Содержание |
-|---|---|
-| `src/`, `include/` | Потоковый JSON и экспериментальное чтение MIB |
-| `target/` | MIPS-маршрут, адаптер официального образа, linker script |
-| `tests/` | Синтетические источники, транспорт, граничные проверки |
-| `schema/`, `examples/` | Контракт и примеры без реальных сетевых данных |
-| `tools/` | Генерация таблиц, статический анализ и локальная сборка BIN |
-| `research/` | Факты, смещения, карты источников и история выводов |
-| `docs/` | Ограничения, этапы, результаты и подготовка стенда |
-| `releases/` | Версионный экспериментальный BIN, SHA-256 и манифест сборки |
-| `vendor/tp-link/tl-sg1218mpe-v5/` | Четыре официальных ZIP/BIN TP-Link, инструкции производителя и SHA-256 |
-| `backups/original/2026-10-17/` | Неизменённый экспорт ПЗУ конкретного экземпляра, SHA-256 и анализ |
-| `docs/datasheets/` | PDF Realtek и GigaDevice GD25Q16B с происхождением и контрольными суммами |
-
-## Исследуемая версия
-
-Проверено для предоставленного файла `1.0.0 Build 20230616 Rel.57668`:
+The builder accepts only the original 20230616 update BIN with SHA-256:
 
 ```text
-SHA-256 c9ab17eda7af714f00692d41f440ce84ed0d6c7d678634c364ec1154bb7e3f32
+c9ab17eda7af714f00692d41f440ce84ed0d6c7d678634c364ec1154bb7e3f32
 ```
 
-Официальный исходный образ теперь [сохранён в репозитории](vendor/tp-link/tl-sg1218mpe-v5/README.md)
-по запросу владельца вместе с версиями 20220921, 20221012 и 20230220.
-Аудит сначала проверяет SHA-256:
+[Vendor files](vendor/tp-link/tl-sg1218mpe-v5/README.md) include all four V5 builds.
+Auditors verify this input hash before analysis:
 
 ```bash
 python3 tools/audit.py /path/to/firmware.bin
@@ -346,49 +195,38 @@ python3 tools/audit_mib.py /path/to/firmware.bin > local-mib-map.json
 python3 tools/audit_platform.py /path/to/firmware.bin > local-platform-evidence.json
 ```
 
-Проверено новым статическим разбором: runtime `SignCheck` хеширует UID устройства;
-проверки отдельного загрузчика из update BIN не установлены. Между RAM-кодом и
-initial SP — 4800 байт, причём штатные функции уже используют большие кадры стека.
-Подробности и смещения: [PLATFORM-FOLLOWUP](research/PLATFORM-FOLLOWUP.md).
+Runtime SignCheck hashes the flash UID; this is not a claim that no other image
+checks exist. The RAM-code end to initial-SP distance is 4800 bytes, not guaranteed
+free stack. [Platform analysis](research/PLATFORM-FOLLOWUP.md).
+[Related projects](research/PRIOR-ART.md) inform the method, not binary compatibility.
 
-Найдены опубликованные примеры модификации Easy Smart и родственных Realtek:
-[PRIOR-ART](research/PRIOR-ART.md). Они подтверждают наличие подходов и кода для
-изучения, но не совместимость чужих образов с TL-SG1218MPE V5.0.
+## Repository layout
 
-По прямым запросам владельца в Git включены исходный экспорт SPI в
-`backups/original/2026-10-17/`, присланный UART-лог в `docs/evidence/2026-10-17/`,
-его скриншоты и фото платы. Новые журналы, учётные данные и сетевые настройки
-не добавляются автоматически. Версионный модифицированный BIN включён в `releases/`.
-Доказательства маркируются «проверено»,
-непроверенные выводы — «гипотеза». Статическое чтение инструкций не заменяет
-проверку поведения ASIC. Исходные отчёты в `research/` сохраняют историю;
-актуальный статус — этот README и [ROADMAP](docs/ROADMAP.md).
+| Directory | Contents |
+| --- | --- |
+| `src/`, `include/` | Streaming JSON and MIB reader |
+| `target/` | MIPS route, firmware adapter and linker script |
+| `tests/` | Synthetic sources, transport and boundary checks |
+| `schema/`, `examples/` | JSON contract and synthetic examples |
+| `tools/` | Field generation, audits and local BIN builds |
+| `research/` | Findings, offsets, source maps and historical analysis |
+| `docs/` | English/Russian guides, status and evidence |
+| `releases/` | Versioned BINs, checksums and build records |
+| `vendor/tp-link/tl-sg1218mpe-v5/` | Original vendor ZIP/BIN/PDF packages |
+| `backups/original/2026-10-17/` | Unmodified original SPI export and analysis |
+| `docs/datasheets/` | Original GigaDevice/Realtek PDFs and provenance |
 
-## Следующие этапы
+The owner explicitly authorized publication of the original SPI export, board
+photographs, stock UART evidence and this successful test session, including its
+IP/MAC data. Future logs and credentials are not published automatically.
+[Contribution and evidence rules](CONTRIBUTING.md).
 
-Офлайн-сборка выполнена. Полный экспорт SPI сохранён; приём UART штатной
-прошивки подтверждён (R41/R42: 0 Ом 0402, pin 1 TX, 38400 8N1).
-В штатном образе найден выключенный диспетчер CLI; отсутствие ответа на Enter
-не диагностирует пайку RX. Диагностический вариант с CLI проверен в эмуляторе.
-До первой изменённой прошивки остаются проверка восстановления и критериев допуска.
-По уточнению владельца этот единственный свитч пока не введён в эксплуатацию.
-Затем — загрузка кандидата на стенде, не менее недели испытаний и только после
-этого отдельное решение о внедрении.
-См. [стенд](docs/LAB.md) и [план](docs/ROADMAP.md).
+The next checks are real PoE loads, comparison with stock UI, port mapping,
+discard behavior, uptime calibration and sustained polling. Recovery remains
+untested; the owner declined another desoldering exercise as a prerequisite.
+The unit is not yet in production. Deployment is a separate decision.
 
-Проект независимый, не официальный продукт TP-Link. Лицензия для публикации
-исходников пока не выбрана. Официальные образы производителя находятся в
-`vendor/tp-link/tl-sg1218mpe-v5/`; экспериментальный модифицированный BIN — в `releases/`.
-Права на официальные прошивки и даташиты принадлежат их правообладателям.
-
-Клонирование репозитория и работа с Git: [GITHUB](docs/GITHUB.md).
-
-Исключение по прямому запросу владельца от 2026-10-17: исходный экспорт
-GD25Q16B включён без изменений в `backups/original/2026-10-17/`
-вместе с SHA-256 и результатами первичной проверки. Остальные дампы
-не добавляются автоматически.
-
-Документация ПЗУ: [сам PDF GD25Q16B rev. 2.3](docs/datasheets/GD25Q16B_Datasheet_2.3.pdf),
-[распиновка U6 и указатель страниц](docs/datasheets/README.md#пзу-u6-gd25q16bsig).
-Для восстановления различайте официальный update BIN и полный экспорт SPI:
-[описание файлов](vendor/tp-link/tl-sg1218mpe-v5/README.md).
+SwitchLens is independent of TP-Link. A source-code license has not yet been
+selected. Vendor firmware and datasheets retain their owners' rights; original
+notices remain intact. [GitHub workflow](docs/GITHUB.md) ·
+[Flash pinout](docs/datasheets/README.md#u6-gd25q16bsig).
