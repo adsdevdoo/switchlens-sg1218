@@ -14,6 +14,7 @@ the top. Original `.txt` analyses remain unchanged as historical source records.
 
 | Document | Subject |
 | --- | --- |
+| [Cooling and board signals](COOLING.md) | GPIO27 PoE hysteresis, GPIO26 LED input, read-only UART reads and diagnostic JSON; fan mapping pending |
 | [Initial report](REPORT.md) | Original firmware, architecture, MIB and risks |
 | [Version/PoE comparison](COMPARISON-AND-POE.md) | Vendor builds and PoE RAM/UI encoding |
 | [HTTP/JSON follow-up](HTTP-JSON-FOLLOWUP.md) | Router, session, emit path and signature investigation |

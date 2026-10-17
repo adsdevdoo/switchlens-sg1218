@@ -7,6 +7,7 @@ English is the default; every reader document has an English | Русский sw
 
 | Document | English | Russian |
 | --- | --- | --- |
+| Cooling and board-signal statistics | [English](../research/COOLING.md) | [Русский](../research/COOLING.ru.md) |
 | Contributing and publishing evidence | [English](../CONTRIBUTING.md) | [Русский](../CONTRIBUTING.ru.md) |
 | SwitchLens | [English](../README.md) | [Русский](../README.ru.md) |
 | Original GD25Q16B export — first supplied read | [English](../backups/original/2026-10-17/README.md) | [Русский](../backups/original/2026-10-17/README.ru.md) |

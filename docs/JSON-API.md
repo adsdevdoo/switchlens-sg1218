@@ -12,6 +12,14 @@ This document describes the implementation. Authoritative structure:
 [serializer](../src/sg_stats.c), [evidence map](../research/metric-sources.json).
 The earlier `research/JSON-CONTRACT.txt` is a historical design record.
 
+## Fan telemetry status
+
+v0.1.1 has no fan RPM, fan-health, cooling-mode or temperature fields. The
+[GPIO/PoE investigation](../research/COOLING.md) and offline diagnostic JSON
+identify raw signal sources; their physical fan mapping remains unverified.
+The decoder's `diagnostic_version` is separate from this API's `schema_version`.
+Its `fan_status: null` and `fan_rpm: null` do not add fields to the installed API.
+
 ## Request and authentication
 
 1. Log in to the stock switch web interface.

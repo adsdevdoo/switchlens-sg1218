@@ -1,0 +1,8 @@
+{
+  "image_sha256": "27e4fce8d5c0c2999a324341cea7e96e37b1c0561e8d6a3218705b32b7aeee71",
+  "tests": 7,
+  "failures": 0,
+  "errors": 0,
+  "scope": "Original MIPS code with synthetic GPIO/PoE values and UART input; not hardware validation",
+  "fan_mapping_verified": false
+}

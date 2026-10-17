@@ -7,6 +7,7 @@ Status after the first successful v0.1.1 hardware test, **17 October 2026**.
 
 | Stage | Status / remaining criterion |
 | --- | --- |
+| Fan statistics | GPIO27 PoE hysteresis and GPIO26 LED path traced; seven emulator tests pass; physical fan mapping/RPM pending. [Procedure](../research/COOLING.md) |
 | Runtime analysis | Required paths identified; additional MIB meanings remain provisional |
 | JSON contract and host prototype | Locally tested; all fields documented |
 | Boot, signature, RAM/flash | CRC/staging traced and boot observed; peak stack/IRQ behavior and recovery outstanding |
@@ -23,7 +24,11 @@ Status after the first successful v0.1.1 hardware test, **17 October 2026**.
 | Prometheus / Grafana | Next integration goal; exporter/dashboard not yet created |
 | Production deployment | Separate owner decision after bench checks |
 
-Next: connect a real PoE consumer and compare JSON with the stock page, then
+Current priority: capture the read-only board signals while observing the fans
+and FAN indicator; correlate the physical signals before adding fan fields.
+The diagnostic decoder is separate from the installed endpoint.
+
+Subsequent checks: connect a real PoE consumer and compare JSON with the stock page, then
 verify physical numbering/settings, discard causes and uptime scale. Two manual
 requests do not establish a safe continuous polling interval.
 

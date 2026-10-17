@@ -92,6 +92,25 @@ Do not reintroduce it as a mandatory step. Restoration by writing the dump,
 separate UID/OTP/status data and UART/TFTP recovery are unverified. Runtime RTK#
 does not establish a bootloader emergency console.
 
+## Current priority: fan statistics
+
+Owner fitted Noctua NF-A4x20 PWM 12 V fans with three standard wires connected.
+One fan fails to start on either header but runs after a push. No supply or tach
+measurements have been supplied. Current task: investigate control and add
+verified fan telemetry. [Cooling investigation](../research/COOLING.md).
+
+Original code switches GPIO27 using PoE hysteresis (<1460 raw -> 1, >=1501 -> 0),
+and reads GPIO26 for paired LED modes. These paths are unchanged in v0.1.1.
+Seven emulator tests verify code behavior, not physical fan mapping. No new BIN
+or `/stats.json` fan fields have been produced. `tools/decode_board_signals.py`
+converts copied UART reads to diagnostic JSON with fan state/RPM left null.
+
+Next obtain `reg socget 0x3508`, `reg socget 0x350c` and
+`reg flashget 0x14840 0`, separately for the naturally stopped/running fan,
+with FAN indicator observations. No `--` prefix. The last read's `set flashreg`
+message is a stock output bug; the tested branch only reads. Do not force GPIO27
+or infer high/low fan speed until physical mapping is established.
+
 ## Continue with
 
 1. Real PoE consumer and comparison with the stock PoE page.

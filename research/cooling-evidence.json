@@ -1,0 +1,108 @@
+{
+  "image_sha256": "c9ab17eda7af714f00692d41f440ce84ed0d6c7d678634c364ec1154bb7e3f32",
+  "scope": "Static code evidence; physical fan mapping unverified",
+  "gpio_numbering": "Bit indices in the firmware 32-bit GPIO register",
+  "registers": {
+    "control": "0xb8003500",
+    "direction": "0xb8003508",
+    "data": "0xb800350c"
+  },
+  "input_path": {
+    "bit": 26,
+    "mask": "0x04000000",
+    "setup": {
+      "file_start": "0x5466c",
+      "file_end_exclusive": "0x546a4",
+      "sha256": "c323eb184b0b209ffeb391ed61b7f52eade1dc051f7047b9a2f7f1f0ba75a375"
+    },
+    "reader": {
+      "file_start": "0x3328",
+      "file_end_exclusive": "0x334c",
+      "sha256": "868fcb72431edda50ea1f7ed6d27f1b9f1675e2cd44fba96d6f1a6045f411096"
+    },
+    "consumer": {
+      "file_start": "0x560a4",
+      "file_end_exclusive": "0x56184",
+      "sha256": "c79bd4e06540a7226710f5165dcf4ce313c0a4ebdc938a589f17a885a7559cb3"
+    },
+    "consumer_behavior": "Selects opposite force-mode values for LED outputs 26/27, index 0",
+    "fan_alarm_polarity": null,
+    "per_fan_identity": null
+  },
+  "output_path": {
+    "bit": 27,
+    "mask": "0x08000000",
+    "setup": {
+      "file_start": "0x5449c",
+      "file_end_exclusive": "0x544f4",
+      "sha256": "7c91f9cb63ed395b6d7566509b2ce4db6aa3e7418e43a90ee4b0c0742ee34a1c"
+    },
+    "output_wrapper": {
+      "file_start": "0x54344",
+      "file_end_exclusive": "0x54368",
+      "sha256": "2f00705032d0772046c35c3fc46a9dc97e0f75b251be56b556cfb06ba9f987ee"
+    },
+    "register_writer": {
+      "file_start": "0x32ec",
+      "file_end_exclusive": "0x3328",
+      "sha256": "0b65543b5e74a84f33d7da0e35fbe5e6077ebe443c88837b6c80c294c0bd9363"
+    },
+    "controller": {
+      "file_start": "0x54368",
+      "file_end_exclusive": "0x543fc",
+      "sha256": "384dce7b8628bda39f81aede87e26f7e6d646e2c420ef29ac2d0efb5bc0d211e"
+    },
+    "state_ram": "0xbf014840",
+    "consumption_ram": "0xbf014400",
+    "sum_source": "Signed 16-bit values at 0xbf0143e0 + 48*i + 10, inclusive configured first/last indices",
+    "state_0_to_1_when_sum_less_than": 1460,
+    "state_1_to_0_when_sum_at_least": 1501,
+    "raw_power_unit_w": 0.1,
+    "hold_previous_state_raw_interval_inclusive": [
+      1460,
+      1500
+    ],
+    "initial_output_level": 0,
+    "physical_voltage_or_speed_for_each_level": null,
+    "fan_mapping_verified": false
+  },
+  "poll_chain": [
+    {
+      "file_offset": "0x56798",
+      "callee_va": "0xbfc5e2fc"
+    },
+    {
+      "file_offset": "0x56314",
+      "callee_va": "0xbfc5e0a4"
+    },
+    {
+      "file_offset": "0x5631c",
+      "callee_va": "0xbfc5c368"
+    }
+  ],
+  "uart_read_commands": [
+    "reg socget 0x3508",
+    "reg socget 0x350c",
+    "reg flashget 0x14840 0"
+  ],
+  "uart_read_implementation": {
+    "socget": {
+      "file_start": "0x259e8",
+      "file_end_exclusive": "0x25a2c",
+      "sha256": "b40c61a01a6191e00650da98e55b9a93aa9dede62b65c118691006d2e2fe5c5f"
+    },
+    "flashget_single_word": {
+      "file_start": "0x25b44",
+      "file_end_exclusive": "0x25ba0",
+      "sha256": "143a9bf5ed6c78a7c5890c05572c0d83d960e0613a3e2763cfa0e746c0a7d5e1"
+    },
+    "syntax": "No -- prefix; flashget uses BF000000 OR offset, despite its name",
+    "misleading_output": "The single-word flashget read prints set flashreg; the selected path only loads"
+  },
+  "not_established": [
+    "Fan-header connection to GPIO26/GPIO27",
+    "Fan alarm polarity or individual fan states",
+    "RPM source or tachometer pulse capture",
+    "Fan supply waveform/voltage and startup fault cause"
+  ]
+}
