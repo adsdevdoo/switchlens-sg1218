@@ -30,8 +30,8 @@ git remote set-url origin git@github.com:adsdevdoo/switchlens-sg1218.git
 if errorlevel 1 exit /b 1
 
 echo Using Pageant via "%SWITCHLENS_PLINK%"
-echo Pushing main to git@github.com:adsdevdoo/switchlens-sg1218.git
-git push --set-upstream origin main
+echo Pushing main and annotated version tags to git@github.com:adsdevdoo/switchlens-sg1218.git
+git push --set-upstream --follow-tags origin main
 if errorlevel 1 exit /b 1
 echo Push completed.
 exit /b 0

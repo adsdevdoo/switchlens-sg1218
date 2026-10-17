@@ -25,3 +25,4 @@ captures/
 private/
 local-*
 /demo.synthetic.json
+!/releases/v0.1.0-experimental/SwitchLens-SG1218MPE-V5-v0.1.0-experimental.bin

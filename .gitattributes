@@ -6,3 +6,4 @@
 *.json text
 *.cmd text eol=crlf
 *.png binary
+*.bin binary

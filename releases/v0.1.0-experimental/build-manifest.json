@@ -1,0 +1,99 @@
+{
+  "version": "experimental-1",
+  "classification": "EXPERIMENTAL_UNTESTED_ON_HARDWARE",
+  "input_sha256": "c9ab17eda7af714f00692d41f440ce84ed0d6c7d678634c364ec1154bb7e3f32",
+  "output_sha256": "58d48cf69cac4024eddfb4ede1bb5a925420521a0f0e44011ff4fa08940c2e25",
+  "payload_sha256": "2c8cc720156387a8593e69b516bce0a2ffb05d388556b76b8612bd6ba7c29ddd",
+  "image_bytes": 1013324,
+  "payload_bytes": 12440,
+  "payload_file_offset": "0xd8640",
+  "payload_va": "0xbfce0640",
+  "padding_remaining_bytes": 112936,
+  "crc32": "5e9ceeca",
+  "crc_range": [
+    "0x10",
+    "0xf7000"
+  ],
+  "changed_bytes": 12114,
+  "hooks": [
+    {
+      "offset": "0x3425c",
+      "before": "0ff0af76",
+      "after": "0ff38190"
+    },
+    {
+      "offset": "0x34280",
+      "before": "0bf1058f",
+      "after": "0bf3819a"
+    }
+  ],
+  "no_bootloader_modification": true,
+  "no_global_ram_allocation": true,
+  "hardware_boot_test": false,
+  "recovery_test": false,
+  "limitations": [
+    "Bootloader checks unknown",
+    "SPI dump and recovery required before lab flash",
+    "Stack/IRQ and socket timing require bench validation",
+    "MIB field semantics partly inferred from RTL838x sources"
+  ],
+  "compiler": "mips-linux-gnu-gcc-13 (Ubuntu 13.2.0-23ubuntu4) 13.2.0",
+  "linker": "GNU ld (GNU Binutils for Ubuntu) 2.42",
+  "build_recipe_sha256": "94f830206bdd7121213f9d32052e8e9f9a90efa3e0b8e9ab9614cef8f3a8a74c",
+  "compiler_flags": [
+    "-std=c99",
+    "-Os",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-ffreestanding",
+    "-fno-builtin",
+    "-fno-pic",
+    "-fno-pie",
+    "-fno-stack-protector",
+    "-fno-asynchronous-unwind-tables",
+    "-fno-unwind-tables",
+    "-fno-common",
+    "-fstack-usage",
+    "-ffunction-sections",
+    "-fdata-sections",
+    "-mabi=32",
+    "-mips32r2",
+    "-msoft-float",
+    "-mno-abicalls",
+    "-G0",
+    "-EB",
+    "-Iinclude"
+  ],
+  "sources_sha256": {
+    "target/route.S": "4575a53b60b04629f781507760dcbf793671a1422cb35aee95a1f2bb6b2fda56",
+    "target/adapter.c": "699067a474ac447b6eb081c303c8bf9b542323c3fdd8bdb7d4f7c498919afadd",
+    "target/runtime.c": "aa1806bd129c3a5a2d79c052ba7c6cd9679847cac4f21ead31087d1c4349a020",
+    "src/sg_stats.c": "1e8c9be23efe4b316dad9ef5e3f8cd643fca188cebf8d116d5f5d4fdb5f4e78f",
+    "src/sg_mib.c": "48028786d0df722f4df09031b8f9ea778bd095b67b4d025576cb46d288691904",
+    "target/firmware.ld": "b5f4f74bc3a20a01922d50443ba29d057d223b0e908dd69b6e07bd2042a2cb25",
+    "include/sg_stats.h": "7e143d68f01b4c2954350dd4b4f0755c6ff22e27ee1efc347ecdd824d51a548d",
+    "include/sg_fields.h": "b92e23b8662a051748eab487e7be46d73ff6c9bf83cbc5c21aceb20f142f23c2",
+    "include/sg_mib.h": "c545f7984acf17709d5ef45b6d26b6c83827e1479e073209976b364d8ff82741",
+    "src/sg_fields.inc": "74ce3db6e4452501ceca4dc3133230045405308e3c2e4dc5532d038ae46be4f6"
+  },
+  "symbols": {
+    "sg_stats.c": "0x0",
+    "sg_mib.c": "0x0",
+    "sg_http_entry": "0xbfce0680",
+    "fw_http_status": "0xbf01cd38",
+    "sg_route_dispatch": "0xbfce0668",
+    "sg_route_compare": "0xbfce0640",
+    "sg_route_kind": "0xbfce145c",
+    "fw_http_init": "0xbfc3b278",
+    "fw_register_read": "0xbfc10768",
+    "sg_http_stats": "0xbfce14c4",
+    "fw_http_header": "0xbf01cc5c",
+    "sg_stats_emit": "0xbfce1eec",
+    "fw_strcmp": "0xbfc2bdd8",
+    "fw_statistics_page": "0xbfc4163c",
+    "fw_socket_send": "0xbfc38a64",
+    "fw_http_raw": "0xbf01cac0",
+    "sg_mib_read": "0xbfce22b4"
+  }
+}
