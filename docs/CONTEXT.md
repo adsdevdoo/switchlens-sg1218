@@ -128,6 +128,14 @@ are documented, but physical pin mapping and every computed path remain open.
 No additional fan-speed command was identified. Do not claim the external writer
 is unused merely because it has no direct callers. Released BINs are unchanged.
 
+[Boot/timer/vendor follow-up](../research/COOLING-FOLLOWUP.md): boot setup sets
+GPIO24 and preserves GPIO27; the timer ISR updates counters/flags without GPIO
+access. 100 fast IRQ calls produce 5 raw uptime increments (no wall-clock
+calibration). The identified GPIO27 controller behaves identically in all four
+archived vendor builds: 80 emulator cases pass. No additional speed command was
+identified in these paths. Close-ups around both fan connectors and the reverse
+side could establish the physical power/feedback path; the overview is insufficient.
+
 1. Real PoE consumer and comparison with the stock PoE page.
 2. Settings/counters, physical port mapping and discard investigation.
 3. Raw uptime calibration against external time.

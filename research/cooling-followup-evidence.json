@@ -1,0 +1,1122 @@
+{
+  "device_access": false,
+  "versions": {
+    "20220921": {
+      "sha256": "4621d6e9742539c5b95c76d203dcd21d93b2a35150967a415ef8e83f84cdb2bb",
+      "wrapper_file_offset": "0x541d4",
+      "policy_file_offset": "0x541f8",
+      "policy_sha256": "4b4b5f51d4e1fb596197690a68c3cfab5031691701a67a1badab54d1e944a854",
+      "cache_address": "0xbf014380",
+      "state_address": "0xbf0147e0",
+      "sum_address": "0xbf0143a0",
+      "mocked_gpio_writer": "0xbf019654",
+      "cases_passed": 20,
+      "cases": [
+        {
+          "previous_state": 0,
+          "load": -1,
+          "new_state": 1,
+          "gpio_calls": [
+            [
+              27,
+              1
+            ]
+          ]
+        },
+        {
+          "previous_state": 0,
+          "load": 0,
+          "new_state": 1,
+          "gpio_calls": [
+            [
+              27,
+              1
+            ]
+          ]
+        },
+        {
+          "previous_state": 0,
+          "load": 1459,
+          "new_state": 1,
+          "gpio_calls": [
+            [
+              27,
+              1
+            ]
+          ]
+        },
+        {
+          "previous_state": 0,
+          "load": 1460,
+          "new_state": 0,
+          "gpio_calls": [
+            [
+              27,
+              0
+            ]
+          ]
+        },
+        {
+          "previous_state": 0,
+          "load": 1500,
+          "new_state": 0,
+          "gpio_calls": [
+            [
+              27,
+              0
+            ]
+          ]
+        },
+        {
+          "previous_state": 0,
+          "load": 1501,
+          "new_state": 0,
+          "gpio_calls": [
+            [
+              27,
+              0
+            ]
+          ]
+        },
+        {
+          "previous_state": 0,
+          "load": 1600,
+          "new_state": 0,
+          "gpio_calls": [
+            [
+              27,
+              0
+            ]
+          ]
+        },
+        {
+          "previous_state": 0,
+          "load": 32767,
+          "new_state": 0,
+          "gpio_calls": [
+            [
+              27,
+              0
+            ]
+          ]
+        },
+        {
+          "previous_state": 1,
+          "load": -1,
+          "new_state": 1,
+          "gpio_calls": [
+            [
+              27,
+              1
+            ]
+          ]
+        },
+        {
+          "previous_state": 1,
+          "load": 0,
+          "new_state": 1,
+          "gpio_calls": [
+            [
+              27,
+              1
+            ]
+          ]
+        },
+        {
+          "previous_state": 1,
+          "load": 1459,
+          "new_state": 1,
+          "gpio_calls": [
+            [
+              27,
+              1
+            ]
+          ]
+        },
+        {
+          "previous_state": 1,
+          "load": 1460,
+          "new_state": 1,
+          "gpio_calls": [
+            [
+              27,
+              1
+            ]
+          ]
+        },
+        {
+          "previous_state": 1,
+          "load": 1500,
+          "new_state": 1,
+          "gpio_calls": [
+            [
+              27,
+              1
+            ]
+          ]
+        },
+        {
+          "previous_state": 1,
+          "load": 1501,
+          "new_state": 0,
+          "gpio_calls": [
+            [
+              27,
+              0
+            ]
+          ]
+        },
+        {
+          "previous_state": 1,
+          "load": 1600,
+          "new_state": 0,
+          "gpio_calls": [
+            [
+              27,
+              0
+            ]
+          ]
+        },
+        {
+          "previous_state": 1,
+          "load": 32767,
+          "new_state": 0,
+          "gpio_calls": [
+            [
+              27,
+              0
+            ]
+          ]
+        },
+        {
+          "previous_state": 2,
+          "load": 0,
+          "new_state": 2,
+          "gpio_calls": []
+        },
+        {
+          "previous_state": 2,
+          "load": 1600,
+          "new_state": 2,
+          "gpio_calls": []
+        },
+        {
+          "previous_state": 4294967295,
+          "load": 0,
+          "new_state": 4294967295,
+          "gpio_calls": []
+        },
+        {
+          "previous_state": 4294967295,
+          "load": 1600,
+          "new_state": 4294967295,
+          "gpio_calls": []
+        }
+      ]
+    },
+    "20221012": {
+      "sha256": "4b5f2348480fcb8a908a2ef7a76d1a4d82e754375cece9a24a3e3038120d9cf3",
+      "wrapper_file_offset": "0x54294",
+      "policy_file_offset": "0x542b8",
+      "policy_sha256": "a356dce929320f349461479ab2a4d73f3d6770f0dc792560c88d9b1b3a129bde",
+      "cache_address": "0xbf014380",
+      "state_address": "0xbf0147e0",
+      "sum_address": "0xbf0143a0",
+      "mocked_gpio_writer": "0xbf019654",
+      "cases_passed": 20,
+      "cases": [
+        {
+          "previous_state": 0,
+          "load": -1,
+          "new_state": 1,
+          "gpio_calls": [
+            [
+              27,
+              1
+            ]
+          ]
+        },
+        {
+          "previous_state": 0,
+          "load": 0,
+          "new_state": 1,
+          "gpio_calls": [
+            [
+              27,
+              1
+            ]
+          ]
+        },
+        {
+          "previous_state": 0,
+          "load": 1459,
+          "new_state": 1,
+          "gpio_calls": [
+            [
+              27,
+              1
+            ]
+          ]
+        },
+        {
+          "previous_state": 0,
+          "load": 1460,
+          "new_state": 0,
+          "gpio_calls": [
+            [
+              27,
+              0
+            ]
+          ]
+        },
+        {
+          "previous_state": 0,
+          "load": 1500,
+          "new_state": 0,
+          "gpio_calls": [
+            [
+              27,
+              0
+            ]
+          ]
+        },
+        {
+          "previous_state": 0,
+          "load": 1501,
+          "new_state": 0,
+          "gpio_calls": [
+            [
+              27,
+              0
+            ]
+          ]
+        },
+        {
+          "previous_state": 0,
+          "load": 1600,
+          "new_state": 0,
+          "gpio_calls": [
+            [
+              27,
+              0
+            ]
+          ]
+        },
+        {
+          "previous_state": 0,
+          "load": 32767,
+          "new_state": 0,
+          "gpio_calls": [
+            [
+              27,
+              0
+            ]
+          ]
+        },
+        {
+          "previous_state": 1,
+          "load": -1,
+          "new_state": 1,
+          "gpio_calls": [
+            [
+              27,
+              1
+            ]
+          ]
+        },
+        {
+          "previous_state": 1,
+          "load": 0,
+          "new_state": 1,
+          "gpio_calls": [
+            [
+              27,
+              1
+            ]
+          ]
+        },
+        {
+          "previous_state": 1,
+          "load": 1459,
+          "new_state": 1,
+          "gpio_calls": [
+            [
+              27,
+              1
+            ]
+          ]
+        },
+        {
+          "previous_state": 1,
+          "load": 1460,
+          "new_state": 1,
+          "gpio_calls": [
+            [
+              27,
+              1
+            ]
+          ]
+        },
+        {
+          "previous_state": 1,
+          "load": 1500,
+          "new_state": 1,
+          "gpio_calls": [
+            [
+              27,
+              1
+            ]
+          ]
+        },
+        {
+          "previous_state": 1,
+          "load": 1501,
+          "new_state": 0,
+          "gpio_calls": [
+            [
+              27,
+              0
+            ]
+          ]
+        },
+        {
+          "previous_state": 1,
+          "load": 1600,
+          "new_state": 0,
+          "gpio_calls": [
+            [
+              27,
+              0
+            ]
+          ]
+        },
+        {
+          "previous_state": 1,
+          "load": 32767,
+          "new_state": 0,
+          "gpio_calls": [
+            [
+              27,
+              0
+            ]
+          ]
+        },
+        {
+          "previous_state": 2,
+          "load": 0,
+          "new_state": 2,
+          "gpio_calls": []
+        },
+        {
+          "previous_state": 2,
+          "load": 1600,
+          "new_state": 2,
+          "gpio_calls": []
+        },
+        {
+          "previous_state": 4294967295,
+          "load": 0,
+          "new_state": 4294967295,
+          "gpio_calls": []
+        },
+        {
+          "previous_state": 4294967295,
+          "load": 1600,
+          "new_state": 4294967295,
+          "gpio_calls": []
+        }
+      ]
+    },
+    "20230220": {
+      "sha256": "0bcbe30cb88a0987967cb1b30eac01060a48eec2cbdcbd94091ea6e0dfd3a6b9",
+      "wrapper_file_offset": "0x54c34",
+      "policy_file_offset": "0x54c58",
+      "policy_sha256": "dcb0fcddb29e309ee91a093ce272f1799ccb24212d032d3b8ea044e640c5e694",
+      "cache_address": "0xbf014820",
+      "state_address": "0xbf014c80",
+      "sum_address": "0xbf014840",
+      "mocked_gpio_writer": "0xbf019af4",
+      "cases_passed": 20,
+      "cases": [
+        {
+          "previous_state": 0,
+          "load": -1,
+          "new_state": 1,
+          "gpio_calls": [
+            [
+              27,
+              1
+            ]
+          ]
+        },
+        {
+          "previous_state": 0,
+          "load": 0,
+          "new_state": 1,
+          "gpio_calls": [
+            [
+              27,
+              1
+            ]
+          ]
+        },
+        {
+          "previous_state": 0,
+          "load": 1459,
+          "new_state": 1,
+          "gpio_calls": [
+            [
+              27,
+              1
+            ]
+          ]
+        },
+        {
+          "previous_state": 0,
+          "load": 1460,
+          "new_state": 0,
+          "gpio_calls": [
+            [
+              27,
+              0
+            ]
+          ]
+        },
+        {
+          "previous_state": 0,
+          "load": 1500,
+          "new_state": 0,
+          "gpio_calls": [
+            [
+              27,
+              0
+            ]
+          ]
+        },
+        {
+          "previous_state": 0,
+          "load": 1501,
+          "new_state": 0,
+          "gpio_calls": [
+            [
+              27,
+              0
+            ]
+          ]
+        },
+        {
+          "previous_state": 0,
+          "load": 1600,
+          "new_state": 0,
+          "gpio_calls": [
+            [
+              27,
+              0
+            ]
+          ]
+        },
+        {
+          "previous_state": 0,
+          "load": 32767,
+          "new_state": 0,
+          "gpio_calls": [
+            [
+              27,
+              0
+            ]
+          ]
+        },
+        {
+          "previous_state": 1,
+          "load": -1,
+          "new_state": 1,
+          "gpio_calls": [
+            [
+              27,
+              1
+            ]
+          ]
+        },
+        {
+          "previous_state": 1,
+          "load": 0,
+          "new_state": 1,
+          "gpio_calls": [
+            [
+              27,
+              1
+            ]
+          ]
+        },
+        {
+          "previous_state": 1,
+          "load": 1459,
+          "new_state": 1,
+          "gpio_calls": [
+            [
+              27,
+              1
+            ]
+          ]
+        },
+        {
+          "previous_state": 1,
+          "load": 1460,
+          "new_state": 1,
+          "gpio_calls": [
+            [
+              27,
+              1
+            ]
+          ]
+        },
+        {
+          "previous_state": 1,
+          "load": 1500,
+          "new_state": 1,
+          "gpio_calls": [
+            [
+              27,
+              1
+            ]
+          ]
+        },
+        {
+          "previous_state": 1,
+          "load": 1501,
+          "new_state": 0,
+          "gpio_calls": [
+            [
+              27,
+              0
+            ]
+          ]
+        },
+        {
+          "previous_state": 1,
+          "load": 1600,
+          "new_state": 0,
+          "gpio_calls": [
+            [
+              27,
+              0
+            ]
+          ]
+        },
+        {
+          "previous_state": 1,
+          "load": 32767,
+          "new_state": 0,
+          "gpio_calls": [
+            [
+              27,
+              0
+            ]
+          ]
+        },
+        {
+          "previous_state": 2,
+          "load": 0,
+          "new_state": 2,
+          "gpio_calls": []
+        },
+        {
+          "previous_state": 2,
+          "load": 1600,
+          "new_state": 2,
+          "gpio_calls": []
+        },
+        {
+          "previous_state": 4294967295,
+          "load": 0,
+          "new_state": 4294967295,
+          "gpio_calls": []
+        },
+        {
+          "previous_state": 4294967295,
+          "load": 1600,
+          "new_state": 4294967295,
+          "gpio_calls": []
+        }
+      ]
+    },
+    "20230616": {
+      "sha256": "c9ab17eda7af714f00692d41f440ce84ed0d6c7d678634c364ec1154bb7e3f32",
+      "wrapper_file_offset": "0x54344",
+      "policy_file_offset": "0x54368",
+      "policy_sha256": "6711ec4b6b692d2957274e3c9455ccaff8e508b8a232c9ff24f05158633c0a3d",
+      "cache_address": "0xbf0143e0",
+      "state_address": "0xbf014840",
+      "sum_address": "0xbf014400",
+      "mocked_gpio_writer": "0xbf0196b4",
+      "cases_passed": 20,
+      "cases": [
+        {
+          "previous_state": 0,
+          "load": -1,
+          "new_state": 1,
+          "gpio_calls": [
+            [
+              27,
+              1
+            ]
+          ]
+        },
+        {
+          "previous_state": 0,
+          "load": 0,
+          "new_state": 1,
+          "gpio_calls": [
+            [
+              27,
+              1
+            ]
+          ]
+        },
+        {
+          "previous_state": 0,
+          "load": 1459,
+          "new_state": 1,
+          "gpio_calls": [
+            [
+              27,
+              1
+            ]
+          ]
+        },
+        {
+          "previous_state": 0,
+          "load": 1460,
+          "new_state": 0,
+          "gpio_calls": [
+            [
+              27,
+              0
+            ]
+          ]
+        },
+        {
+          "previous_state": 0,
+          "load": 1500,
+          "new_state": 0,
+          "gpio_calls": [
+            [
+              27,
+              0
+            ]
+          ]
+        },
+        {
+          "previous_state": 0,
+          "load": 1501,
+          "new_state": 0,
+          "gpio_calls": [
+            [
+              27,
+              0
+            ]
+          ]
+        },
+        {
+          "previous_state": 0,
+          "load": 1600,
+          "new_state": 0,
+          "gpio_calls": [
+            [
+              27,
+              0
+            ]
+          ]
+        },
+        {
+          "previous_state": 0,
+          "load": 32767,
+          "new_state": 0,
+          "gpio_calls": [
+            [
+              27,
+              0
+            ]
+          ]
+        },
+        {
+          "previous_state": 1,
+          "load": -1,
+          "new_state": 1,
+          "gpio_calls": [
+            [
+              27,
+              1
+            ]
+          ]
+        },
+        {
+          "previous_state": 1,
+          "load": 0,
+          "new_state": 1,
+          "gpio_calls": [
+            [
+              27,
+              1
+            ]
+          ]
+        },
+        {
+          "previous_state": 1,
+          "load": 1459,
+          "new_state": 1,
+          "gpio_calls": [
+            [
+              27,
+              1
+            ]
+          ]
+        },
+        {
+          "previous_state": 1,
+          "load": 1460,
+          "new_state": 1,
+          "gpio_calls": [
+            [
+              27,
+              1
+            ]
+          ]
+        },
+        {
+          "previous_state": 1,
+          "load": 1500,
+          "new_state": 1,
+          "gpio_calls": [
+            [
+              27,
+              1
+            ]
+          ]
+        },
+        {
+          "previous_state": 1,
+          "load": 1501,
+          "new_state": 0,
+          "gpio_calls": [
+            [
+              27,
+              0
+            ]
+          ]
+        },
+        {
+          "previous_state": 1,
+          "load": 1600,
+          "new_state": 0,
+          "gpio_calls": [
+            [
+              27,
+              0
+            ]
+          ]
+        },
+        {
+          "previous_state": 1,
+          "load": 32767,
+          "new_state": 0,
+          "gpio_calls": [
+            [
+              27,
+              0
+            ]
+          ]
+        },
+        {
+          "previous_state": 2,
+          "load": 0,
+          "new_state": 2,
+          "gpio_calls": []
+        },
+        {
+          "previous_state": 2,
+          "load": 1600,
+          "new_state": 2,
+          "gpio_calls": []
+        },
+        {
+          "previous_state": 4294967295,
+          "load": 0,
+          "new_state": 4294967295,
+          "gpio_calls": []
+        },
+        {
+          "previous_state": 4294967295,
+          "load": 1600,
+          "new_state": 4294967295,
+          "gpio_calls": []
+        }
+      ]
+    }
+  },
+  "total_policy_cases": 80,
+  "boot": {
+    "dump_sha256": "b80e10d5fb75ee2d4d8a45dba305090fe204d521c96d24202876273959589a87",
+    "boot_prefix_bytes": 32768,
+    "boot_prefix_sha256": "ef95ee8dc73b39f97300366c0d41e3ff796572fed14e10d21a04ee48f1edf7b6",
+    "reviewed_slice": [
+      "0x5c98",
+      "0x5cf4"
+    ],
+    "cases": [
+      {
+        "initial": "0x0",
+        "accesses": [
+          [
+            16,
+            "0x18003500",
+            "0x0"
+          ],
+          [
+            17,
+            "0x18003500",
+            "0x0"
+          ],
+          [
+            16,
+            "0x18003508",
+            "0x0"
+          ],
+          [
+            17,
+            "0x18003508",
+            "0x1000000"
+          ],
+          [
+            16,
+            "0x1800350c",
+            "0x0"
+          ],
+          [
+            17,
+            "0x1800350c",
+            "0x1000000"
+          ]
+        ],
+        "gpio27_preserved": true
+      },
+      {
+        "initial": "0xffffffff",
+        "accesses": [
+          [
+            16,
+            "0x18003500",
+            "0x0"
+          ],
+          [
+            17,
+            "0x18003500",
+            "0xfeffffff"
+          ],
+          [
+            16,
+            "0x18003508",
+            "0x0"
+          ],
+          [
+            17,
+            "0x18003508",
+            "0xffffffff"
+          ],
+          [
+            16,
+            "0x1800350c",
+            "0x0"
+          ],
+          [
+            17,
+            "0x1800350c",
+            "0xffffffff"
+          ]
+        ],
+        "gpio27_preserved": true
+      },
+      {
+        "initial": "0xa5a55a5a",
+        "accesses": [
+          [
+            16,
+            "0x18003500",
+            "0x0"
+          ],
+          [
+            17,
+            "0x18003500",
+            "0xa4a55a5a"
+          ],
+          [
+            16,
+            "0x18003508",
+            "0x0"
+          ],
+          [
+            17,
+            "0x18003508",
+            "0xa5a55a5a"
+          ],
+          [
+            16,
+            "0x1800350c",
+            "0x0"
+          ],
+          [
+            17,
+            "0x1800350c",
+            "0xa5a55a5a"
+          ]
+        ],
+        "gpio27_preserved": true
+      }
+    ],
+    "base_constructor_candidates": [
+      "0x534",
+      "0x544",
+      "0x558",
+      "0x568",
+      "0xcd4",
+      "0xd8c",
+      "0xda4",
+      "0xf00",
+      "0x11c4",
+      "0x12d4",
+      "0x1400",
+      "0x1a40",
+      "0x1acc",
+      "0x1b6c",
+      "0x1c40",
+      "0x1c94",
+      "0x1ce8",
+      "0x1d08",
+      "0x5cb0"
+    ],
+    "scope": "GPIO setup slice and static base-constructor review, not full boot emulation"
+  },
+  "timer": {
+    "init_entry": "0xbfc104b0",
+    "start_entry": "0xbfc10504",
+    "isr_entry": "0xbf01a094",
+    "mocked_calls": [],
+    "initialization_accesses": [
+      [
+        17,
+        "0x18003108",
+        "0x1002710"
+      ],
+      [
+        16,
+        "0x1800310c",
+        "0x0"
+      ],
+      [
+        17,
+        "0x18003100",
+        "0x3e8"
+      ],
+      [
+        16,
+        "0x18003108",
+        "0x0"
+      ],
+      [
+        17,
+        "0x18003108",
+        "0x11002710"
+      ],
+      [
+        16,
+        "0x1800310c",
+        "0x0"
+      ],
+      [
+        17,
+        "0x1800310c",
+        "0x100000"
+      ]
+    ],
+    "irq_calls": 100,
+    "fast_counter_after": 100,
+    "uptime_counter_after": 5,
+    "isr_mmio_addresses": [
+      "0x1800310c"
+    ],
+    "gpio_accesses": 0,
+    "seconds_per_irq": null,
+    "note": "Software counters and synthetic MMIO; hardware timer does not run in this test"
+  },
+  "additional_references": {
+    "0xbfc104b0": {
+      "direct_offsets": [
+        "0x86c4"
+      ],
+      "constructed_candidates": [],
+      "aligned_literals": []
+    },
+    "0xbfc10504": {
+      "direct_offsets": [
+        "0x86cc"
+      ],
+      "constructed_candidates": [],
+      "aligned_literals": []
+    },
+    "0xbf01a094": {
+      "direct_offsets": [],
+      "constructed_candidates": [
+        [
+          "0x86f8",
+          "0x86fc"
+        ]
+      ],
+      "aligned_literals": []
+    },
+    "0xbfc107ec": {
+      "direct_offsets": [],
+      "constructed_candidates": [],
+      "aligned_literals": []
+    },
+    "0xbfc10810": {
+      "direct_offsets": [],
+      "constructed_candidates": [],
+      "aligned_literals": []
+    },
+    "0xbfc10824": {
+      "direct_offsets": [],
+      "constructed_candidates": [],
+      "aligned_literals": []
+    },
+    "0xbfc10848": {
+      "direct_offsets": [
+        "0x27ffc"
+      ],
+      "constructed_candidates": [],
+      "aligned_literals": []
+    },
+    "0xbfc11614": {
+      "direct_offsets": [],
+      "constructed_candidates": [],
+      "aligned_literals": []
+    },
+    "0xbfc11590": {
+      "direct_offsets": [
+        "0x9644",
+        "0x20fdc"
+      ],
+      "constructed_candidates": [],
+      "aligned_literals": []
+    }
+  },
+  "bounded_string_search": {
+    "runtime_20230616": [],
+    "boot_prefix": []
+  },
+  "limits": [
+    "No proof against all computed addresses/calls",
+    "No physical fan circuit or RPM identified",
+    "Counter ratio is not wall-clock calibration",
+    "Cross-version result applies to the identified controller, not every routine"
+  ]
+}
