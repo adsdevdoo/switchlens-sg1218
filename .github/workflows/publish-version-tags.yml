@@ -1,0 +1,62 @@
+name: Publish missing version tags
+
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/publish-version-tags.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-version-tags
+  cancel-in-progress: false
+
+jobs:
+  tags:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Create pinned tags without moving existing tags
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json, os, urllib.error, urllib.request
+
+          repo = os.environ['GH_REPO']
+          assert repo == 'adsdevdoo/switchlens-sg1218'
+          api = 'https://api.github.com/repos/' + repo
+          versions = {
+              'v0.1.3': '5a5b35b15b34b6c1dddd1e3b8bbdd2c93ffa8ee5',
+              'v0.1.4': '8ba94214a99e8ab0db71a185a3c8d327ee3b0809',
+          }
+
+          def request(path, data=None):
+              headers = {'Authorization': 'Bearer ' + os.environ['GH_TOKEN'],
+                         'Accept': 'application/vnd.github+json',
+                         'User-Agent': 'SwitchLens-version-tags'}
+              body = None if data is None else json.dumps(data).encode()
+              if body is not None:
+                  headers['Content-Type'] = 'application/json'
+              req = urllib.request.Request(api + path, data=body, headers=headers)
+              with urllib.request.urlopen(req, timeout=30) as response:
+                  return json.load(response)
+
+          for tag, sha in versions.items():
+              assert request('/git/commits/' + sha)['sha'] == sha
+              path = '/git/ref/tags/' + tag
+              try:
+                  ref = request(path)
+              except urllib.error.HTTPError as exc:
+                  if exc.code != 404:
+                      raise
+                  request('/git/refs', {'ref': 'refs/tags/' + tag, 'sha': sha})
+                  ref = request(path)
+              assert ref['object']['type'] == 'commit' and ref['object']['sha'] == sha, \
+                  'Existing tag differs; refusing to move ' + tag
+              print(tag + ' -> ' + sha)
+          PY
