@@ -8,26 +8,21 @@
 
 ## Получение исходников
 
-Актуальный компактный архив `SwitchLens-v0.1.0-experimental.zip` содержит
-Git bundle со всей историей, четырьмя фото, BIN и аннотированным тегом версии.
-BIN также лежит отдельно в архиве. Из распакованного архива выполните в PowerShell:
-
-```powershell
-git clone .\SwitchLens-v0.1.0-experimental.bundle "$HOME/work/switchlens-sg1218"
-```
-
-Команда создаёт полный репозиторий с `.git`, веткой `main` и тегом
-`v0.1.0-experimental`. Папка назначения должна быть новой или пустой.
-Повторные `git init`, `git add` и `git commit` для первого push не нужны.
-В старом архиве `SwitchLens-github-source.zip` уже лежала готовая папка с `.git`;
-новый bundle убирает двойное хранение фотографий в рабочей папке и истории.
+Архив `SwitchLens-v0.1.0-experimental.zip` содержит готовую папку
+`switchlens-sg1218/`: рабочие файлы, каталог `.git`, всю историю коммитов,
+ветку `main`, тег `v0.1.0-experimental`, четыре фото в README и собранный BIN.
+Распакуйте папку целиком в удобное место. Git bundle и дополнительное
+восстановление не требуются. `git init`, `git clone`, `git add` и `git commit`
+для первой отправки выполнять не нужно: всё уже закоммичено.
+В готовом архиве `origin` указывает на
+`git@github.com:adsdevdoo/switchlens-sg1218.git`.
 
 ### Windows, PuTTY и Pageant
 
 Оставьте Pageant запущенным с нужным ключом. В PowerShell:
 
 ```powershell
-cd ~/work/switchlens-sg1218
+cd .\switchlens-sg1218
 .\push-windows.cmd
 ```
 
@@ -42,7 +37,7 @@ cd ~/work/switchlens-sg1218
 можно обойтись без скрипта:
 
 ```powershell
-cd ~/work/switchlens-sg1218
+cd .\switchlens-sg1218
 git remote set-url origin git@github.com:adsdevdoo/switchlens-sg1218.git
 git push -u --follow-tags origin main
 ```
