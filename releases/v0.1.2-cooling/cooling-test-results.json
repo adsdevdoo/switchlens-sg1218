@@ -1,0 +1,7 @@
+{
+  "tests": 10,
+  "failures": 0,
+  "errors": 0,
+  "image_sha256": "07bcc33628b01af5687054758fb67d32a800b2eac1025d0c3cf0afd073ea9dc2",
+  "scope": "Actual MIPS CLI/controller/HTTP instructions; synthetic UART/GPIO/ticks/PoE. No hardware test."
+}

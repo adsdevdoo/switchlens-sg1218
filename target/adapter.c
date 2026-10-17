@@ -4,12 +4,20 @@
  */
 #include "sg_stats.h"
 #include "sg_mib.h"
+#ifdef SG_COOLING
+#include "cooling.h"
+#endif
 #define R8(a) (*(volatile const uint8_t *)(uintptr_t)(a))
 #define R32(a) (*(volatile const uint32_t *)(uintptr_t)(a))
 #define W32(a,v) (*(volatile uint32_t *)(uintptr_t)(a)=(uint32_t)(v))
 #define HTTP_BUFFER 0xbf010f8cu
 #define HTTP_END 0xbf011540u
 #define FAST_TICKS 0xbf002e94u
+#ifdef SG_COOLING
+#define BUILD_ID "v0.1.2-cooling"
+#else
+#define BUILD_ID "experimental-1"
+#endif
 #define REQUEST_TICK_BUDGET 40u /* raw IRQ ticks; wall-time unit unconfirmed */
 extern int fw_strcmp(const char *,const char *);
 extern int fw_http_init(void *);
@@ -21,6 +29,9 @@ extern int fw_register_read(unsigned,uint32_t,uint32_t *);
 
 struct context {
  void *request;
+#ifdef SG_COOLING
+ struct sg_cooling cooling;
+#endif
  uint32_t start_ticks,uptime,port,poe_count,global[3];
  uint32_t admin,link,speed,duplex,flow;
  unsigned link_ok,cfg_speed,cfg_flow;
@@ -91,6 +102,9 @@ static int begin(void *opaque,enum sg_scope scope,unsigned port){
    copy(c->recovery_counts,0xbf014774u+6*i,sizeof c->recovery_counts);
   }
  }
+ #ifdef SG_COOLING
+ if(scope==SG_COOLING_SCOPE)sg_cool_snapshot(&c->cooling);
+ #endif
  return 0;
 }
 static int has_poe(void *opaque){struct context *c=opaque;return c->port<=c->poe_count;}
@@ -143,6 +157,9 @@ static int counter(struct context *c,enum sg_field field,struct sg_value *v){
 static int get(void *opaque,enum sg_field field,struct sg_value *v){
  struct context *c=opaque;if(expired(c))return -1;
  if(field>=SG_COUNTER_RX_BYTES&&field<=SG_COUNTER_TX_PACKETS_1519_MAX)return counter(c,field,v);
+ #ifdef SG_COOLING
+ if(field>=SG_COOLING_GPIO_CONTROL_RAW)return sg_cool_get(&c->cooling,field,v);
+ #endif
  switch(field){
  case SG_SYSTEM_MODEL:return string(v,"TL-SG1218MPE",12);
  case SG_SYSTEM_HARDWARE_VERSION:return copied_string(c,v,0xbfce02f4u,32);
@@ -241,7 +258,7 @@ int sg_http_stats(void *request){
  c.poe_count=R32(0xbf0143e0u);
  if(!request||c.poe_count!=16)return -1;
  if(fw_http_init(request)||fw_http_status(request,200)||
-    fw_http_header(request,"Content-Type: application/json\r\nCache-Control: no-store\r\nX-SwitchLens-Build: experimental-1"))return -1;
+    fw_http_header(request,"Content-Type: application/json\r\nCache-Control: no-store\r\nX-SwitchLens-Build: " BUILD_ID ""))return -1;
  const struct sg_source source={&c,begin,get,has_poe};
  const struct sg_sink sink={&c,write_body,finish};struct sg_result result;
  int status=sg_stats_emit(&source,&sink,&result);

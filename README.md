@@ -21,6 +21,8 @@ status is **working firmware with hardware-verified boot, UART and JSON**.
 Loaded PoE operation, all counter semantics, recovery and long-duration operation
 are separate outstanding checks. See [roadmap](docs/ROADMAP.md).
 
+**v0.1.2 cooling diagnostics are ready.** [BIN and checks](releases/v0.1.2-cooling/README.md), [`cool` commands](docs/COOLING-CONTROL.md). The new build passed offline tests; hardware verification still applies to v0.1.1.
+
 ## Current firmware
 
 File: `SwitchLens-SG1218MPE-V5-v0.1.1-experimental-uart.bin`, **1,013,324 bytes**.

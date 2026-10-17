@@ -7,6 +7,8 @@ English is the default; every reader document has an English | Русский sw
 
 | Document | English | Russian |
 | --- | --- | --- |
+| v0.1.2 cooling commands and JSON | [English](COOLING-CONTROL.md) | [Русский](COOLING-CONTROL.ru.md) |
+| v0.1.2 diagnostic BIN | [English](../releases/v0.1.2-cooling/README.md) | [Русский](../releases/v0.1.2-cooling/README.ru.md) |
 | Cooling and board-signal statistics | [English](../research/COOLING.md) | [Русский](../research/COOLING.ru.md) |
 | Contributing and publishing evidence | [English](../CONTRIBUTING.md) | [Русский](../CONTRIBUTING.ru.md) |
 | SwitchLens | [English](../README.md) | [Русский](../README.ru.md) |

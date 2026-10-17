@@ -1,0 +1,109 @@
+name: Publish cooling diagnostic build
+
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/publish-cooling-release.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-cooling-v0.1.2
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Verify the pinned BIN and publish the diagnostic prerelease
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPOSITORY: ${{ github.repository }}
+          GH_COMMIT: ${{ github.sha }}
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, os, re, urllib.error, urllib.parse, urllib.request, zlib
+
+          repo = os.environ['GH_REPOSITORY']
+          assert repo == 'adsdevdoo/switchlens-sg1218'
+          commit = os.environ['GH_COMMIT']
+          assert re.fullmatch(r'[0-9a-f]{40}', commit)
+          token = os.environ['GH_TOKEN']
+          tag = 'v0.1.2-cooling'
+          binary = 'SwitchLens-SG1218MPE-V5-v0.1.2-cooling.bin'
+          expected = '07bcc33628b01af5687054758fb67d32a800b2eac1025d0c3cf0afd073ea9dc2'
+          api = 'https://api.github.com/repos/' + repo
+          folder = 'releases/' + tag + '/'
+
+          def request(url, method='GET', data=None, raw=False, content_type=None):
+              assert urllib.parse.urlparse(url).hostname in ('api.github.com', 'uploads.github.com')
+              headers = {'Authorization': 'Bearer ' + token,
+                         'Accept': 'application/vnd.github.raw+json' if raw else 'application/vnd.github+json',
+                         'X-GitHub-Api-Version': '2022-11-28', 'User-Agent': 'SwitchLens-release'}
+              if isinstance(data, dict):
+                  data = json.dumps(data).encode()
+                  content_type = 'application/json'
+              if content_type:
+                  headers['Content-Type'] = content_type
+              req = urllib.request.Request(url, data=data, method=method, headers=headers)
+              with urllib.request.urlopen(req, timeout=60) as response:
+                  content = response.read()
+              return content if raw else json.loads(content)
+
+          names = [binary, 'SHA256SUMS', 'build-manifest.json', 'cooling-test-results.json',
+                   'target-test-results.json', 'release-path-test-results.json', 'host-test-results.json', 'README.ru.md']
+          files = {name: request(api + '/contents/' + folder + name + '?ref=' + commit, raw=True)
+                   for name in names + ['README.md']}
+          image = files[binary]
+          assert hashlib.sha256(image).hexdigest() == expected and len(image) == 1013324
+          assert int.from_bytes(image[:4], 'big') == zlib.crc32(image[0x10:0xf7000]) == 0xcc484259
+          manifest = json.loads(files['build-manifest.json'])
+          assert manifest['output_sha256'] == expected and manifest['uart_cli'] is True
+          assert files['SHA256SUMS'].decode().split() == [expected, binary]
+          for name, count in [('cooling-test-results.json', 6), ('target-test-results.json', 10),
+                              ('release-path-test-results.json', 4)]:
+              result = json.loads(files[name])
+              assert result['image_sha256'] == expected
+              assert (result['tests'], result['failures'], result['errors']) == (count, 0, 0)
+
+          base = 'https://github.com/' + repo + '/blob/' + commit + '/' + folder
+          def absolute_link(match):
+              target = match.group(1)
+              return '](' + urllib.parse.urljoin(base, target) + ')'
+          notes = re.sub(r'\]\(([^)]+)\)', absolute_link, files['README.md'].decode())
+          download = 'https://github.com/' + repo + '/releases/download/' + tag + '/' + binary
+          notes = '[**Download BIN: stats + UART + cooling diagnostics**](' + download + ')\n\n' + notes
+
+          try:
+              release = request(api + '/releases/tags/' + tag)
+          except urllib.error.HTTPError as exc:
+              if exc.code != 404:
+                  raise
+              # A failed earlier run may have left a draft without a public tag.
+              drafts = request(api + '/releases?per_page=100')
+              release = next((r for r in drafts if r['tag_name'] == tag), None)
+              if release is None:
+                  release = request(api + '/releases', 'POST', {
+                      'tag_name': tag, 'target_commitish': commit,
+                      'name': 'SwitchLens v0.1.2 — bounded cooling diagnostics',
+                      'body': notes, 'draft': True, 'prerelease': True, 'make_latest': 'false'})
+          upload = release['upload_url'].split('{')[0]
+          existing = {a['name']: a for a in release['assets']}
+          for name in names:
+              digest = 'sha256:' + hashlib.sha256(files[name]).hexdigest()
+              if name in existing:
+                  assert existing[name].get('digest') == digest, 'Existing asset differs: ' + name
+                  continue
+              assert release['draft'], 'Refusing to change assets of a published release'
+              request(upload + '?' + urllib.parse.urlencode({'name': name}), 'POST',
+                      data=files[name], content_type='application/octet-stream')
+          if release['draft']:
+              release = request(api + '/releases/' + str(release['id']), 'PATCH',
+                                {'draft': False, 'prerelease': True, 'make_latest': 'false', 'body': notes})
+          print('Published: ' + release['html_url'])
+          print('Verified BIN SHA-256: ' + expected)
+          PY

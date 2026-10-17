@@ -31,7 +31,7 @@ def jump(address, link=False):
     return struct.pack('>I', (0x0c000000 if link else 0x08000000) | ((address >> 2) & 0x3ffffff))
 
 
-def package(original, payload, symbols, uart_cli=False):
+def package(original, payload, symbols, uart_cli=False, cooling_cli=False):
     if sha(original) != EXPECTED:
         raise ValueError('STOP: unexpected input image SHA-256')
     if not payload or len(payload) > END - START:
@@ -40,6 +40,12 @@ def package(original, payload, symbols, uart_cli=False):
         raise ValueError('Candidate code region is not erased padding')
     sites = [(0x3425c, 0xbfc2bdd8, symbols['sg_route_compare'], True),
              (0x34280, 0xbfc4163c, symbols['sg_route_dispatch'], False)]
+    if cooling_cli:
+        if not uart_cli:
+            raise ValueError('Cooling diagnostics require the runtime UART CLI')
+        sites += [(0x24bb4, 0xbfc2c508, symbols['sg_cli_lookup'], True),
+                  (0x25848, 0xbfc2c508, symbols['sg_cli_lookup'], True),
+                  (0x25ee4, 0xbfc2cd0c, symbols['sg_cli_poll'], True)]
     output = bytearray(original)
     changes = []
     for offset, old, new, link in sites:
@@ -56,20 +62,34 @@ def package(original, payload, symbols, uart_cli=False):
                 raise ValueError(f'Unexpected original UART instruction at {offset:#x}')
             output[offset:offset+4] = bytes.fromhex(after)
             changes.append({'offset': hex(offset), 'before': before, 'after': after, 'purpose': purpose})
+    if cooling_cli:
+        offset = 0x54344
+        before = bytes.fromhex('2c82000210400005')
+        if original[offset:offset+8] != before:
+            raise ValueError('Unexpected GPIO27 output helper prologue')
+        target = symbols['sg_cool_output']
+        if not BASE+START <= target < BASE+START+len(payload):
+            raise ValueError('Cooling hook destination outside payload')
+        after = jump(target) + b'\0'*4
+        output[offset:offset+8] = after
+        changes.append({'offset': hex(offset), 'before': before.hex(), 'after': after.hex(),
+                        'purpose': 'Bounded GPIO27 override with stock automatic return'})
     output[START:START+len(payload)] = payload
     crc = zlib.crc32(output[0x10:END])
     output[:4] = struct.pack('>I', crc)
     allowed = [(0, 4), (START, START+len(payload))] + [(row[0], row[0]+4) for row in sites]
     if uart_cli:
         allowed += [(offset, offset+4) for offset, *_ in UART_PATCHES]
+    if cooling_cli:
+        allowed += [(0x54344, 0x5434c)]
     if len(output) != len(original):
         raise ValueError('Image size changed')
     changed = [i for i, (a, b) in enumerate(zip(original, output)) if a != b]
     if any(not any(a <= i < b for a, b in allowed) for i in changed):
         raise ValueError('Unexpected modification outside patch allowlist')
     return bytes(output), {
-        'version': 'experimental-1',
-        'classification': 'EXPERIMENTAL_UNTESTED_ON_HARDWARE',
+        'version': 'v0.1.2-cooling' if cooling_cli else 'experimental-1',
+        'classification': 'DIAGNOSTIC_BUILD_AWAITING_HARDWARE_TEST' if cooling_cli else 'EXPERIMENTAL_UNTESTED_ON_HARDWARE',
         'input_sha256': EXPECTED, 'output_sha256': sha(output),
         'payload_sha256': sha(payload), 'image_bytes': len(output),
         'payload_bytes': len(payload), 'payload_file_offset': hex(START),
@@ -77,12 +97,17 @@ def package(original, payload, symbols, uart_cli=False):
         'crc32': f'{crc:08x}', 'crc_range': ['0x10', hex(END)],
         'changed_bytes': len(changed), 'hooks': changes,
         'uart_cli': bool(uart_cli),
+        'cooling_cli': bool(cooling_cli),
         'uart_cli_scope': 'Stock runtime CLI including write/reset commands; not a bootloader recovery console' if uart_cli else 'Stock disabled CLI retained',
         'no_bootloader_modification': True, 'no_global_ram_allocation': True,
         'hardware_boot_test': False, 'recovery_test': False,
-        'limitations': ['Bootloader checks unknown', 'SPI dump and recovery required before lab flash',
+        'limitations': (['v0.1.2 installation and physical fan response not yet tested',
+                         '100 raw IRQ ticks; wall-time unit unconfirmed',
+                         'Software return requires running timer and cooperative event loop',
+                         'No verified RPM/per-fan health measurement',
+                         'Physical recovery and long-duration load remain untested'] if cooling_cli else ['Bootloader checks unknown', 'SPI dump and recovery required before lab flash',
                         'Stack/IRQ and socket timing require bench validation',
-                        'MIB field semantics partly inferred from RTL838x sources'],
+                        'MIB field semantics partly inferred from RTL838x sources']),
     }
 
 
@@ -97,7 +122,10 @@ def main():
     parser.add_argument('--prefix', default='mips-linux-gnu-')
     parser.add_argument('--output', type=Path, default=ROOT/'build-target')
     parser.add_argument('--uart-cli', action='store_true', help='Enable stock runtime UART CLI for a diagnostic bench build')
+    parser.add_argument('--cooling-cli', action='store_true', help='Add bounded GPIO27 tests and cooling JSON; requires --uart-cli')
     args = parser.parse_args()
+    if args.cooling_cli and not args.uart_cli:
+        parser.error('--cooling-cli requires --uart-cli')
     original = args.image.read_bytes()
     if sha(original) != EXPECTED:
         parser.error('STOP: unexpected input image SHA-256; build not started')
@@ -112,13 +140,17 @@ def main():
              '-fno-common', '-fstack-usage', '-ffunction-sections', '-fdata-sections',
              '-mabi=32', '-mips32r2', '-msoft-float', '-mno-abicalls', '-G0', '-EB', '-Iinclude']
     sources = ['target/route.S', 'target/adapter.c', 'target/runtime.c', 'src/sg_stats.c', 'src/sg_mib.c']
+    if args.cooling_cli:
+        flags += ['-DSG_COOLING']
+        sources += ['target/cooling.c']
     objects = []
     for source in sources:
         obj = out/(Path(source).stem+'.o')
         run([args.cc, *flags, '-c', source, '-o', obj])
         objects.append(obj)
     elf, binary = out/'switchlens.elf', out/'payload.bin'
-    run([args.prefix+'ld.bfd', '-EB', '-T', 'target/firmware.ld', '--gc-sections',
+    extra = ['--undefined='+s for s in ['sg_cli_lookup','sg_cli_poll','sg_cool_output']] if args.cooling_cli else []
+    run([args.prefix+'ld.bfd', *extra, '-EB', '-T', 'target/firmware.ld', '--gc-sections',
          '--undefined=sg_route_dispatch', '--build-id=none', '-Map='+str(out/'switchlens.map'),
          '-o', elf, *objects])
     run([args.prefix+'objcopy', '-O', 'binary', elf, binary])
@@ -137,13 +169,13 @@ def main():
                     raise ValueError('Unexpected writable/loadable zero-fill section')
                 if not BASE+START <= section['sh_addr'] < section['sh_addr']+section['sh_size'] <= BASE+END:
                     raise ValueError('Allocated section exceeds padding')
-    patched, manifest = package(original, binary.read_bytes(), symbols, uart_cli=args.uart_cli)
+    patched, manifest = package(original, binary.read_bytes(), symbols, uart_cli=args.uart_cli, cooling_cli=args.cooling_cli)
     manifest['compiler'] = subprocess.check_output([args.cc, '--version'], text=True).splitlines()[0]
     manifest['linker'] = subprocess.check_output([args.prefix+'ld.bfd', '--version'], text=True).splitlines()[0]
     manifest['build_recipe_sha256'] = sha(Path(__file__).read_bytes())
     manifest['compiler_flags'] = flags
     manifest['sources_sha256'] = {name: sha((ROOT/name).read_bytes()) for name in sources+[
-        'target/firmware.ld', 'include/sg_stats.h', 'include/sg_fields.h', 'include/sg_mib.h', 'src/sg_fields.inc']}
+        'target/firmware.ld', 'include/sg_stats.h', 'include/sg_fields.h', 'include/sg_mib.h', 'src/sg_fields.inc'] + (['target/cooling.h'] if args.cooling_cli else [])}
     manifest['symbols'] = {name: hex(address) for name, address in symbols.items() if name.startswith(('sg_', 'fw_'))}
     image_out.write_bytes(patched)
     (out/'manifest.json').write_text(json.dumps(manifest, indent=2)+'\n')

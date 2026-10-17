@@ -1,0 +1,7 @@
+{
+  "tests": 4,
+  "failures": 0,
+  "errors": 0,
+  "image_sha256": "07bcc33628b01af5687054758fb67d32a800b2eac1025d0c3cf0afd073ea9dc2",
+  "scope": "Stock scheduler; sequential CLI/HTTP in shared synthetic RAM; boot staging CRC and runtime handoff with mocked flash operations. No whole-device or hardware validation."
+}

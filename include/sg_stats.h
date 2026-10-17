@@ -8,7 +8,7 @@
 #include "sg_fields.h"
 enum sg_kind { SG_NULL, SG_UINT, SG_BOOL, SG_TEXT, SG_TENTHS };
 struct sg_value { enum sg_kind kind; uint64_t number; const char *text; size_t length; };
-enum sg_scope { SG_SYSTEM, SG_GLOBAL_POE, SG_PORT, SG_LOOP };
+enum sg_scope { SG_SYSTEM, SG_GLOBAL_POE, SG_PORT, SG_LOOP, SG_COOLING_SCOPE };
 struct sg_source {
  void *context;
  /* Snapshot/cache scope before get calls. port is1..18 for SG_PORT, otherwise0. */

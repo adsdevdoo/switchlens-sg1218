@@ -113,3 +113,22 @@ static const struct field loop_fields[] = {
  {"rlpp_mask_raw", SG_LOOP_RLPP_MASK_RAW, F_UINT, R_U32, 128},
  {"rlpp_self_mask_raw", SG_LOOP_RLPP_SELF_MASK_RAW, F_UINT, R_U32, 128},
 };
+#ifdef SG_COOLING
+static const struct field cooling_fields[] = {
+ {"gpio_control_raw", SG_COOLING_GPIO_CONTROL_RAW, F_UINT, R_NONE, 128},
+ {"gpio_direction_raw", SG_COOLING_GPIO_DIRECTION_RAW, F_UINT, R_NONE, 128},
+ {"gpio_data_raw", SG_COOLING_GPIO_DATA_RAW, F_UINT, R_NONE, 128},
+ {"controller_state_raw", SG_COOLING_CONTROLLER_STATE_RAW, F_UINT, R_NONE, 128},
+ {"fast_ticks_raw", SG_COOLING_FAST_TICKS_RAW, F_UINT, R_NONE, 128},
+ {"poe_load_raw", SG_COOLING_POE_LOAD_RAW, F_UINT, R_NONE, 128},
+ {"gpio26_level", SG_COOLING_GPIO26_LEVEL, F_UINT, R_NONE, 128},
+ {"gpio27_level", SG_COOLING_GPIO27_LEVEL, F_UINT, R_NONE, 128},
+ {"auto_state", SG_COOLING_AUTO_STATE, F_UINT, R_NONE, 128},
+ {"test_level", SG_COOLING_TEST_LEVEL, F_UINT, R_NONE, 128},
+ {"remaining_ticks", SG_COOLING_REMAINING_TICKS, F_UINT, R_NONE, 128},
+ {"test_limit_ticks", SG_COOLING_TEST_LIMIT_TICKS, F_UINT, R_NONE, 128},
+ {"mode", SG_COOLING_MODE, F_TEXT, R_NONE, 128},
+ {"fan_rpm", SG_COOLING_FAN_RPM, F_NULL, R_NONE, 128},
+ {"fan_status", SG_COOLING_FAN_STATUS, F_NULL, R_NONE, 128},
+};
+#endif

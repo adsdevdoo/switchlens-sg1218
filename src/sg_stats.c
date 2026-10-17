@@ -109,6 +109,11 @@ int sg_stats_emit(const struct sg_source *s,const struct sg_sink *sink,struct sg
  }
  if(text(&w,"],\"loop_prevention\":{"))return -1;
  if(s->begin(s->context,SG_LOOP,0))return -2;
- if(FIELDS(&w,s,loop)||text(&w,"}}")||flush(&w))return -1;
+ if(FIELDS(&w,s,loop)||byte(&w,'}'))return -1;
+#ifdef SG_COOLING
+ if(s->begin(s->context,SG_COOLING_SCOPE,0))return -2;
+ if(text(&w,",\"cooling\":{")||FIELDS(&w,s,cooling)||byte(&w,'}'))return -1;
+#endif
+ if(byte(&w,'}')||flush(&w))return -1;
  return sink->finish(sink->context)==0?0:-1;
 }

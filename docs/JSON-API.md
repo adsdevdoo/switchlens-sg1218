@@ -384,3 +384,33 @@ PY
 Structure/range validation does not calibrate sensors. Remaining checks include
 stock-UI comparison, loaded PoE, connector mapping, refresh timing, reset/wrap
 behavior and extended operation.
+
+## cooling (v0.1.2)
+
+Optional root object in v0.1.2; absent from v0.1.1. Schema remains 1 and older
+responses remain valid. Reading never switches an output. Integers are JSON
+numbers; null means unknown, not zero or healthy.
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `gpio_control_raw` | uint32? | Raw mux/control at `0xb8003500` |
+| `gpio_direction_raw` | uint32? | Direction at `0xb8003508`: bit 0 input, 1 output |
+| `gpio_data_raw` | uint32? | Data at `0xb800350c`, without speed interpretation |
+| `controller_state_raw` | uint32? | Word at `0xbf014840`; tagged packed state during a test, not simply 0/1 |
+| `fast_ticks_raw` | uint32? | Fast IRQ counter at `0xbf002e94`; seconds per tick uncalibrated |
+| `poe_load_raw` | uint32? | Latest sum at `0xbf014400`, units of 0.1 W; negative sum gives null |
+| `gpio26_level` | 0/1? | Sampled input bit; not verified FAN fault or RPM |
+| `gpio27_level` | 0/1? | Output bit level; not PWM percent or speed |
+| `auto_state` | 0/1? | Current auto state, or saved pre-test state; null if invalid |
+| `test_level` | 0/1? | Requested level in test/expired, otherwise null |
+| `remaining_ticks` | uint32? | Remaining raw ticks; zero for auto/expired/invalid |
+| `test_limit_ticks` | uint32? | 100; these are not seconds |
+| `mode` | string? | `auto`, `test`, `expired`, `invalid` |
+| `fan_rpm` | null | No verified tach counter/conversion; RPM not measured |
+| `fan_status` | null | Individual fan health is not established |
+
+`expired` means the deadline has elapsed but the control loop has not cleared
+the test tag. HTTP does not clear it. Reads are sequential, not atomic;
+`poe_load_raw` can differ from the earlier `poe.consumption_raw` snapshot. During
+a test `auto_state` is saved history, not a freshly calculated automatic demand.
+[Commands, packed state and timeout](COOLING-CONTROL.md).

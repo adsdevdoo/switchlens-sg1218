@@ -27,6 +27,8 @@ PoE под нагрузкой, точность всех метрик, длит�
 Сборка, точные границы проверки и оставшиеся неизвестные:
 [FIRMWARE](docs/FIRMWARE.ru.md).
 
+**v0.1.2: диагностика охлаждения подготовлена.** [BIN и проверки](releases/v0.1.2-cooling/README.ru.md), [команды `cool`](docs/COOLING-CONTROL.ru.md). Новая сборка прошла офлайн-тесты; аппаратное подтверждение пока относится к v0.1.1.
+
 ## Рабочая прошивка с UART CLI
 
 [**v0.1.1-experimental-uart**](releases/v0.1.1-experimental-uart/README.ru.md)

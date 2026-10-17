@@ -92,24 +92,23 @@ Do not reintroduce it as a mandatory step. Restoration by writing the dump,
 separate UID/OTP/status data and UART/TFTP recovery are unverified. Runtime RTK#
 does not establish a bootloader emergency console.
 
-## Current priority: fan statistics
+## Current priority: GPIO27 tests in v0.1.2
 
-Owner fitted Noctua NF-A4x20 PWM 12 V fans with three standard wires connected.
-One fan fails to start on either header but runs after a push. No supply or tach
-measurements have been supplied. Current task: investigate control and add
-verified fan telemetry. [Cooling investigation](../research/COOLING.md).
+Prepared [v0.1.2 BIN](../releases/v0.1.2-cooling/README.md): `cool status`, `cool test 0`,
+`cool test 1`, `cool auto`; 100 raw-tick hold and return to stock hysteresis.
+24 MIPS tests pass; installation of this build is not yet confirmed.
+`/stats.json` adds read-only `cooling`; RPM/health remain null.
+[Implementation, commands and limits](COOLING-CONTROL.md).
 
-Original code switches GPIO27 using PoE hysteresis (<1460 raw -> 1, >=1501 -> 0),
-and reads GPIO26 for paired LED modes. These paths are unchanged in v0.1.1.
-Seven emulator tests verify code behavior, not physical fan mapping. No new BIN
-or `/stats.json` fan fields have been produced. `tools/decode_board_signals.py`
-converts copied UART reads to diagnostic JSON with fan state/RPM left null.
-
-Next obtain `reg socget 0x3508`, `reg socget 0x350c` and
-`reg flashget 0x14840 0`, separately for the naturally stopped/running fan,
-with FAN indicator observations. No `--` prefix. The last read's `set flashreg`
-message is a stock output bug; the tested branch only reads. Do not force GPIO27
-or infer high/low fan speed until physical mapping is established.
+Owner uses Noctua NF-A4x20 PWM 12 V with three standard wires connected.
+The same fan fails to start on either header but runs after a push.
+Direction `0x39000000`, data `0x39780000`, orange FAN; one fan runs, one does not.
+Manual data change to `0x31780000` and back produced a tentative report of one
+fan slowing; the other did not start. Level-to-speed mapping is not established.
+Truncated `reg flashget 0x1` hung the old console; the new wrapper validates arguments.
+Owner declined measurements and authorized software testing. Do not repeat multimeter
+requests or already completed reads as prerequisites. Next: install v0.1.2, use short
+commands separately, observe both fans/FAN, and confirm automatic return.
 
 ## Continue with
 

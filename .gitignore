@@ -37,3 +37,6 @@ uart-logs/
 
 # Explicit diagnostic variant of the versioned experimental firmware.
 !/releases/v0.1.1-experimental-uart/SwitchLens-SG1218MPE-V5-v0.1.1-experimental-uart.bin
+
+# Bounded cooling diagnostic build requested by the owner.
+!/releases/v0.1.2-cooling/SwitchLens-SG1218MPE-V5-v0.1.2-cooling.bin

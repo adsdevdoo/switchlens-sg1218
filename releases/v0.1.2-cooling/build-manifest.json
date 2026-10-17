@@ -1,0 +1,151 @@
+{
+  "version": "v0.1.2-cooling",
+  "classification": "DIAGNOSTIC_BUILD_AWAITING_HARDWARE_TEST",
+  "input_sha256": "c9ab17eda7af714f00692d41f440ce84ed0d6c7d678634c364ec1154bb7e3f32",
+  "output_sha256": "07bcc33628b01af5687054758fb67d32a800b2eac1025d0c3cf0afd073ea9dc2",
+  "payload_sha256": "d34537bb835bc8a173608dbcbda197e47a79717de861e927a38f683aea69c6fa",
+  "image_bytes": 1013324,
+  "payload_bytes": 16632,
+  "payload_file_offset": "0xd8640",
+  "payload_va": "0xbfce0640",
+  "padding_remaining_bytes": 108744,
+  "crc32": "cc484259",
+  "crc_range": [
+    "0x10",
+    "0xf7000"
+  ],
+  "changed_bytes": 16253,
+  "hooks": [
+    {
+      "offset": "0x3425c",
+      "before": "0ff0af76",
+      "after": "0ff38190"
+    },
+    {
+      "offset": "0x34280",
+      "before": "0bf1058f",
+      "after": "0bf3819a"
+    },
+    {
+      "offset": "0x24bb4",
+      "before": "0ff0b142",
+      "after": "0ff38b82"
+    },
+    {
+      "offset": "0x25848",
+      "before": "0ff0b142",
+      "after": "0ff38b82"
+    },
+    {
+      "offset": "0x25ee4",
+      "before": "0ff0b343",
+      "after": "0ff38a53"
+    },
+    {
+      "offset": "0x25e94",
+      "before": "8c45f018",
+      "after": "24051fff",
+      "purpose": "Enable the 13 stock CLI permission bits in RAM initialization"
+    },
+    {
+      "offset": "0x25ed8",
+      "before": "30420001",
+      "after": "24020001",
+      "purpose": "Enable the existing runtime UART CLI dispatcher"
+    },
+    {
+      "offset": "0x54344",
+      "before": "2c82000210400005",
+      "after": "0bf38a3b00000000",
+      "purpose": "Bounded GPIO27 override with stock automatic return"
+    }
+  ],
+  "uart_cli": true,
+  "cooling_cli": true,
+  "uart_cli_scope": "Stock runtime CLI including write/reset commands; not a bootloader recovery console",
+  "no_bootloader_modification": true,
+  "no_global_ram_allocation": true,
+  "hardware_boot_test": false,
+  "recovery_test": false,
+  "limitations": [
+    "v0.1.2 installation and physical fan response not yet tested",
+    "100 raw IRQ ticks; wall-time unit unconfirmed",
+    "Software return requires running timer and cooperative event loop",
+    "No verified RPM/per-fan health measurement",
+    "Physical recovery and long-duration load remain untested"
+  ],
+  "compiler": "mips-linux-gnu-gcc (Ubuntu 12.4.0-2ubuntu1~24.04) 12.4.0",
+  "linker": "GNU ld (GNU Binutils for Ubuntu) 2.42",
+  "build_recipe_sha256": "318880e62f8e35f6413864fae8504e3478c2747797eaa6bbbd32f26042ae1587",
+  "compiler_flags": [
+    "-std=c99",
+    "-Os",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-ffreestanding",
+    "-fno-builtin",
+    "-fno-pic",
+    "-fno-pie",
+    "-fno-stack-protector",
+    "-fno-asynchronous-unwind-tables",
+    "-fno-unwind-tables",
+    "-fno-common",
+    "-fstack-usage",
+    "-ffunction-sections",
+    "-fdata-sections",
+    "-mabi=32",
+    "-mips32r2",
+    "-msoft-float",
+    "-mno-abicalls",
+    "-G0",
+    "-EB",
+    "-Iinclude",
+    "-DSG_COOLING"
+  ],
+  "sources_sha256": {
+    "target/route.S": "4575a53b60b04629f781507760dcbf793671a1422cb35aee95a1f2bb6b2fda56",
+    "target/adapter.c": "c27b509f3c2bd295150cee7811bc33a7129222f39f6410c4124783ef91b53027",
+    "target/runtime.c": "aa1806bd129c3a5a2d79c052ba7c6cd9679847cac4f21ead31087d1c4349a020",
+    "src/sg_stats.c": "90daeee790613a24ca27eb716fc43dfb3830e7d9963cad118dacdf2b0a313159",
+    "src/sg_mib.c": "48028786d0df722f4df09031b8f9ea778bd095b67b4d025576cb46d288691904",
+    "target/cooling.c": "efd5cfcae17e3dbe304d6214cf3ad223ca8cb5c35f0718fbda004afe18db93c8",
+    "target/firmware.ld": "b347427f89c4030f0b749eb9127357d6a42782d7a78ee92b5083de4ff81c5970",
+    "include/sg_stats.h": "c68c2bbdc3db21579489dee48b660fb2dd164d57e135efa2cedbc00692890fec",
+    "include/sg_fields.h": "2eb9298f58f43f389e9a5c09e1c92e914a233acd89bf1fd693e5e1f9061a76a9",
+    "include/sg_mib.h": "c545f7984acf17709d5ef45b6d26b6c83827e1479e073209976b364d8ff82741",
+    "src/sg_fields.inc": "94494215647a115e44f8b7174000fac89cdce385186d74eb87f4e341e18ce11c",
+    "target/cooling.h": "deae435e83fad115e5f6bf0eaaa4920827ed56158bb2737582fb4362e450f4b7"
+  },
+  "symbols": {
+    "sg_stats.c": "0x0",
+    "sg_mib.c": "0x0",
+    "sg_cool_output": "0xbfce28ec",
+    "fw_cool_poll": "0xbfc5c368",
+    "fw_cli_reg": "0xbfc2d8d0",
+    "fw_cli_poll": "0xbfc2cd0c",
+    "sg_cli_poll": "0xbfce294c",
+    "fw_cli_help": "0xbfc2d6c0",
+    "sg_cool_get": "0xbfce2c78",
+    "fw_cli_lookup": "0xbfc2c508",
+    "sg_http_entry": "0xbfce0680",
+    "fw_http_status": "0xbf01cd38",
+    "sg_cool_snapshot": "0xbfce29b4",
+    "sg_route_dispatch": "0xbfce0668",
+    "sg_cli_lookup": "0xbfce2e08",
+    "sg_route_compare": "0xbfce0640",
+    "sg_route_kind": "0xbfce14b8",
+    "fw_http_init": "0xbfc3b278",
+    "fw_register_read": "0xbfc10768",
+    "sg_http_stats": "0xbfce1520",
+    "fw_http_header": "0xbf01cc5c",
+    "sg_stats_emit": "0xbfce1f64",
+    "fw_gpio_write": "0xbf0196b4",
+    "fw_strcmp": "0xbfc2bdd8",
+    "fw_statistics_page": "0xbfc4163c",
+    "fw_socket_send": "0xbfc38a64",
+    "fw_printf": "0xbfc11514",
+    "fw_http_raw": "0xbf01cac0",
+    "sg_mib_read": "0xbfce239c"
+  }
+}

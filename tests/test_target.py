@@ -38,7 +38,7 @@ class Machine:
         self.u.ctl_set_cpu_model(UC_CPU_MIPS32_24KF)
         for base, size in [(0x1fc00000, 0x200000), (0x1f000000, 0x20000),
                            (0x01000000, 0x10000), (0x1b000000, 0x10000),
-                           (0x141f0000, 0x10000)]:
+                           (0x141f0000, 0x10000), (0x18003000, 0x1000)]:
             self.u.mem_map(base, size)
         self.put(0xbfc08000, image)
         self.put(0xbf000400, image[0x720:0x3160])
@@ -63,7 +63,7 @@ class Machine:
         # Unicorn 2.1.4's MIPS MEM_WRITE hook faults on a store in a branch delay
         # slot. Enforce read-only flash/MMIO instead and compare all SRAM bytes.
         for address, size in [(0x1fc00000, 0x200000), (0x1b000000, 0x10000),
-                              (0x141f0000, 0x10000), (0x01000000, 0x10000)]:
+                              (0x141f0000, 0x10000), (0x01000000, 0x10000), (0x18003000, 0x1000)]:
             self.u.mem_protect(address, size, UC_PROT_READ | UC_PROT_EXEC)
 
     def put(self, address, data):
@@ -361,7 +361,7 @@ class TargetTests(unittest.TestCase):
         self.assertEqual(struct.unpack('>I', IMAGE[:4])[0], zlib.crc32(IMAGE[0x10:builder.END]))
         self.assertEqual(IMAGE[builder.END:], ORIGINAL[builder.END:])
         syms = {k: int(v, 16) for k, v in MANIFEST['symbols'].items()}
-        regenerated, _ = builder.package(ORIGINAL, PAYLOAD, syms, uart_cli=MANIFEST.get('uart_cli', False))
+        regenerated, _ = builder.package(ORIGINAL, PAYLOAD, syms, uart_cli=MANIFEST.get('uart_cli', False), cooling_cli=MANIFEST.get('cooling_cli', False))
         self.assertEqual(regenerated, IMAGE)
         for original, payload, symbols in [(b'bad', PAYLOAD, syms), (ORIGINAL, b'', syms),
                  (ORIGINAL, b'x'*(builder.END-builder.START+1), syms),

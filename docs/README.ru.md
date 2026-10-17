@@ -7,6 +7,8 @@
 
 | Документ | Английский | Русский |
 | --- | --- | --- |
+| v0.1.2 cooling commands and JSON | [English](COOLING-CONTROL.md) | [Русский](COOLING-CONTROL.ru.md) |
+| v0.1.2 diagnostic BIN | [English](../releases/v0.1.2-cooling/README.md) | [Русский](../releases/v0.1.2-cooling/README.ru.md) |
 | Охлаждение и статистика сигналов платы | [English](../research/COOLING.md) | [Русский](../research/COOLING.ru.md) |
 | Изменения в проекте | [English](../CONTRIBUTING.md) | [Русский](../CONTRIBUTING.ru.md) |
 | SwitchLens | [English](../README.md) | [Русский](../README.ru.md) |

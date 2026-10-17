@@ -2,9 +2,10 @@
 
 # Cooling investigation and board-signal statistics
 
-17 October 2026. The installed v0.1.1 firmware remains working. This investigation
-adds an offline diagnostic JSON decoder and read-only UART procedure; it does not
-change the released BIN or add fan fields to `/stats.json`.
+Update 17 October 2026: [v0.1.2 with cool and cooling JSON](../docs/COOLING-CONTROL.md)
+is prepared; 24 MIPS tests pass and its hardware test is pending. The analysis
+below concerns the original code and v0.1.1, whose BIN is unchanged. The new
+test does not assign fan-speed names to GPIO levels.
 
 ## What is established
 
@@ -86,7 +87,9 @@ routine. The front-panel LED identity, alarm polarity and possible aggregation
 of two fan tach signals still need checking. A sampled high/low bit cannot be
 reported as measured RPM or as proof that a particular fan is running.
 
-## Read the signals on the installed firmware
+## Historical v0.1.1 read procedure
+
+Archived syntax, not the current next step. [New procedure](../docs/COOLING-CONTROL.md).
 
 At `RTK#`, enter each command separately, without copying the prompt:
 
@@ -115,7 +118,9 @@ current `poe.consumption_raw`. If the problematic fan is subsequently running,
 capture another set and the same observations. Do not deliberately stall a fan
 or create a high PoE load for this comparison. Rewiring is unnecessary.
 
-No real results for these three reads have been supplied yet. Repeated readings
+Direction `0x39000000` and data `0x39780000` were supplied; a complete state read
+was not. One fan runs, one is stopped and FAN is orange. Truncated `flashget`
+hung the old console; use the short `cool` procedure in v0.1.2 for current testing. Repeated readings
 can expose correlation, but an unchanged input cannot alone prove that fan
 monitoring is absent. Physical tracing or tach measurements may still be needed.
 

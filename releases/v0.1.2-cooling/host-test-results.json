@@ -1,0 +1,8 @@
+{
+  "serializer_tests": 9,
+  "serializer_failures": 0,
+  "mib_tests": "PASS",
+  "asan_ubsan": "PASS",
+  "leak_sanitizer": "Disabled: unsupported under runtime ptrace (ASAN_OPTIONS=detect_leaks=0)",
+  "scope": "Host serializer and MIB code; does not emulate hardware"
+}

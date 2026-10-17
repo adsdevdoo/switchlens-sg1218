@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Proposed SG1218MPE V5 stats.json v1; not implemented firmware",
+  "title": "SwitchLens SG1218MPE V5 stats.json v1 (optional cooling diagnostics in v0.1.2)",
   "type": "object",
   "properties": {
     "schema_version": {
@@ -13254,6 +13254,143 @@
       ],
       "additionalProperties": false,
       "description": "Raw software masks, not confirmed hardware blocked state; enabled=null until active mode is mapped."
+    },
+    "cooling": {
+      "type": "object",
+      "description": "Optional v0.1.2 snapshot; read-only. Test changes are UART-only. Raw IRQ ticks are not seconds.",
+      "properties": {
+        "gpio_control_raw": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "gpio_direction_raw": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "gpio_data_raw": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "controller_state_raw": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "fast_ticks_raw": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "poe_load_raw": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "gpio26_level": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "gpio27_level": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "auto_state": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "test_level": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "remaining_ticks": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "test_limit_ticks": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "mode": {
+          "enum": [
+            "auto",
+            "test",
+            "expired",
+            "invalid",
+            null
+          ]
+        },
+        "fan_rpm": {
+          "type": "null",
+          "description": "No verified tachometer edge counter or RPM conversion."
+        },
+        "fan_status": {
+          "type": "null",
+          "description": "GPIO26 is a raw board input, not verified per-fan health."
+        }
+      },
+      "required": [
+        "gpio_control_raw",
+        "gpio_direction_raw",
+        "gpio_data_raw",
+        "controller_state_raw",
+        "fast_ticks_raw",
+        "poe_load_raw",
+        "gpio26_level",
+        "gpio27_level",
+        "auto_state",
+        "test_level",
+        "remaining_ticks",
+        "test_limit_ticks",
+        "mode",
+        "fan_rpm",
+        "fan_status"
+      ],
+      "additionalProperties": false
     }
   },
   "required": [

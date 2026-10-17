@@ -139,11 +139,19 @@ class ReleasePaths(unittest.TestCase):
 
 
 if __name__ == '__main__':
+    import argparse
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--build', type=Path, help='Review another exact-image build; default is archived v0.1.1')
+    args = parser.parse_args()
+    if args.build:
+        IMAGE = (args.build / 'SwitchLens-SG1218MPE-V5-experimental.bin').read_bytes()
+        MANIFEST = json.loads((args.build / 'manifest.json').read_text())
+        assert hashlib.sha256(IMAGE).hexdigest() == MANIFEST['output_sha256']
     result = unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.loadTestsFromTestCase(ReleasePaths))
     summary = {'tests': result.testsRun, 'failures': len(result.failures), 'errors': len(result.errors),
                'image_sha256': hashlib.sha256(IMAGE).hexdigest(),
                'scope': 'Stock scheduler; sequential CLI/HTTP in shared synthetic RAM; boot staging CRC and runtime handoff with mocked flash operations. No whole-device or hardware validation.'}
-    out = ROOT / 'build-final-check'
+    out = args.build or ROOT / 'build-final-check'
     out.mkdir(exist_ok=True)
     (out / 'release-path-test-results.json').write_text(json.dumps(summary, indent=2) + '\n')
     print(json.dumps(summary, indent=2))
