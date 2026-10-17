@@ -1,0 +1,74 @@
+name: Update verified firmware release notes
+
+on:
+  push:
+    branches: [main]
+    paths: [.github/workflows/update-release-notes.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-notes:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Publish current English notes and Russian link without changing assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          COMMIT_SHA: ${{ github.sha }}
+        run: |
+          python3 - <<'PY'
+          import base64
+          import json
+          import os
+          import posixpath
+          import re
+          import urllib.request
+          repo = os.environ['REPOSITORY']
+          assert repo == 'adsdevdoo/switchlens-sg1218'
+          sha = os.environ['COMMIT_SHA']
+          tag = 'v0.1.1-experimental-uart'
+          api = 'https://api.github.com/repos/' + repo
+          headers = {
+              'Authorization': 'Bearer ' + os.environ['GH_TOKEN'],
+              'Accept': 'application/vnd.github+json',
+              'X-GitHub-Api-Version': '2022-11-28',
+              'Content-Type': 'application/json',
+          }
+          def request(path, payload=None):
+              data = None if payload is None else json.dumps(payload).encode()
+              req = urllib.request.Request(api + path, data=data, headers=headers,
+                                           method='GET' if payload is None else 'PATCH')
+              with urllib.request.urlopen(req, timeout=30) as response:
+                  return json.load(response)
+          release = request('/releases/tags/' + tag)
+          assert release['id'] == 415889899 and not release['draft']
+          filename = 'SwitchLens-SG1218MPE-V5-v0.1.1-experimental-uart.bin'
+          binary = next(a for a in release['assets'] if a['name'] == filename)
+          assert binary['size'] == 1013324
+          assert binary['digest'] == 'sha256:27e4fce8d5c0c2999a324341cea7e96e37b1c0561e8d6a3218705b32b7aeee71'
+          before = [(a['id'], a['name'], a['size'], a.get('digest')) for a in release['assets']]
+          doc_path = 'releases/' + tag + '/README.md'
+          doc = request('/contents/' + doc_path + '?ref=' + sha)
+          body = base64.b64decode(doc['content']).decode('utf-8')
+          def absolute_link(match):
+              url = match.group(1)
+              if '://' in url or url.startswith('#'):
+                  return match.group(0)
+              path = posixpath.normpath(posixpath.join(posixpath.dirname(doc_path), url))
+              return '](' + 'https://github.com/' + repo + '/blob/' + sha + '/' + path + ')'
+          body = re.sub(r'\]\(([^)]+)\)', absolute_link, body)
+          body = '[**Download BIN — JSON + UART**](' + binary['browser_download_url'] + ')\n\n' + body
+          assert 'working JSON and UART firmware' in body
+          updated = request('/releases/' + str(release['id']), {
+              'name': 'SwitchLens 0.1.1 — working JSON + UART firmware',
+              'body': body,
+              'prerelease': False,
+          })
+          after = [(a['id'], a['name'], a['size'], a.get('digest')) for a in updated['assets']]
+          assert before == after, 'Release assets unexpectedly changed'
+          assert not updated['prerelease'] and not updated['draft']
+          print('Release notes updated; all asset IDs, sizes and digests unchanged.')
+          PY
