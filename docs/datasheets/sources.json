@@ -1,0 +1,38 @@
+[
+  {
+    "file": "RTL8214FC-VC-CG_Datasheet_1.2.pdf",
+    "source_url": "https://raw.githubusercontent.com/jameywine/realtek-doc/main/datasheets/RTL8214FC-VC-CG_Datasheet_1.2.pdf",
+    "author": "Realtek Semiconductor Corp.",
+    "revision": "1.2",
+    "document_date": "2014-11-13",
+    "retrieved_date": "2026-10-17",
+    "pages": 63,
+    "bytes": 832760,
+    "sha256": "f4f42b388c8a4deeee28833579cff4e1562727b8ed3f632f0bc539086feb7c71",
+    "applicability": "RTL8214FC подтверждён фото; полный суффикс VC-CG не подтверждён"
+  },
+  {
+    "file": "RTL8380M_RTL8382M_RTL8382L_Datasheet_1.0.pdf",
+    "source_url": "https://raw.githubusercontent.com/jameywine/realtek-doc/main/datasheets/RTL8380M-VB-CG.pdf",
+    "author": "Realtek Semiconductor Corp.",
+    "revision": "1.0",
+    "document_date": "2014-01-20",
+    "retrieved_date": "2026-10-17",
+    "pages": 101,
+    "bytes": 1760911,
+    "sha256": "54470fcb4aecf3643853051f96e360b93708d09e07b138f3d1e42793b54a1352",
+    "applicability": "Гипотеза: семейство RTL838x по прошивке; точная модель SoC не подтверждена"
+  },
+  {
+    "file": "RTL8382L_Datasheet_1.2.pdf",
+    "source_url": "https://raw.githubusercontent.com/jameywine/realtek-doc/main/datasheets/RTL8382L_Datasheet_1.2.pdf",
+    "author": "Realtek Semiconductor Corp.",
+    "revision": "1.2",
+    "document_date": "2016-01-30",
+    "retrieved_date": "2026-10-17",
+    "pages": 45,
+    "bytes": 3389716,
+    "sha256": "fba25d886ad4c06a3d5afa6831319ee641ec8f51f359711077f1d9130908f8ad",
+    "applicability": "Справочный кандидат RTL8382L; наличие на плате не подтверждено"
+  }
+]
