@@ -1,49 +1,40 @@
-# Удалённый репозиторий
+# Репозиторий GitHub
 
-Имя: **SwitchLens**. Репозиторий: **switchlens-sg1218**.
-Описание: `Read-only JSON telemetry research for TP-Link TL-SG1218MPE V5.0`.
-Начальная видимость: private. Реальные сетевые данные и оригинальные образы
-не входят в проект.
+Проект: **SwitchLens**.
+Репозиторий: [adsdevdoo/switchlens-sg1218](https://github.com/adsdevdoo/switchlens-sg1218).
 
-Удалённый репозиторий в рамках текущей сессии не создан: доступ к GitHub
-для создания репозиториев не предоставлен. Локальный Git-проект готов.
+Описание:
+`Experimental firmware for TP-Link TL-SG1218MPE V5 with a read-only JSON API for port counters, PoE telemetry, and system information.`
 
-Если создавать из архива исходников на своей машине:
+## Получение исходников
 
 ```bash
+git clone https://github.com/adsdevdoo/switchlens-sg1218.git
 cd switchlens-sg1218
-git init -b main
-git add .
-git commit -m "Initialize SwitchLens host telemetry prototype"
-gh auth login
-gh repo create switchlens-sg1218 --private --source=. --remote=origin --push \
-  --description "Read-only JSON telemetry research for TP-Link TL-SG1218MPE V5.0"
 ```
 
-В актуальном приватном комплекте рядом с исходниками есть `bench/` с прошивкой.
-Не инициализируйте Git в корне всего комплекта и не загружайте `bench/` на GitHub.
-Готовый bundle содержит только исходный проект и историю, без BIN.
+Если GitHub запрашивает вход, авторизуйтесь на своей машине через GitHub CLI
+или установленный менеджер учётных данных. Не передавайте токены, cookies
+или пароли в чат и не добавляйте их в файлы проекта.
 
-Для архива с историей уже достаточно распаковать `switchlens-sg1218.bundle` и:
+## Содержимое
 
-```bash
-git clone switchlens-sg1218.bundle switchlens-sg1218-restored
-cd switchlens-sg1218-restored
-git remote remove origin
-gh auth login
-gh repo create switchlens-sg1218 --private --source=. --remote=origin --push \
-  --description "Read-only JSON telemetry research for TP-Link TL-SG1218MPE V5.0"
-```
+В Git находятся исходники, скрипты сборки, схема JSON, синтетические примеры,
+исследовательские отчёты, тесты и документация. Вся история проекта сохраняется.
 
-`origin` после clone указывает на локальный bundle; команда remove убирает
-именно эту локальную ссылку перед назначением GitHub remote.
-Не передавайте токены, cookies или пароли в чат. Авторизацию выполняйте в GitHub.
-Проверено по [документации GitHub CLI](https://cli.github.com/manual/gh_repo_create):
-`--private` задаёт видимость, `--source` использует локальную репу, `--push`
-отправляет коммиты; без OWNER используется аккаунт текущей авторизации.
+Оригинальные и модифицированные BIN, полные SPI-дампы, UART-журналы,
+скриншоты и реальные сетевые данные остаются вне репозитория.
+В приватном комплекте стенда прошивка находится отдельно, в `bench/`.
+Не инициализируйте Git в корне всего комплекта и не добавляйте `bench/`.
 
-CI использует официальные
-[actions/checkout](https://github.com/actions/checkout) и
-[actions/setup-python](https://github.com/actions/setup-python), v7 согласно
-их документации на дату подготовки. Workflow проверяет только host-прототип,
-не скачивает прошивку и не подключается к устройствам.
+Проверенный офлайн статус и ограничения: [FIRMWARE](FIRMWARE.md).
+Загрузка и работа экспериментального образа на устройстве ещё не проверены.
+
+## CI
+
+Workflow [host-tests.yml](../.github/workflows/host-tests.yml) проверяет
+host-прототип, не скачивает прошивку и не подключается к устройствам.
+Результаты запусков доступны во вкладке
+[Actions](https://github.com/adsdevdoo/switchlens-sg1218/actions).
+
+Успешный CI не подтверждает работу прошивки на реальном коммутаторе.
