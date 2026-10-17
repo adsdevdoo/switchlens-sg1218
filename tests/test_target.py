@@ -361,7 +361,7 @@ class TargetTests(unittest.TestCase):
         self.assertEqual(struct.unpack('>I', IMAGE[:4])[0], zlib.crc32(IMAGE[0x10:builder.END]))
         self.assertEqual(IMAGE[builder.END:], ORIGINAL[builder.END:])
         syms = {k: int(v, 16) for k, v in MANIFEST['symbols'].items()}
-        regenerated, _ = builder.package(ORIGINAL, PAYLOAD, syms)
+        regenerated, _ = builder.package(ORIGINAL, PAYLOAD, syms, uart_cli=MANIFEST.get('uart_cli', False))
         self.assertEqual(regenerated, IMAGE)
         for original, payload, symbols in [(b'bad', PAYLOAD, syms), (ORIGINAL, b'', syms),
                  (ORIGINAL, b'x'*(builder.END-builder.START+1), syms),

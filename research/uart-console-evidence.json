@@ -1,0 +1,51 @@
+{
+  "status": "verified_static; not a hardware RX or recovery test",
+  "dump_sha256": "b80e10d5fb75ee2d4d8a45dba305090fe204d521c96d24202876273959589a87",
+  "runtime_sha256": "c9ab17eda7af714f00692d41f440ce84ed0d6c7d678634c364ec1154bb7e3f32",
+  "runtime_copies_spi_offsets": [
+    "0x8000",
+    "0x100000"
+  ],
+  "cli_dispatcher": {
+    "runtime_file_offset": "0x25ec8",
+    "va": "0xbfc2dec8",
+    "bytes_hex": "27bdffe8afbf00143c02bfd08c42f01830420001104000048fbf00140ff0b343000020218fbf00140000102103e0000827bd0018",
+    "flag_va": "0xbfcff018",
+    "flag_runtime_file_offset": "0xf7018",
+    "flag_spi_offsets": [
+      "0xff018",
+      "0x1f7018"
+    ],
+    "flag_word_be": "0x0",
+    "enable_mask": "0x1",
+    "enabled_in_saved_image": false,
+    "disabled_branch_target_va": "0xbfc2def0",
+    "gated_cli_handler_va": "0xbfc2cd0c",
+    "flag_inside_known_runtime_crc_range": false
+  },
+  "manual_disassembly_witnesses": {
+    "dispatcher_registration_runtime_range": [
+      "0x26988",
+      "0x2699c"
+    ],
+    "handler_poll_getc_runtime_range": [
+      "0x24dd8",
+      "0x24df8"
+    ],
+    "handler_cr_lf_and_prompt_runtime_range": [
+      "0x24df8",
+      "0x24e3c"
+    ],
+    "prompt_runtime_file_offset": "0xd37b0",
+    "boot_normal_handoff_spi_range": [
+      "0x1730",
+      "0x17c0"
+    ]
+  },
+  "limits": [
+    "Static gate result does not prove physical RX wiring or solder joints.",
+    "No universal absence of alternative console or recovery paths is claimed.",
+    "No firmware modification or hardware write is performed.",
+    "Flag is outside the known runtime CRC range; update acceptance and persistence are not established."
+  ]
+}

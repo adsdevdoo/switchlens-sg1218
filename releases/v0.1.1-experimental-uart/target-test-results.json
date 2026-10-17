@@ -1,0 +1,12 @@
+{
+  "response_bytes": 37194,
+  "socket_calls": 26,
+  "observed_stack_bytes": 840,
+  "min_sp": "0xbf01f2b8",
+  "permitted_write_locations": 1948,
+  "tests": 10,
+  "failures": 0,
+  "errors": 0,
+  "image_sha256": "27e4fce8d5c0c2999a324341cea7e96e37b1c0561e8d6a3218705b32b7aeee71",
+  "scope": "CPU/HTTP emulation with mocked socket and synthetic MMIO; no hardware validation"
+}

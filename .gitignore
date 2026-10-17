@@ -34,3 +34,6 @@ uart-logs/
 # Official V5 archives and update images explicitly requested by the owner.
 !/vendor/tp-link/tl-sg1218mpe-v5/**/*.bin
 !/vendor/tp-link/tl-sg1218mpe-v5/**/*.zip
+
+# Explicit diagnostic variant of the versioned experimental firmware.
+!/releases/v0.1.1-experimental-uart/SwitchLens-SG1218MPE-V5-v0.1.1-experimental-uart.bin

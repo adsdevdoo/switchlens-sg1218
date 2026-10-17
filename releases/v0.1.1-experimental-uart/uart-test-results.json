@@ -1,0 +1,7 @@
+{
+  "tests": 6,
+  "failures": 0,
+  "errors": 0,
+  "image_sha256": "27e4fce8d5c0c2999a324341cea7e96e37b1c0561e8d6a3218705b32b7aeee71",
+  "scope": "MIPS dispatcher/parser/help with mocked UART FIFO; no physical hardware or recovery test"
+}

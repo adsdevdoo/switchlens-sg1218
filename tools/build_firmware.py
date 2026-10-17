@@ -15,6 +15,10 @@ from elftools.elf.elffile import ELFFile
 ROOT = Path(__file__).resolve().parents[1]
 EXPECTED = 'c9ab17eda7af714f00692d41f440ce84ed0d6c7d678634c364ec1154bb7e3f32'
 START, END, BASE = 0xd8640, 0xf7000, 0xbfc08000
+UART_PATCHES = [
+    (0x25e94, '8c45f018', '24051fff', 'Enable the 13 stock CLI permission bits in RAM initialization'),
+    (0x25ed8, '30420001', '24020001', 'Enable the existing runtime UART CLI dispatcher'),
+]
 
 
 def sha(data):
@@ -27,7 +31,7 @@ def jump(address, link=False):
     return struct.pack('>I', (0x0c000000 if link else 0x08000000) | ((address >> 2) & 0x3ffffff))
 
 
-def package(original, payload, symbols):
+def package(original, payload, symbols, uart_cli=False):
     if sha(original) != EXPECTED:
         raise ValueError('STOP: unexpected input image SHA-256')
     if not payload or len(payload) > END - START:
@@ -46,10 +50,18 @@ def package(original, payload, symbols):
         replacement = jump(new, link)
         output[offset:offset+4] = replacement
         changes.append({'offset': hex(offset), 'before': jump(old, link).hex(), 'after': replacement.hex()})
+    if uart_cli:
+        for offset, before, after, purpose in UART_PATCHES:
+            if original[offset:offset+4] != bytes.fromhex(before):
+                raise ValueError(f'Unexpected original UART instruction at {offset:#x}')
+            output[offset:offset+4] = bytes.fromhex(after)
+            changes.append({'offset': hex(offset), 'before': before, 'after': after, 'purpose': purpose})
     output[START:START+len(payload)] = payload
     crc = zlib.crc32(output[0x10:END])
     output[:4] = struct.pack('>I', crc)
     allowed = [(0, 4), (START, START+len(payload))] + [(row[0], row[0]+4) for row in sites]
+    if uart_cli:
+        allowed += [(offset, offset+4) for offset, *_ in UART_PATCHES]
     if len(output) != len(original):
         raise ValueError('Image size changed')
     changed = [i for i, (a, b) in enumerate(zip(original, output)) if a != b]
@@ -64,6 +76,8 @@ def package(original, payload, symbols):
         'payload_va': hex(BASE+START), 'padding_remaining_bytes': END-START-len(payload),
         'crc32': f'{crc:08x}', 'crc_range': ['0x10', hex(END)],
         'changed_bytes': len(changed), 'hooks': changes,
+        'uart_cli': bool(uart_cli),
+        'uart_cli_scope': 'Stock runtime CLI including write/reset commands; not a bootloader recovery console' if uart_cli else 'Stock disabled CLI retained',
         'no_bootloader_modification': True, 'no_global_ram_allocation': True,
         'hardware_boot_test': False, 'recovery_test': False,
         'limitations': ['Bootloader checks unknown', 'SPI dump and recovery required before lab flash',
@@ -82,6 +96,7 @@ def main():
     parser.add_argument('--cc', default='mips-linux-gnu-gcc')
     parser.add_argument('--prefix', default='mips-linux-gnu-')
     parser.add_argument('--output', type=Path, default=ROOT/'build-target')
+    parser.add_argument('--uart-cli', action='store_true', help='Enable stock runtime UART CLI for a diagnostic bench build')
     args = parser.parse_args()
     original = args.image.read_bytes()
     if sha(original) != EXPECTED:
@@ -122,7 +137,7 @@ def main():
                     raise ValueError('Unexpected writable/loadable zero-fill section')
                 if not BASE+START <= section['sh_addr'] < section['sh_addr']+section['sh_size'] <= BASE+END:
                     raise ValueError('Allocated section exceeds padding')
-    patched, manifest = package(original, binary.read_bytes(), symbols)
+    patched, manifest = package(original, binary.read_bytes(), symbols, uart_cli=args.uart_cli)
     manifest['compiler'] = subprocess.check_output([args.cc, '--version'], text=True).splitlines()[0]
     manifest['linker'] = subprocess.check_output([args.prefix+'ld.bfd', '--version'], text=True).splitlines()[0]
     manifest['build_recipe_sha256'] = sha(Path(__file__).read_bytes())
