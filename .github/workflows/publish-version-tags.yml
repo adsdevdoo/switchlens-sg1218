@@ -43,8 +43,13 @@ jobs:
               if body is not None:
                   headers['Content-Type'] = 'application/json'
               req = urllib.request.Request(api + path, data=body, headers=headers)
-              with urllib.request.urlopen(req, timeout=30) as response:
-                  return json.load(response)
+              try:
+                  with urllib.request.urlopen(req, timeout=30) as response:
+                      return json.load(response)
+              except urllib.error.HTTPError as exc:
+                  if exc.code != 404:
+                      print('GitHub API error:', exc.code, exc.read().decode(), flush=True)
+                  raise
 
           for tag, sha in versions.items():
               assert request('/git/commits/' + sha)['sha'] == sha
