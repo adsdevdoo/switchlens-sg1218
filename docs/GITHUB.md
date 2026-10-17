@@ -17,9 +17,9 @@
 В готовом архиве `origin` указывает на
 `git@github.com:adsdevdoo/switchlens-sg1218.git`.
 
-### Windows, PuTTY и Pageant
+### Windows, PuTTY и явный выбор ключа
 
-Оставьте Pageant запущенным с нужным ключом. В PowerShell:
+По умолчанию используется `%USERPROFILE%\.ssh\adsdev.ppk`. В PowerShell:
 
 ```powershell
 cd .\switchlens-sg1218
@@ -28,7 +28,13 @@ cd .\switchlens-sg1218
 
 Скрипт ищет `plink.exe` в `PATH` и обычных папках установки PuTTY,
 на время своего запуска задаёт `GIT_SSH_COMMAND` и `GIT_SSH_VARIANT=plink`,
-использует ключ из Pageant и выполняет `git push -u --follow-tags origin main`.
+использует `-l git -noagent -noshare -i "путь-к-ключу"` и выполняет
+`git push -u --follow-tags origin main`. Другой файл ключа можно передать
+аргументом: `.\push-windows.cmd "C:\path\to\key.ppk"` или переменной
+`SWITCHLENS_SSH_KEY`. Если файл отсутствует, скрипт завершится без push.
+Для зашифрованного ключа PuTTY может запросить парольную фразу локально.
+Pageant и shared connection для этого запуска отключены: ключ другого
+аккаунта не должен выбираться из агента или существующего SSH-соединения.
 Аннотированный тег версии отправляется вместе с веткой.
 Глобальные настройки Git и сам Pageant не меняются; force-push не используется.
 Если PuTTY установлен в другую папку, добавьте её в `PATH` текущего терминала.
@@ -48,11 +54,12 @@ git push -u --follow-tags origin main
 `--force`: сначала нужно получить и объединить историю.
 
 **Проверено по документации:** PuTTY описывает `GIT_SSH_COMMAND` для Git
-и параметр `-agent` для Pageant; Git поддерживает вариант `plink`.
+и параметры `-i`, `-noagent`, `-noshare`, `-l`; Git поддерживает вариант `plink`.
 Источники: [PuTTY, глава 7](https://the.earth.li/~sgtatham/putty/0.85/htmldoc/Chapter7.html),
 [Git: ssh.variant](https://git-scm.com/docs/git-config#Documentation/git-config.txt-sshvariant).
 Сам Windows-скрипт в Linux-среде подготовки не выполнялся; успешный push
-на компьютере владельца пока не проверен.
+исправленного скрипта на компьютере владельца пока не проверен.
+Первую загрузку репозитория владелец подтвердил ранее.
 
 ### После первой загрузки на GitHub
 
