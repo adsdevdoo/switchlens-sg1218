@@ -1,0 +1,118 @@
+[
+  {
+    "build": "20220921",
+    "published_date": "2022-10-08",
+    "downloaded_date": "2026-10-17",
+    "support_page": "https://www.tp-link.com/us/support/download/tl-sg1218mpe/v5/",
+    "archive_url": "https://static.tp-link.com/upload/firmware/2022/202210/20221008/SG1218MPE%28UN%29%205.0_1.0.0%20Build%2020220921.zip",
+    "files": [
+      {
+        "file": "20220921/TL-SG1218MPE-UN-V5-1.0.0-Build-20220921.zip",
+        "kind": "original_vendor_archive",
+        "bytes": 395405,
+        "sha256": "2c56c2e5e6c42254976dd9b63748c6a3d5aaffe0c2ac851163a6212634c5308f"
+      },
+      {
+        "file": "20220921/TP-Link-Upgrade-Guide.pdf",
+        "kind": "vendor_upgrade_guide",
+        "bytes": 137786,
+        "sha256": "25bc3e0df5cf11087bdae4cf4d91151db21f08faeab28a4c0fb070c606090817",
+        "archive_member": "GPL License Terms.pdf"
+      },
+      {
+        "file": "20220921/TL-SG1218MPE-UN-V5-1.0.0-Build-20220921-up.bin",
+        "kind": "official_update_bin",
+        "bytes": 1013324,
+        "sha256": "4621d6e9742539c5b95c76d203dcd21d93b2a35150967a415ef8e83f84cdb2bb",
+        "archive_member": "SG1218MPE(UN) 5.0_1.0.0 Build 20220921 Rel.58253_up.bin"
+      }
+    ]
+  },
+  {
+    "build": "20221012",
+    "published_date": "2022-10-26",
+    "downloaded_date": "2026-10-17",
+    "support_page": "https://www.tp-link.com/us/support/download/tl-sg1218mpe/v5/",
+    "archive_url": "https://static.tp-link.com/upload/firmware/2022/202210/20221026/TL-SG1218MPE%28UN%29%205.0_1.0.0%20Build%2020221012.zip",
+    "files": [
+      {
+        "file": "20221012/TL-SG1218MPE-UN-V5-1.0.0-Build-20221012.zip",
+        "kind": "original_vendor_archive",
+        "bytes": 544113,
+        "sha256": "063ebd47fbbcfbd8a333cc79cbcb8d6551053d95721ff4f60d19818d6484f888"
+      },
+      {
+        "file": "20221012/TP-Link-Upgrade-Guide.pdf",
+        "kind": "vendor_upgrade_guide",
+        "bytes": 320564,
+        "sha256": "aba6b0d356f3601c453a0680e08170c490510308a489fc848bb6b614cceb2f04",
+        "archive_member": "How to upgrade a  TP-Link Switch.pdf"
+      },
+      {
+        "file": "20221012/TL-SG1218MPE-UN-V5-1.0.0-Build-20221012-up.bin",
+        "kind": "official_update_bin",
+        "bytes": 1013324,
+        "sha256": "4b5f2348480fcb8a908a2ef7a76d1a4d82e754375cece9a24a3e3038120d9cf3",
+        "archive_member": "SG1218MPE(UN) 5.0_1.0.0 Build 20221012 Rel.42630_up.bin"
+      }
+    ]
+  },
+  {
+    "build": "20230220",
+    "published_date": "2023-02-20",
+    "downloaded_date": "2026-10-17",
+    "support_page": "https://www.tp-link.com/us/support/download/tl-sg1218mpe/v5/",
+    "archive_url": "https://static.tp-link.com/upload/firmware/2023/202302/20230220/TL-SG1218MPE%28UN%29%205.0_1.0.0_20230220.zip",
+    "files": [
+      {
+        "file": "20230220/TL-SG1218MPE-UN-V5-1.0.0-Build-20230220.zip",
+        "kind": "original_vendor_archive",
+        "bytes": 1051337,
+        "sha256": "fddab01e344812033717324ebdc5c0bfd62f32198b2d545e2b6a6007275ca43f"
+      },
+      {
+        "file": "20230220/TP-Link-Upgrade-Guide.pdf",
+        "kind": "vendor_upgrade_guide",
+        "bytes": 778821,
+        "sha256": "896ab5cef13514346bc6e2821f6a500a135db44e5f7117f650666c2d34a879db",
+        "archive_member": "How to upgrade a TP-Link Easy Smart Switch.pdf"
+      },
+      {
+        "file": "20230220/TL-SG1218MPE-UN-V5-1.0.0-Build-20230220-up.bin",
+        "kind": "official_update_bin",
+        "bytes": 1013324,
+        "sha256": "0bcbe30cb88a0987967cb1b30eac01060a48eec2cbdcbd94091ea6e0dfd3a6b9",
+        "archive_member": "TL-SG1218MPE(UN) 5.0_1.0.0 Build 20230220 Rel.33194_up.bin"
+      }
+    ]
+  },
+  {
+    "build": "20230616",
+    "published_date": "2023-07-24",
+    "downloaded_date": "2026-10-17",
+    "support_page": "https://www.tp-link.com/us/support/download/tl-sg1218mpe/v5/",
+    "archive_url": "https://static.tp-link.com/upload/firmware/2023/202307/20230724/TL-SG1218MPE%28UN%29%205.0_1.0.0%20Build%2020230616.zip",
+    "files": [
+      {
+        "file": "20230616/TL-SG1218MPE-UN-V5-1.0.0-Build-20230616.zip",
+        "kind": "original_vendor_archive",
+        "bytes": 544245,
+        "sha256": "ccb39a5df3210737d9a048d8e5afc127ba2cc5e6c6357774a86811999fa25c7c"
+      },
+      {
+        "file": "20230616/TP-Link-Upgrade-Guide.pdf",
+        "kind": "vendor_upgrade_guide",
+        "bytes": 320564,
+        "sha256": "aba6b0d356f3601c453a0680e08170c490510308a489fc848bb6b614cceb2f04",
+        "archive_member": "How to upgrade a  TP-Link Switch.pdf"
+      },
+      {
+        "file": "20230616/TL-SG1218MPE-UN-V5-1.0.0-Build-20230616-up.bin",
+        "kind": "official_update_bin",
+        "bytes": 1013324,
+        "sha256": "c9ab17eda7af714f00692d41f440ce84ed0d6c7d678634c364ec1154bb7e3f32",
+        "archive_member": "SG1218MPE(UN) 5.0_1.0.0 Build 20230616 Rel.57668_up.bin"
+      }
+    ]
+  }
+]

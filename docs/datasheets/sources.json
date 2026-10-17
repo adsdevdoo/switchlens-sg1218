@@ -34,5 +34,17 @@
     "bytes": 3389716,
     "sha256": "fba25d886ad4c06a3d5afa6831319ee641ec8f51f359711077f1d9130908f8ad",
     "applicability": "Справочный кандидат RTL8382L; наличие на плате не подтверждено"
+  },
+  {
+    "file": "GD25Q16B_Datasheet_2.3.pdf",
+    "source_url": "https://file2.dzsc.com/product/16/08/23/1115693_104228143.pdf",
+    "author": "GigaDevice Semiconductor",
+    "revision": "2.3",
+    "document_date": "2015-11-13",
+    "retrieved_date": "2026-10-17",
+    "pages": 49,
+    "bytes": 1225317,
+    "sha256": "8c0476dde30dd6751253d6887ae9e5698a134094edc3900b8d6e73460845fb44",
+    "applicability": "Проверено по фото U6: GD25Q16BSIG; документ на GD25Q16B. Источник загрузки — публичное зеркало, не сайт производителя."
   }
 ]

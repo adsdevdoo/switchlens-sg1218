@@ -104,6 +104,12 @@ python3 tests/test_target.py /path/to/official.bin \
 c9ab17eda7af714f00692d41f440ce84ed0d6c7d678634c364ec1154bb7e3f32
 ```
 
+Этот входной BIN сохранён в
+[`vendor/tp-link/tl-sg1218mpe-v5/20230616/`](../vendor/tp-link/tl-sg1218mpe-v5/20230616/TL-SG1218MPE-UN-V5-1.0.0-Build-20230616-up.bin).
+История официальных версий, исходные ZIP и их SHA-256:
+[каталог производителя](../vendor/tp-link/tl-sg1218mpe-v5/README.md).
+Официальный update BIN не заменяет полный дамп ПЗУ для программатора.
+
 Выход: `build-target/SwitchLens-SG1218MPE-V5-experimental.bin`, `manifest.json`,
 `payload.bin`, `switchlens.elf`, linker map, `.su` и результаты целевых тестов.
 SHA готового образа, его CRC и хеши исходников находятся в manifest. При другом

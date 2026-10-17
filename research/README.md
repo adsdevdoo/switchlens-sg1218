@@ -5,6 +5,9 @@ UART и дампа описывают состояние на момент на�
 **проверено владельцем** — R41/R42 по 0 Ом 0402, pin 1 J2 TX, 38400 8N1;
 полный экспорт SPI сохранён. Ввод команд и восстановление ещё не проверены.
 Журнал стенда: [LAB](../docs/LAB.md), [evidence](../docs/evidence/2026-10-17/README.md).
+Официальные ZIP/BIN 20220921, 20221012, 20230220 и 20230616 с SHA-256:
+[архив TP-Link](../vendor/tp-link/tl-sg1218mpe-v5/README.md).
+Даташиты U6 GD25Q16B и семейства Realtek: [PDF и происхождение](../docs/datasheets/README.md).
 `REPORT.txt` — исходный отчёт; `COMPARISON-AND-POE.txt`,
 `HTTP-JSON-FOLLOWUP.txt`, `MIB-LOOPS-FOLLOWUP.txt` и `SYSTEM-INFO.txt`
 содержат последующие дополнения. Более поздний вывод заменяет раннее

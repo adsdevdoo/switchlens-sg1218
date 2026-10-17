@@ -30,3 +30,7 @@ uart-logs/
 
 # Exact original export explicitly requested by the owner.
 !/backups/original/2026-10-17/GD25Q16B-xgpro-original.bin
+
+# Official V5 archives and update images explicitly requested by the owner.
+!/vendor/tp-link/tl-sg1218mpe-v5/**/*.bin
+!/vendor/tp-link/tl-sg1218mpe-v5/**/*.zip
