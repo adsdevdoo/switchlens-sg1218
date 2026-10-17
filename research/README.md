@@ -14,6 +14,7 @@ the top. Original `.txt` analyses remain unchanged as historical source records.
 
 | Document | Subject |
 | --- | --- |
+| [Further cooling paths](COOLING-PATHS.md) | GPIO writer inventory, PoE bus transactions, input/output independence and GPIO26 monitoring options |
 | [Cooling and board signals](COOLING.md) | GPIO27 PoE hysteresis, GPIO26 LED input, read-only UART reads and diagnostic JSON; fan mapping pending |
 | [Initial report](REPORT.md) | Original firmware, architecture, MIB and risks |
 | [Version/PoE comparison](COMPARISON-AND-POE.md) | Vendor builds and PoE RAM/UI encoding |

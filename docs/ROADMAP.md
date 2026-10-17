@@ -7,7 +7,7 @@ Status after the first successful v0.1.1 hardware test, **17 October 2026**.
 
 | Stage | Status / remaining criterion |
 | --- | --- |
-| Fan statistics | v0.1.2: bounded GPIO27 tests, cooling JSON, reg guard; 24 MIPS tests. New-build hardware test and RPM pending. [Guide](COOLING-CONTROL.md) |
+| Fan statistics | v0.1.2: bounded GPIO27 tests, cooling JSON, reg guard; 24 MIPS tests. CLI and active GPIO27=0 confirmed; JSON hardware result and RPM pending. [Guide](COOLING-CONTROL.md) |
 | Runtime analysis | Required paths identified; additional MIB meanings remain provisional |
 | JSON contract and host prototype | Locally tested; all fields documented |
 | Boot, signature, RAM/flash | CRC/staging traced and boot observed; peak stack/IRQ behavior and recovery outstanding |
@@ -15,7 +15,7 @@ Status after the first successful v0.1.1 hardware test, **17 October 2026**.
 | Stock bench | SPI export saved; UART at 38400 8N1, R41/R42 populated with 0 Ω 0402 |
 | v0.1.1 package | Published in GitHub Releases; 20 MIPS tests plus host checks |
 | Web installation and boot | Confirmed on owner's unit |
-| UART CLI | help, GPIO reads and manual write exercised on v0.1.1; cool prepared in v0.1.2 |
+| UART CLI | help, GPIO reads and manual write exercised on v0.1.1; cool and active GPIO27=0 readback confirmed on v0.1.2 |
 | `/stats.json` | Two complete schema-valid replies, 18 ports, changing counters |
 | Accuracy and UI agreement | Compare all settings/ports and counters against known traffic |
 | PoE under load | Only OFF/0 W observed; real PDs and measurement comparison pending |
@@ -24,8 +24,8 @@ Status after the first successful v0.1.1 hardware test, **17 October 2026**.
 | Prometheus / Grafana | Next integration goal; exporter/dashboard not yet created |
 | Production deployment | Separate owner decision after bench checks |
 
-Current priority: bench-test v0.1.2 with short `cool` commands, observe fans/FAN
-and verify automatic return. RPM remains unknown.
+Current priority: [trace cooling paths and define useful GPIO26 monitoring](../research/COOLING-PATHS.md).
+The active GPIO27=0 test is confirmed; no clear fan improvement was reported. RPM remains unknown.
 
 Subsequent checks: connect a real PoE consumer and compare JSON with the stock page, then
 verify physical numbering/settings, discard causes and uptime scale. Two manual

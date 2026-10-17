@@ -3,8 +3,9 @@
 # Bounded cooling tests — v0.1.2
 
 v0.1.2 adds `cool` commands and a read-only `cooling` object to `/stats.json`.
-The BIN has passed offline CPU tests; installation and fan behavior on the switch
-are still pending. The installed v0.1.1 remains hardware-verified working firmware.
+The owner has confirmed its CLI and GPIO27=0 readback during an active test;
+automatic mode was also observed. No clear fan improvement was reported.
+The v0.1.2 JSON hardware result is pending; v0.1.1 JSON is already verified.
 [Download and checksums](../releases/v0.1.2-cooling/README.md).
 
 ## Owner's observations before this build
@@ -106,7 +107,9 @@ authenticated/read-only JSON, CRC acceptance/rejection and shared CLI/HTTP RAM.
 Host serializer/MIB checks and ASan/UBSan pass; LeakSanitizer was disabled because
 the execution environment uses ptrace. [Reports](../releases/v0.1.2-cooling/README.md).
 
-These results do not prove that either level will start the reluctant fan.
-The next hardware result is the observed effect of each bounded test and its
-automatic return. Individual RPM requires a verified tach input and time base;
-the current binary GPIO/LED path alone cannot supply it.
+The owner later confirmed an active test with data `0x31780000`, GPIO27=0,
+and 100 remaining ticks; separate automatic-mode output showed `0x39780000`.
+There was no clear fan effect or confirmed start of the second fan. This does
+not establish a voltage/speed mapping. Do not repeat the same read as an
+uncompleted prerequisite. Individual RPM still requires a verified tach source
+and time base. [Further code analysis and GPIO26 options](../research/COOLING-PATHS.md).

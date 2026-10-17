@@ -2,7 +2,7 @@
 
 # SwitchLens continuation context
 
-Updated **17 October 2026 after the first successful v0.1.1 hardware test**.
+Updated **17 October 2026 after the v0.1.2 GPIO27 test and code follow-up**.
 This is the entry point for a new chat; read current `main` before continuing.
 
 ## Goal and current state
@@ -92,11 +92,11 @@ Do not reintroduce it as a mandatory step. Restoration by writing the dump,
 separate UID/OTP/status data and UART/TFTP recovery are unverified. Runtime RTK#
 does not establish a bootloader emergency console.
 
-## Current priority: GPIO27 tests in v0.1.2
+## Current priority: cooling code and GPIO26 monitoring
 
 Prepared [v0.1.2 BIN](../releases/v0.1.2-cooling/README.md): `cool status`, `cool test 0`,
 `cool test 1`, `cool auto`; 100 raw-tick hold and return to stock hysteresis.
-24 MIPS tests pass; installation of this build is not yet confirmed.
+24 MIPS tests pass; the owner has confirmed this build's CLI and an active GPIO27=0 test.
 `/stats.json` adds read-only `cooling`; RPM/health remain null.
 [Implementation, commands and limits](COOLING-CONTROL.md).
 
@@ -107,8 +107,14 @@ Manual data change to `0x31780000` and back produced a tentative report of one
 fan slowing; the other did not start. Level-to-speed mapping is not established.
 Truncated `reg flashget 0x1` hung the old console; the new wrapper validates arguments.
 Owner declined measurements and authorized software testing. Do not repeat multimeter
-requests or already completed reads as prerequisites. Next: install v0.1.2, use short
-commands separately, observe both fans/FAN, and confirm automatic return.
+requests or already completed reads as prerequisites. An active `cool test 0;cool status`
+showed GPIO27=0 and 100 remaining ticks; separate auto output showed GPIO27=1.
+The owner reported no clear fan improvement. v0.1.2 JSON hardware output is pending.
+[Further analysis](../research/COOLING-PATHS.md) identifies the PoE bus and confirms
+in 32 synthetic combined-poll cases that GPIO26 changes LEDs but not the output
+policy. No additional fan-speed command was found in the reviewed paths. Explain
+GPIO26 raw-state history, indicator modes and possible aggregate alarms; do not
+claim RPM, per-fan health or a proven fault polarity.
 
 ## Continue with
 

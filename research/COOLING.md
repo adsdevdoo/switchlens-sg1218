@@ -3,7 +3,8 @@
 # Cooling investigation and board-signal statistics
 
 Update 17 October 2026: [v0.1.2 with cool and cooling JSON](../docs/COOLING-CONTROL.md)
-is prepared; 24 MIPS tests pass and its hardware test is pending. The analysis
+has passed 24 MIPS tests; its CLI and active GPIO27=0 readback are now hardware
+confirmed. [Further path analysis and GPIO26 options](COOLING-PATHS.md). The analysis
 below concerns the original code and v0.1.1, whose BIN is unchanged. The new
 test does not assign fan-speed names to GPIO levels.
 

@@ -21,7 +21,7 @@ status is **working firmware with hardware-verified boot, UART and JSON**.
 Loaded PoE operation, all counter semantics, recovery and long-duration operation
 are separate outstanding checks. See [roadmap](docs/ROADMAP.md).
 
-**v0.1.2 cooling diagnostics are ready.** [BIN and checks](releases/v0.1.2-cooling/README.md), [`cool` commands](docs/COOLING-CONTROL.md). The new build passed offline tests; hardware verification still applies to v0.1.1.
+**v0.1.2 console and GPIO27 test confirmed on hardware.** [BIN and checks](releases/v0.1.2-cooling/README.md), [`cool` commands](docs/COOLING-CONTROL.md). Active level-0 readback and automatic mode were observed; no clear fan improvement was reported. [Further code analysis and GPIO26 options](research/COOLING-PATHS.md). v0.1.2 JSON hardware verification remains pending.
 
 ## Current firmware
 

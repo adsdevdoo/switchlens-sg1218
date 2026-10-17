@@ -1,0 +1,908 @@
+{
+  "image_sha256": "c9ab17eda7af714f00692d41f440ce84ed0d6c7d678634c364ec1154bb7e3f32",
+  "method": "Original MIPS instructions with synthetic hardware plus static direct-reference inventory",
+  "device_access": false,
+  "blocks": {
+    "gpio_helpers": {
+      "file_start": "0x3268",
+      "file_end_exclusive": "0x351c",
+      "sha256": "32552d4959aeecc2353d3dea91c6537cbf3e0ccd5cc0288d55f2c2d98fe92181"
+    },
+    "gpio27_controller": {
+      "file_start": "0x54344",
+      "file_end_exclusive": "0x543fc",
+      "sha256": "6711ec4b6b692d2957274e3c9455ccaff8e508b8a232c9ff24f05158633c0a3d"
+    },
+    "bitbang_and_register_io": {
+      "file_start": "0x543fc",
+      "file_end_exclusive": "0x552ac",
+      "sha256": "7d741a8673e2826aafb86fa03c20789ab31d26b7c7ee4ce37f35f4e590902375"
+    },
+    "poe_poll_and_init": {
+      "file_start": "0x552ac",
+      "file_end_exclusive": "0x56a84",
+      "sha256": "fa0c7267aaa93a44d851bcea23d4a1c7e221a05f4ea00a002dd054006b130432"
+    },
+    "device_configuration_table": {
+      "file_start": "0xcb65c",
+      "file_end_exclusive": "0xcb674",
+      "sha256": "488cdc78e83efed0f633ed11b654ac13308fbac1e42281e935542b73dc0ca710"
+    }
+  },
+  "static_scan_file_intervals": [
+    [
+      "0x10",
+      "0x720"
+    ],
+    [
+      "0x3160",
+      "0x8178"
+    ],
+    [
+      "0x8178",
+      "0x91700"
+    ]
+  ],
+  "references": {
+    "0xbf0196b4": {
+      "direct_j_jal_file_offsets": [
+        "0x17590",
+        "0x54358",
+        "0x54408",
+        "0x54414",
+        "0x54428",
+        "0x5443c",
+        "0x54460",
+        "0x5446c",
+        "0x54478",
+        "0x54494",
+        "0x544dc",
+        "0x54528",
+        "0x5453c",
+        "0x54550",
+        "0x545a0",
+        "0x545b4",
+        "0x545c8",
+        "0x54634",
+        "0x54648",
+        "0x54700",
+        "0x54728",
+        "0x56728",
+        "0x56734"
+      ],
+      "aligned_literal_pointer_file_offsets": []
+    },
+    "0xbf0196f0": {
+      "direct_j_jal_file_offsets": [
+        "0x21298",
+        "0x283c4",
+        "0x28c4c",
+        "0x49090",
+        "0x54714",
+        "0x560bc"
+      ],
+      "aligned_literal_pointer_file_offsets": []
+    },
+    "0xbf01978c": {
+      "direct_j_jal_file_offsets": [],
+      "aligned_literal_pointer_file_offsets": []
+    },
+    "0xbf019864": {
+      "direct_j_jal_file_offsets": [],
+      "aligned_literal_pointer_file_offsets": []
+    },
+    "0xbfc5c344": {
+      "direct_j_jal_file_offsets": [
+        "0x543f4"
+      ],
+      "aligned_literal_pointer_file_offsets": []
+    },
+    "0xbfc5c49c": {
+      "direct_j_jal_file_offsets": [
+        "0x5468c"
+      ],
+      "aligned_literal_pointer_file_offsets": []
+    },
+    "0xbfc5c7a8": {
+      "direct_j_jal_file_offsets": [
+        "0x548ac",
+        "0x54944"
+      ],
+      "aligned_literal_pointer_file_offsets": []
+    },
+    "0xbfc5c874": {
+      "direct_j_jal_file_offsets": [],
+      "aligned_literal_pointer_file_offsets": []
+    },
+    "0xbfc5c904": {
+      "direct_j_jal_file_offsets": [
+        "0x549d4",
+        "0x54a00",
+        "0x54d70",
+        "0x55074",
+        "0x55ac8",
+        "0x55ae0",
+        "0x55bec",
+        "0x55d08"
+      ],
+      "aligned_literal_pointer_file_offsets": []
+    },
+    "0xbfc5ca08": {
+      "direct_j_jal_file_offsets": [
+        "0x54b78",
+        "0x54c30"
+      ],
+      "aligned_literal_pointer_file_offsets": []
+    },
+    "0xbfc5cb2c": {
+      "direct_j_jal_file_offsets": [],
+      "aligned_literal_pointer_file_offsets": []
+    },
+    "0xbfc5cbd8": {
+      "direct_j_jal_file_offsets": [
+        "0x54d24",
+        "0x550bc",
+        "0x55aa8",
+        "0x55bd4",
+        "0x55c6c",
+        "0x55e08",
+        "0x55e60",
+        "0x55eb0",
+        "0x55f04",
+        "0x55f44",
+        "0x567b4",
+        "0x567c4"
+      ],
+      "aligned_literal_pointer_file_offsets": []
+    },
+    "0xbfc5d0f8": {
+      "direct_j_jal_file_offsets": [
+        "0x553cc",
+        "0x55f84"
+      ],
+      "aligned_literal_pointer_file_offsets": []
+    }
+  },
+  "initialization": {
+    "entry_va": "0xbfc5e994",
+    "mocked_calls": [
+      "0xbf01a1dc: delay",
+      "0xbfc101c0: platform helper",
+      "0xbfc5c7a8: successful register write",
+      "0xbfc5ca08: successful register read returning zero"
+    ],
+    "i2c_address_table": [
+      32,
+      33,
+      34,
+      35
+    ],
+    "register_value_pairs": [
+      [
+        7,
+        15
+      ],
+      [
+        12,
+        15
+      ],
+      [
+        85,
+        175
+      ],
+      [
+        84,
+        0
+      ],
+      [
+        15,
+        6
+      ],
+      [
+        3,
+        170
+      ],
+      [
+        1,
+        131
+      ]
+    ],
+    "bus_writes_device_register_value": [
+      [
+        32,
+        7,
+        15
+      ],
+      [
+        32,
+        12,
+        15
+      ],
+      [
+        32,
+        85,
+        175
+      ],
+      [
+        32,
+        84,
+        0
+      ],
+      [
+        32,
+        15,
+        6
+      ],
+      [
+        32,
+        3,
+        170
+      ],
+      [
+        32,
+        1,
+        131
+      ],
+      [
+        32,
+        19,
+        4
+      ],
+      [
+        32,
+        23,
+        1
+      ],
+      [
+        32,
+        20,
+        4
+      ],
+      [
+        32,
+        24,
+        1
+      ],
+      [
+        32,
+        21,
+        4
+      ],
+      [
+        32,
+        25,
+        1
+      ],
+      [
+        32,
+        22,
+        4
+      ],
+      [
+        32,
+        26,
+        1
+      ],
+      [
+        33,
+        7,
+        15
+      ],
+      [
+        33,
+        12,
+        15
+      ],
+      [
+        33,
+        85,
+        175
+      ],
+      [
+        33,
+        84,
+        0
+      ],
+      [
+        33,
+        15,
+        6
+      ],
+      [
+        33,
+        3,
+        170
+      ],
+      [
+        33,
+        1,
+        131
+      ],
+      [
+        33,
+        19,
+        4
+      ],
+      [
+        33,
+        23,
+        1
+      ],
+      [
+        33,
+        20,
+        4
+      ],
+      [
+        33,
+        24,
+        1
+      ],
+      [
+        33,
+        21,
+        4
+      ],
+      [
+        33,
+        25,
+        1
+      ],
+      [
+        33,
+        22,
+        4
+      ],
+      [
+        33,
+        26,
+        1
+      ],
+      [
+        34,
+        7,
+        15
+      ],
+      [
+        34,
+        12,
+        15
+      ],
+      [
+        34,
+        85,
+        175
+      ],
+      [
+        34,
+        84,
+        0
+      ],
+      [
+        34,
+        15,
+        6
+      ],
+      [
+        34,
+        3,
+        170
+      ],
+      [
+        34,
+        1,
+        131
+      ],
+      [
+        34,
+        19,
+        4
+      ],
+      [
+        34,
+        23,
+        1
+      ],
+      [
+        34,
+        20,
+        4
+      ],
+      [
+        34,
+        24,
+        1
+      ],
+      [
+        34,
+        21,
+        4
+      ],
+      [
+        34,
+        25,
+        1
+      ],
+      [
+        34,
+        22,
+        4
+      ],
+      [
+        34,
+        26,
+        1
+      ],
+      [
+        35,
+        7,
+        15
+      ],
+      [
+        35,
+        12,
+        15
+      ],
+      [
+        35,
+        85,
+        175
+      ],
+      [
+        35,
+        84,
+        0
+      ],
+      [
+        35,
+        15,
+        6
+      ],
+      [
+        35,
+        3,
+        170
+      ],
+      [
+        35,
+        1,
+        131
+      ],
+      [
+        35,
+        19,
+        4
+      ],
+      [
+        35,
+        23,
+        1
+      ],
+      [
+        35,
+        20,
+        4
+      ],
+      [
+        35,
+        24,
+        1
+      ],
+      [
+        35,
+        21,
+        4
+      ],
+      [
+        35,
+        25,
+        1
+      ],
+      [
+        35,
+        22,
+        4
+      ],
+      [
+        35,
+        26,
+        1
+      ]
+    ],
+    "bus_reads_device_register": [
+      [
+        32,
+        33
+      ],
+      [
+        33,
+        33
+      ],
+      [
+        34,
+        33
+      ],
+      [
+        35,
+        33
+      ]
+    ],
+    "gpio_data_write_values": [
+      "0x0",
+      "0x0",
+      "0x1000000",
+      "0x11000000",
+      "0x31000000"
+    ],
+    "gpio27_after_init": 0
+  },
+  "combined_poll": {
+    "entry_va": "0xbfc5e2fc",
+    "cases_passed": 32,
+    "mocked_calls": [
+      "0xbfc26828: LED force",
+      "0xbfc26830: LED mode"
+    ],
+    "cases": [
+      {
+        "led_enable": 0,
+        "gpio26": 0,
+        "previous_state": 0,
+        "power_raw": 0,
+        "gpio27_after": 1,
+        "led_modes_26_27": [
+          0,
+          0
+        ]
+      },
+      {
+        "led_enable": 0,
+        "gpio26": 0,
+        "previous_state": 0,
+        "power_raw": 1460,
+        "gpio27_after": 0,
+        "led_modes_26_27": [
+          0,
+          0
+        ]
+      },
+      {
+        "led_enable": 0,
+        "gpio26": 0,
+        "previous_state": 0,
+        "power_raw": 1500,
+        "gpio27_after": 0,
+        "led_modes_26_27": [
+          0,
+          0
+        ]
+      },
+      {
+        "led_enable": 0,
+        "gpio26": 0,
+        "previous_state": 0,
+        "power_raw": 1501,
+        "gpio27_after": 0,
+        "led_modes_26_27": [
+          0,
+          0
+        ]
+      },
+      {
+        "led_enable": 0,
+        "gpio26": 0,
+        "previous_state": 1,
+        "power_raw": 0,
+        "gpio27_after": 1,
+        "led_modes_26_27": [
+          0,
+          0
+        ]
+      },
+      {
+        "led_enable": 0,
+        "gpio26": 0,
+        "previous_state": 1,
+        "power_raw": 1460,
+        "gpio27_after": 1,
+        "led_modes_26_27": [
+          0,
+          0
+        ]
+      },
+      {
+        "led_enable": 0,
+        "gpio26": 0,
+        "previous_state": 1,
+        "power_raw": 1500,
+        "gpio27_after": 1,
+        "led_modes_26_27": [
+          0,
+          0
+        ]
+      },
+      {
+        "led_enable": 0,
+        "gpio26": 0,
+        "previous_state": 1,
+        "power_raw": 1501,
+        "gpio27_after": 0,
+        "led_modes_26_27": [
+          0,
+          0
+        ]
+      },
+      {
+        "led_enable": 0,
+        "gpio26": 1,
+        "previous_state": 0,
+        "power_raw": 0,
+        "gpio27_after": 1,
+        "led_modes_26_27": [
+          0,
+          0
+        ]
+      },
+      {
+        "led_enable": 0,
+        "gpio26": 1,
+        "previous_state": 0,
+        "power_raw": 1460,
+        "gpio27_after": 0,
+        "led_modes_26_27": [
+          0,
+          0
+        ]
+      },
+      {
+        "led_enable": 0,
+        "gpio26": 1,
+        "previous_state": 0,
+        "power_raw": 1500,
+        "gpio27_after": 0,
+        "led_modes_26_27": [
+          0,
+          0
+        ]
+      },
+      {
+        "led_enable": 0,
+        "gpio26": 1,
+        "previous_state": 0,
+        "power_raw": 1501,
+        "gpio27_after": 0,
+        "led_modes_26_27": [
+          0,
+          0
+        ]
+      },
+      {
+        "led_enable": 0,
+        "gpio26": 1,
+        "previous_state": 1,
+        "power_raw": 0,
+        "gpio27_after": 1,
+        "led_modes_26_27": [
+          0,
+          0
+        ]
+      },
+      {
+        "led_enable": 0,
+        "gpio26": 1,
+        "previous_state": 1,
+        "power_raw": 1460,
+        "gpio27_after": 1,
+        "led_modes_26_27": [
+          0,
+          0
+        ]
+      },
+      {
+        "led_enable": 0,
+        "gpio26": 1,
+        "previous_state": 1,
+        "power_raw": 1500,
+        "gpio27_after": 1,
+        "led_modes_26_27": [
+          0,
+          0
+        ]
+      },
+      {
+        "led_enable": 0,
+        "gpio26": 1,
+        "previous_state": 1,
+        "power_raw": 1501,
+        "gpio27_after": 0,
+        "led_modes_26_27": [
+          0,
+          0
+        ]
+      },
+      {
+        "led_enable": 1,
+        "gpio26": 0,
+        "previous_state": 0,
+        "power_raw": 0,
+        "gpio27_after": 1,
+        "led_modes_26_27": [
+          0,
+          5
+        ]
+      },
+      {
+        "led_enable": 1,
+        "gpio26": 0,
+        "previous_state": 0,
+        "power_raw": 1460,
+        "gpio27_after": 0,
+        "led_modes_26_27": [
+          0,
+          5
+        ]
+      },
+      {
+        "led_enable": 1,
+        "gpio26": 0,
+        "previous_state": 0,
+        "power_raw": 1500,
+        "gpio27_after": 0,
+        "led_modes_26_27": [
+          0,
+          5
+        ]
+      },
+      {
+        "led_enable": 1,
+        "gpio26": 0,
+        "previous_state": 0,
+        "power_raw": 1501,
+        "gpio27_after": 0,
+        "led_modes_26_27": [
+          0,
+          5
+        ]
+      },
+      {
+        "led_enable": 1,
+        "gpio26": 0,
+        "previous_state": 1,
+        "power_raw": 0,
+        "gpio27_after": 1,
+        "led_modes_26_27": [
+          0,
+          5
+        ]
+      },
+      {
+        "led_enable": 1,
+        "gpio26": 0,
+        "previous_state": 1,
+        "power_raw": 1460,
+        "gpio27_after": 1,
+        "led_modes_26_27": [
+          0,
+          5
+        ]
+      },
+      {
+        "led_enable": 1,
+        "gpio26": 0,
+        "previous_state": 1,
+        "power_raw": 1500,
+        "gpio27_after": 1,
+        "led_modes_26_27": [
+          0,
+          5
+        ]
+      },
+      {
+        "led_enable": 1,
+        "gpio26": 0,
+        "previous_state": 1,
+        "power_raw": 1501,
+        "gpio27_after": 0,
+        "led_modes_26_27": [
+          0,
+          5
+        ]
+      },
+      {
+        "led_enable": 1,
+        "gpio26": 1,
+        "previous_state": 0,
+        "power_raw": 0,
+        "gpio27_after": 1,
+        "led_modes_26_27": [
+          5,
+          0
+        ]
+      },
+      {
+        "led_enable": 1,
+        "gpio26": 1,
+        "previous_state": 0,
+        "power_raw": 1460,
+        "gpio27_after": 0,
+        "led_modes_26_27": [
+          5,
+          0
+        ]
+      },
+      {
+        "led_enable": 1,
+        "gpio26": 1,
+        "previous_state": 0,
+        "power_raw": 1500,
+        "gpio27_after": 0,
+        "led_modes_26_27": [
+          5,
+          0
+        ]
+      },
+      {
+        "led_enable": 1,
+        "gpio26": 1,
+        "previous_state": 0,
+        "power_raw": 1501,
+        "gpio27_after": 0,
+        "led_modes_26_27": [
+          5,
+          0
+        ]
+      },
+      {
+        "led_enable": 1,
+        "gpio26": 1,
+        "previous_state": 1,
+        "power_raw": 0,
+        "gpio27_after": 1,
+        "led_modes_26_27": [
+          5,
+          0
+        ]
+      },
+      {
+        "led_enable": 1,
+        "gpio26": 1,
+        "previous_state": 1,
+        "power_raw": 1460,
+        "gpio27_after": 1,
+        "led_modes_26_27": [
+          5,
+          0
+        ]
+      },
+      {
+        "led_enable": 1,
+        "gpio26": 1,
+        "previous_state": 1,
+        "power_raw": 1500,
+        "gpio27_after": 1,
+        "led_modes_26_27": [
+          5,
+          0
+        ]
+      },
+      {
+        "led_enable": 1,
+        "gpio26": 1,
+        "previous_state": 1,
+        "power_raw": 1501,
+        "gpio27_after": 0,
+        "led_modes_26_27": [
+          5,
+          0
+        ]
+      }
+    ]
+  },
+  "limits": [
+    "No physical fan speed, power or tachometer measurement",
+    "No PSE chip model established",
+    "Direct-reference and literal-pointer scan is not a proof against computed indirect calls",
+    "Synthetic bus replies do not establish actual device responses or register semantics",
+    "No conclusion about autonomous analog fan circuitry outside the CPU runtime"
+  ]
+}
