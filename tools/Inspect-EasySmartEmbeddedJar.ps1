@@ -1,6 +1,10 @@
 # Inspect an embedded ZIP/JAR in the Easy Smart launcher without executing it.
-param([string]$ZipPath = (Join-Path $env:USERPROFILE 'Downloads\EasySmartConfigurationUtility.zip'))
+param(
+    [string]$ZipPath = (Join-Path $env:USERPROFILE 'Downloads\EasySmartConfigurationUtility.zip'),
+    [string]$OutputDirectory = 'C:\tmp'
+)
 $ErrorActionPreference = 'Stop'
+$null = New-Item -ItemType Directory -Path $OutputDirectory -Force
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 $outer = [IO.Compression.ZipFile]::OpenRead($ZipPath)
 try {
@@ -63,7 +67,7 @@ try {
         if ($terms.Count) { $protocolEntries.Add([pscustomobject]@{path=$e.FullName;terms=@($terms | Select-Object -Unique)}) }
     }
 } finally { $jar.Dispose(); $mem.Dispose() }
-$out = Join-Path $env:TEMP ('easysmart-jar-' + [guid]::NewGuid().ToString('N') + '.json')
+$out = Join-Path $OutputDirectory ('easysmart-jar-' + [guid]::NewGuid().ToString('N') + '.json')
 $report = [ordered]@{
     result='EMBEDDED_ZIP_PARSED'; exe_sha256=$hash; zip=$found; manifest=$manifest
     device_contacted=$false; application_executed=$false
