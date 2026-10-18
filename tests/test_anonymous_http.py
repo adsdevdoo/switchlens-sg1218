@@ -34,7 +34,7 @@ class RawMachine(http.Machine):
     def set_session(self, active):
         self.word(0xbf011660, active)
         self.half(0xbf011670, 173)  # distinct from stock refresh value 600
-        self.put(0xbf001488, b'synthetic-session\0')
+        self.put(0xbf001488, b'H_P_SSID=synthetic-session\0')
         self.put(0xbf018df4, bytes([192,0,2,20]))
 
     def session(self):
@@ -42,7 +42,7 @@ class RawMachine(http.Machine):
 
     def parse(self, path='/stats.json', method='GET', ip=21, cookie=None):
         self.output.clear(); self.entered.clear(); self.auth_entries.clear()
-        raw = f'{method} {path} HTTP/1.1\r\nHost: 192.0.2.10\r\nContent-Length: 0\r\n'
+        raw = f'{method} {path} HTTP/1.1\r\nHost: 192.0.2.10\r\nContent-Length: 0\r\nContent-Type: application/x-www-form-urlencoded\r\n'
         if cookie is not None:
             raw += f'Cookie: H_P_SSID={cookie}\r\n'
         raw = (raw+'\r\n').encode()
