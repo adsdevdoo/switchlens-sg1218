@@ -1,0 +1,8 @@
+{
+  "tests": 9,
+  "failures": 0,
+  "errors": 0,
+  "image_sha256": "239a0127fa9ddbb72e55da992ca79c46cb9435888f7c23a82f08e42718a8ad46",
+  "scope": "Stock raw MIPS HTTP parser and outer/inner authentication; synthetic sockets/MMIO; interleaving, not physical concurrency",
+  "hardware_verified": false
+}

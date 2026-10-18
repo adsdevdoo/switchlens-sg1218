@@ -2,7 +2,7 @@
 
 # SwitchLens
 
-**Current v0.1.5:** TDDP/TSDP UDP management disabled; authenticated JSON, UART and low/fast/auto retained. All 26 MIPS checks pass; hardware installation pending. [BIN and checks](releases/v0.1.5/README.md) · [Security audit and remaining limitations](research/SECURITY-AUDIT.md).
+**Current v0.1.6:** exact `GET /stats.json` without login or cookies, independent of the panel session. TDDP/TSDP remain disabled; UART and `cool low/fast/auto/status` are retained. **Hardware installation pending.** [BIN, SHA-256 and checks](releases/v0.1.6/README.md) · [HTTP access and Windows verification](docs/HTTP-AUTH.md).
 
 
 Working firmware for the **TP-Link TL-SG1218MPE(UN) V5.0**, adding read-only JSON
@@ -19,8 +19,9 @@ stock web interface, booted the switch, ran UART `help`, and retrieved two valid
 - [Documentation index](docs/README.md) · [Continue in a new chat](docs/CONTEXT.md)
 
 The historical `experimental-uart` suffix remains in the existing tag and filename
-so that download links, hashes and archived artifacts remain valid. The current
+so that download links, hashes and archived artifacts remain valid. The v0.1.1
 status is **working firmware with hardware-verified boot, UART and JSON**.
+This historical observation does not validate v0.1.6 on hardware.
 Loaded PoE operation, all counter semantics, recovery and long-duration operation
 are separate outstanding checks. See [roadmap](docs/ROADMAP.md).
 
@@ -48,8 +49,14 @@ it was not independently tested on hardware. Hardware observations concern v0.1.
 
 ## What the JSON provides
 
-Log in to the stock web interface and open `http://<switch-address>/stats.json`
-in the same browser. The existing session is required.
+On v0.1.6, poll without any login or cookie:
+
+```powershell
+curl.exe --connect-timeout 5 --max-time 15 http://192.168.1.3/stats.json
+```
+
+The web panel still requires login. Statistics do not change its session or
+refresh its expiry timer. Earlier builds through v0.1.5 require a session.
 
 - System description, MAC, IPv4, subnet, gateway, hardware/software strings.
 - Status and settings of 18 ports, including link speed and duplex.

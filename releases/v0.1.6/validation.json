@@ -1,0 +1,13 @@
+{
+  "source_commit": "f3481b37b0decf54317c8b8f6193fd7f745934d7",
+  "validation_run": 39144589077,
+  "validation_artifact": 12142034207,
+  "artifact_zip_sha256": "41a00547660c8369aa21c1ccfaaf0fad71f1f29a6484597486c21f8aeb714718",
+  "image_sha256": "239a0127fa9ddbb72e55da992ca79c46cb9435888f7c23a82f08e42718a8ad46",
+  "mips_test_methods": 35,
+  "host_test_methods": 9,
+  "host_sanitizer_passed": true,
+  "hardware_verified": false,
+  "last_owner_confirmed_installed": "v0.1.4",
+  "v015_hardware_verified": false
+}

@@ -1,0 +1,202 @@
+{
+  "version": "v0.1.6",
+  "classification": "BUILD_AWAITING_HARDWARE_VERIFICATION",
+  "input_sha256": "c9ab17eda7af714f00692d41f440ce84ed0d6c7d678634c364ec1154bb7e3f32",
+  "output_sha256": "239a0127fa9ddbb72e55da992ca79c46cb9435888f7c23a82f08e42718a8ad46",
+  "payload_sha256": "f37b057e60d2e4697f79569825632b57214b65343464daf09147c8087535116b",
+  "image_bytes": 1013324,
+  "payload_bytes": 16892,
+  "payload_file_offset": "0xd8640",
+  "payload_va": "0xbfce0640",
+  "padding_remaining_bytes": 108484,
+  "crc32": "8c15e140",
+  "crc_range": [
+    "0x10",
+    "0xf7000"
+  ],
+  "changed_bytes": 16605,
+  "hooks": [
+    {
+      "offset": "0x3425c",
+      "before": "0ff0af76",
+      "after": "0ff3819f"
+    },
+    {
+      "offset": "0x34280",
+      "before": "0bf1058f",
+      "after": "0bf381a9"
+    },
+    {
+      "offset": "0x24bb4",
+      "before": "0ff0b142",
+      "after": "0ff38b7a"
+    },
+    {
+      "offset": "0x25848",
+      "before": "0ff0b142",
+      "after": "0ff38b7a"
+    },
+    {
+      "offset": "0x25ee4",
+      "before": "0ff0b343",
+      "after": "0ff38a70"
+    },
+    {
+      "offset": "0x25e94",
+      "before": "8c45f018",
+      "after": "24051fff",
+      "purpose": "Enable the 13 stock CLI permission bits in RAM initialization"
+    },
+    {
+      "offset": "0x25ed8",
+      "before": "30420001",
+      "after": "24020001",
+      "purpose": "Enable the existing runtime UART CLI dispatcher"
+    },
+    {
+      "offset": "0x54344",
+      "before": "2c82000210400005",
+      "after": "0bf38a6300000000",
+      "purpose": "Manual GPIO27 low/fast override; explicit auto restores stock policy"
+    },
+    {
+      "offset": "0x34e48",
+      "before": "27bdffe0afbf001c",
+      "after": "0bf3819000000000",
+      "purpose": "Exact raw GET /stats.json before IP/cookie checks and session refresh"
+    },
+    {
+      "offset": "0x3fcf0",
+      "before": "27bdffc0afbf003c",
+      "after": "03e0000800001021",
+      "purpose": "Disable TSDP initialization / UDP 29808"
+    },
+    {
+      "offset": "0x45668",
+      "before": "27bdffc8afbf0034",
+      "after": "03e0000800001021",
+      "purpose": "Disable TDDP initialization / UDP 1040"
+    },
+    {
+      "offset": "0x40db0",
+      "before": "27bdfc58afbf03a4",
+      "after": "03e0000800001021",
+      "purpose": "Disable TSDP receive callback"
+    },
+    {
+      "offset": "0x46238",
+      "before": "27bdfe08afbf01f4",
+      "after": "03e0000800001021",
+      "purpose": "Disable TDDP receive callback"
+    },
+    {
+      "offset": "0xd3d98",
+      "before": "4854545044202626205453445020696e6974212d2d2d2d2d2d2d2d2d2d20446f6e65210a0a00",
+      "after": "48545450442072656164793b20545344502064697361626c65640a0a00000000000000000000",
+      "purpose": "Report disabled service accurately"
+    },
+    {
+      "offset": "0xd3dc0",
+      "before": "5444445020696e6974212d2d2d2d2d2d2d2d2d2d20446f6e65210a0a00",
+      "after": "544444502064697361626c65640a0a0000000000000000000000000000",
+      "purpose": "Report disabled service accurately"
+    }
+  ],
+  "uart_cli": true,
+  "cooling_cli": true,
+  "vendor_udp_management_disabled": true,
+  "credential_storage": "Stock reversible fixed-key codec retained; not password hashing",
+  "anonymous_stats": true,
+  "http_access": "Only exact raw GET /stats.json is anonymous and session-independent; stock admin authentication retained",
+  "uart_cli_scope": "Stock runtime CLI including write/reset commands; not a bootloader recovery console",
+  "no_bootloader_modification": true,
+  "no_global_ram_allocation": true,
+  "hardware_boot_test": false,
+  "recovery_test": false,
+  "limitations": [
+    "This newly built image requires hardware installation verification",
+    "Manual low/fast has no timeout; auto or reboot restores automatic policy",
+    "No verified RPM/per-fan health measurement",
+    "Physical recovery and long-duration load remain untested"
+  ],
+  "compiler": "mips-linux-gnu-gcc (Ubuntu 12.4.0-2ubuntu1~24.04) 12.4.0",
+  "linker": "GNU ld (GNU Binutils for Ubuntu) 2.42",
+  "build_recipe_sha256": "60e2a27a735c9c92073c6fbed5f148ed0af01facf243c3c0d21c6d5eacc6b441",
+  "compiler_flags": [
+    "-std=c99",
+    "-Os",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-ffreestanding",
+    "-fno-builtin",
+    "-fno-pic",
+    "-fno-pie",
+    "-fno-stack-protector",
+    "-fno-asynchronous-unwind-tables",
+    "-fno-unwind-tables",
+    "-fno-common",
+    "-fstack-usage",
+    "-ffunction-sections",
+    "-fdata-sections",
+    "-mabi=32",
+    "-mips32r2",
+    "-msoft-float",
+    "-mno-abicalls",
+    "-G0",
+    "-EB",
+    "-Iinclude",
+    "-DSG_COOLING",
+    "-DSG_ANONYMOUS_STATS"
+  ],
+  "sources_sha256": {
+    "target/route.S": "78e0bae420be67886e63f3a7eda320b09fa91a10cc0cf571e59c962c285601d6",
+    "target/adapter.c": "be9964afa86213d47bc41846af1f4cdb30ec4d1d3d0fe66149e10c22047c921b",
+    "target/runtime.c": "aa1806bd129c3a5a2d79c052ba7c6cd9679847cac4f21ead31087d1c4349a020",
+    "src/sg_stats.c": "90daeee790613a24ca27eb716fc43dfb3830e7d9963cad118dacdf2b0a313159",
+    "src/sg_mib.c": "48028786d0df722f4df09031b8f9ea778bd095b67b4d025576cb46d288691904",
+    "target/cooling.c": "e5561c71a8c55b5f373170c76f3caae99bf8a084f32bef7faa8bd9d5b7337bb3",
+    "target/anonymous_stats.c": "053b0e452a2d823da68521b24c74da45c69db43fa54df2cbb62d9a4c543873f7",
+    "target/firmware.ld": "02b1fe18faa20c8ef329f99c3c8c42c0d9b333e15784577ec367291f97f6e6fc",
+    "target/build_version.h": "1e32d8a65315c1519a5200c2bff35788fc42a74f0291d2305fd5fc82410aac0b",
+    "include/sg_stats.h": "c68c2bbdc3db21579489dee48b660fb2dd164d57e135efa2cedbc00692890fec",
+    "include/sg_fields.h": "056a38568558647b24007598a2c0e6bdccfd697fbbea99cddcfe1bf431806ad4",
+    "include/sg_mib.h": "c545f7984acf17709d5ef45b6d26b6c83827e1479e073209976b364d8ff82741",
+    "src/sg_fields.inc": "0ce5987ed6a40f98ebe1e23f670cd915c663f1132333adf0c9fe7a491cfa537b",
+    "target/cooling.h": "58127c4259b9d16e454a695ca009dcbfdeaf92c9fc8531db9248ede73c4efc18"
+  },
+  "symbols": {
+    "sg_stats.c": "0x0",
+    "sg_mib.c": "0x0",
+    "sg_cool_output": "0xbfce298c",
+    "fw_cool_poll": "0xbfc5c368",
+    "fw_cli_reg": "0xbfc2d8d0",
+    "fw_cli_poll": "0xbfc2cd0c",
+    "sg_http_outer": "0xbfce0640",
+    "sg_cli_poll": "0xbfce29c0",
+    "fw_cli_help": "0xbfc2d6c0",
+    "sg_cool_get": "0xbfce2c90",
+    "fw_cli_lookup": "0xbfc2c508",
+    "sg_http_entry": "0xbfce06bc",
+    "fw_http_status": "0xbf01cd38",
+    "sg_cool_snapshot": "0xbfce29c8",
+    "sg_route_dispatch": "0xbfce06a4",
+    "sg_cli_lookup": "0xbfce2de8",
+    "sg_route_compare": "0xbfce067c",
+    "sg_route_kind": "0xbfce14e8",
+    "sg_is_anonymous_stats": "0xbfce2e84",
+    "fw_http_init": "0xbfc3b278",
+    "fw_register_read": "0xbfc10768",
+    "sg_http_stats": "0xbfce1550",
+    "fw_http_header": "0xbf01cc5c",
+    "sg_stats_emit": "0xbfce1f94",
+    "fw_gpio_write": "0xbf0196b4",
+    "fw_strcmp": "0xbfc2bdd8",
+    "fw_statistics_page": "0xbfc4163c",
+    "fw_socket_send": "0xbfc38a64",
+    "fw_printf": "0xbfc11514",
+    "fw_http_outer_continue": "0xbfc3ce50",
+    "fw_http_raw": "0xbf01cac0",
+    "sg_mib_read": "0xbfce23cc"
+  }
+}

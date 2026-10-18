@@ -45,7 +45,7 @@ def jump(address, link=False):
     return struct.pack('>I', (0x0c000000 if link else 0x08000000) | ((address >> 2) & 0x3ffffff))
 
 
-def package(original, payload, symbols, uart_cli=False, cooling_cli=False):
+def package(original, payload, symbols, uart_cli=False, cooling_cli=False, anonymous_stats=False):
     if sha(original) != EXPECTED:
         raise ValueError('STOP: unexpected input image SHA-256')
     if not payload or len(payload) > END - START:
@@ -60,6 +60,8 @@ def package(original, payload, symbols, uart_cli=False, cooling_cli=False):
         sites += [(0x24bb4, 0xbfc2c508, symbols['sg_cli_lookup'], True),
                   (0x25848, 0xbfc2c508, symbols['sg_cli_lookup'], True),
                   (0x25ee4, 0xbfc2cd0c, symbols['sg_cli_poll'], True)]
+    if anonymous_stats and not cooling_cli:
+        raise ValueError('Anonymous stats requires the hardened cooling/UART build')
     output = bytearray(original)
     changes = []
     for offset, old, new, link in sites:
@@ -89,6 +91,19 @@ def package(original, payload, symbols, uart_cli=False, cooling_cli=False):
         changes.append({'offset': hex(offset), 'before': before.hex(), 'after': after.hex(),
                         'purpose': 'Manual GPIO27 low/fast override; explicit auto restores stock policy'})
     security_regions = []
+    if anonymous_stats:
+        offset = 0x34e48
+        before = bytes.fromhex('27bdffe0afbf001c')
+        target = symbols['sg_http_outer']
+        if original[offset:offset+8] != before:
+            raise ValueError('Unexpected outer HTTP prologue')
+        if not BASE+START <= target < BASE+START+len(payload):
+            raise ValueError('Outer HTTP hook destination outside payload')
+        after = jump(target) + b'\0'*4
+        output[offset:offset+8] = after
+        security_regions.append((offset, offset+8))
+        changes.append({'offset': hex(offset), 'before': before.hex(), 'after': after.hex(),
+                        'purpose': 'Exact raw GET /stats.json before IP/cookie checks and session refresh'})
     if cooling_cli:
         for offset, before, purpose in DISABLED_SERVICES:
             before = bytes.fromhex(before)
@@ -121,7 +136,7 @@ def package(original, payload, symbols, uart_cli=False, cooling_cli=False):
     if any(not any(a <= i < b for a, b in allowed) for i in changed):
         raise ValueError('Unexpected modification outside patch allowlist')
     return bytes(output), {
-        'version': 'v0.1.5' if cooling_cli else 'experimental-1',
+        'version': 'v0.1.6' if anonymous_stats else 'v0.1.5' if cooling_cli else 'experimental-1',
         'classification': 'BUILD_AWAITING_HARDWARE_VERIFICATION' if cooling_cli else 'EXPERIMENTAL_UNTESTED_ON_HARDWARE',
         'input_sha256': EXPECTED, 'output_sha256': sha(output),
         'payload_sha256': sha(payload), 'image_bytes': len(output),
@@ -133,7 +148,8 @@ def package(original, payload, symbols, uart_cli=False, cooling_cli=False):
         'cooling_cli': bool(cooling_cli),
         'vendor_udp_management_disabled': bool(cooling_cli),
         'credential_storage': 'Stock reversible fixed-key codec retained; not password hashing',
-        'http_access': 'Stock form login, H_P_SSID cookie and client-IP session check; no bypass',
+        'anonymous_stats': bool(anonymous_stats),
+        'http_access': ('Only exact raw GET /stats.json is anonymous and session-independent; stock admin authentication retained' if anonymous_stats else 'Stock form login, H_P_SSID cookie and client-IP session check; no bypass'),
         'uart_cli_scope': 'Stock runtime CLI including write/reset commands; not a bootloader recovery console' if uart_cli else 'Stock disabled CLI retained',
         'no_bootloader_modification': True, 'no_global_ram_allocation': True,
         'hardware_boot_test': False, 'recovery_test': False,
@@ -158,7 +174,10 @@ def main():
     parser.add_argument('--output', type=Path, default=ROOT/'build-target')
     parser.add_argument('--uart-cli', action='store_true', help='Enable stock runtime UART CLI for a diagnostic bench build')
     parser.add_argument('--cooling-cli', action='store_true', help='Add manual low/fast/auto cooling commands and JSON; requires --uart-cli')
+    parser.add_argument('--anonymous-stats', action='store_true', help='Exact raw GET /stats.json before outer auth; requires --cooling-cli')
     args = parser.parse_args()
+    if args.anonymous_stats and not args.cooling_cli:
+        parser.error('--anonymous-stats requires --cooling-cli')
     if args.cooling_cli and not args.uart_cli:
         parser.error('--cooling-cli requires --uart-cli')
     original = args.image.read_bytes()
@@ -178,6 +197,9 @@ def main():
     if args.cooling_cli:
         flags += ['-DSG_COOLING']
         sources += ['target/cooling.c']
+    if args.anonymous_stats:
+        flags += ['-DSG_ANONYMOUS_STATS']
+        sources += ['target/anonymous_stats.c']
     objects = []
     for source in sources:
         obj = out/(Path(source).stem+'.o')
@@ -185,6 +207,8 @@ def main():
         objects.append(obj)
     elf, binary = out/'switchlens.elf', out/'payload.bin'
     extra = ['--undefined='+s for s in ['sg_cli_lookup','sg_cli_poll','sg_cool_output']] if args.cooling_cli else []
+    if args.anonymous_stats:
+        extra += ['--undefined=sg_http_outer']
     run([args.prefix+'ld.bfd', *extra, '-EB', '-T', 'target/firmware.ld', '--gc-sections',
          '--undefined=sg_route_dispatch', '--build-id=none', '-Map='+str(out/'switchlens.map'),
          '-o', elf, *objects])
@@ -204,13 +228,13 @@ def main():
                     raise ValueError('Unexpected writable/loadable zero-fill section')
                 if not BASE+START <= section['sh_addr'] < section['sh_addr']+section['sh_size'] <= BASE+END:
                     raise ValueError('Allocated section exceeds padding')
-    patched, manifest = package(original, binary.read_bytes(), symbols, uart_cli=args.uart_cli, cooling_cli=args.cooling_cli)
+    patched, manifest = package(original, binary.read_bytes(), symbols, uart_cli=args.uart_cli, cooling_cli=args.cooling_cli, anonymous_stats=args.anonymous_stats)
     manifest['compiler'] = subprocess.check_output([args.cc, '--version'], text=True).splitlines()[0]
     manifest['linker'] = subprocess.check_output([args.prefix+'ld.bfd', '--version'], text=True).splitlines()[0]
     manifest['build_recipe_sha256'] = sha(Path(__file__).read_bytes())
     manifest['compiler_flags'] = flags
     manifest['sources_sha256'] = {name: sha((ROOT/name).read_bytes()) for name in sources+[
-        'target/firmware.ld', 'include/sg_stats.h', 'include/sg_fields.h', 'include/sg_mib.h', 'src/sg_fields.inc'] + (['target/cooling.h'] if args.cooling_cli else [])}
+        'target/firmware.ld', 'target/build_version.h', 'include/sg_stats.h', 'include/sg_fields.h', 'include/sg_mib.h', 'src/sg_fields.inc'] + (['target/cooling.h'] if args.cooling_cli else [])}
     manifest['symbols'] = {name: hex(address) for name, address in symbols.items() if name.startswith(('sg_', 'fw_'))}
     image_out.write_bytes(patched)
     (out/'manifest.json').write_text(json.dumps(manifest, indent=2)+'\n')

@@ -1,9 +1,32 @@
-/* JSON routing follows unchanged stock session authentication and GET dispatch.
- * No authentication exception or persistent scratch flag is needed.
+/* The optional outer entry handles exact anonymous GET before session state.
+ * Every other request resumes the displaced stock prologue and auth path.
  * v1 carries route identity through the stock epilogue, which does not use it. */
 .set noreorder
 .set nomips16
 .text
+#ifdef SG_ANONYMOUS_STATS
+.globl sg_http_outer
+.ent sg_http_outer
+sg_http_outer:
+ addiu $sp,$sp,-24
+ sw $ra,20($sp)
+ sw $a0,16($sp)
+ jal sg_is_anonymous_stats
+ nop
+ lw $a0,16($sp)
+ lw $ra,20($sp)
+ beqz $v0,3f
+ addiu $sp,$sp,24
+ j sg_http_entry
+ nop
+3:
+ /* Replay the two overwritten instructions, then stock body at +8. */
+ addiu $sp,$sp,-32
+ sw $ra,28($sp)
+ j fw_http_outer_continue
+ nop
+.end sg_http_outer
+#endif
 .globl sg_route_compare
 .ent sg_route_compare
 sg_route_compare:

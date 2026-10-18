@@ -180,10 +180,11 @@ class Machine:
     def block(self, uc, address, size, user):
         self.min_sp = min(self.min_sp, uc.reg_read(UC_MIPS_REG_SP))
 
-    def run(self, function=None, path='/stats.json', method=1, sp=INITIAL_SP):
-        self.put(PATH, path.encode()+b'\0')
-        self.put(REQUEST+8, path.encode()+b'\0')
-        self.word(REQUEST+4, method)
+    def run(self, function=None, path='/stats.json', method=1, sp=INITIAL_SP, preserve_request=False):
+        if not preserve_request:
+            self.put(PATH, path.encode()+b'\0')
+            self.put(REQUEST+8, path.encode()+b'\0')
+            self.word(REQUEST+4, method)
         u = self.u
         u.reg_write(UC_MIPS_REG_SP, sp)
         u.reg_write(UC_MIPS_REG_RA, RETURN)
@@ -387,10 +388,11 @@ class TargetTests(unittest.TestCase):
         self.assertEqual(struct.unpack('>I', IMAGE[:4])[0], zlib.crc32(IMAGE[0x10:builder.END]))
         self.assertEqual(IMAGE[builder.END:], ORIGINAL[builder.END:])
         self.assertEqual(IMAGE[0x33740:0x33804], ORIGINAL[0x33740:0x33804])
-        self.assertEqual(IMAGE[0x34e48:0x34f58], ORIGINAL[0x34e48:0x34f58])
+        start = 0x34e50 if MANIFEST.get('anonymous_stats') else 0x34e48
+        self.assertEqual(IMAGE[start:0x34f58], ORIGINAL[start:0x34f58])
         self.assertNotIn('sg_public_compare', MANIFEST['symbols'])
         syms = {k: int(v, 16) for k, v in MANIFEST['symbols'].items()}
-        regenerated, _ = builder.package(ORIGINAL, PAYLOAD, syms, uart_cli=MANIFEST.get('uart_cli', False), cooling_cli=MANIFEST.get('cooling_cli', False))
+        regenerated, _ = builder.package(ORIGINAL, PAYLOAD, syms, uart_cli=MANIFEST.get('uart_cli', False), cooling_cli=MANIFEST.get('cooling_cli', False), anonymous_stats=MANIFEST.get('anonymous_stats', False))
         self.assertEqual(regenerated, IMAGE)
         for original, payload, symbols in [(b'bad', PAYLOAD, syms), (ORIGINAL, b'', syms),
                  (ORIGINAL, b'x'*(builder.END-builder.START+1), syms),

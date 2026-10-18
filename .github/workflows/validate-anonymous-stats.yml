@@ -1,0 +1,44 @@
+name: Validate anonymous statistics firmware
+on:
+  push:
+    branches: [work/v0.1.6-public-stats]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - run: sudo apt-get update && sudo apt-get install -y gcc-mips-linux-gnu binutils-mips-linux-gnu
+      - run: python -m pip install -r requirements-dev.txt
+      - name: Build
+        run: python tools/build_firmware.py vendor/tp-link/tl-sg1218mpe-v5/20230616/TL-SG1218MPE-UN-V5-1.0.0-Build-20230616-up.bin --uart-cli --cooling-cli --anonymous-stats --output build-v016
+      - name: Raw HTTP and authentication regression
+        run: python tests/test_anonymous_http.py --build build-v016
+      - name: Existing target, cooling, services and staging regressions
+        if: always()
+        run: |
+          python tests/test_target.py vendor/tp-link/tl-sg1218mpe-v5/20230616/TL-SG1218MPE-UN-V5-1.0.0-Build-20230616-up.bin --build build-v016 --synthetic-output build-v016/stats.synthetic.json
+          python tests/test_manual_cooling.py --build build-v016
+          python tests/test_security.py --build build-v016
+          python tests/test_release_paths.py --build build-v016
+          make test
+          make sanitize
+      - name: Save parser and callback evidence
+        if: always()
+        run: |
+          python tools/disassemble.py vendor/tp-link/tl-sg1218mpe-v5/20230616/TL-SG1218MPE-UN-V5-1.0.0-Build-20230616-up.bin 0x6c94 0x7500 > build-v016/http-parser.asm
+          python tools/disassemble.py vendor/tp-link/tl-sg1218mpe-v5/20230616/TL-SG1218MPE-UN-V5-1.0.0-Build-20230616-up.bin 0x34e48 0x34f58 > build-v016/http-outer.asm
+          cat build-v016/manifest.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: switchlens-v016-validation
+          path: build-v016/

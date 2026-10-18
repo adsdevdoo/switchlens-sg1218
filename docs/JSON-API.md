@@ -2,9 +2,9 @@
 
 # `/stats.json` reference — schema 1
 
-For **SwitchLens 0.1.1 working firmware**, 17 October 2026, on TP-Link
-TL-SG1218MPE(UN) V5.0. Boot, UART help and two complete JSON replies with changing
-counters were observed on the owner's unit. [Hardware evidence](evidence/2026-10-17-switchlens/README.md).
+Current contract: **SwitchLens v0.1.6**, with the same metrics as v0.1.5, on TP-Link
+TL-SG1218MPE(UN) V5.0. Historical v0.1.1 boot, UART help and two complete JSON
+replies were observed on the owner's unit on 17 October 2026. [Hardware evidence](evidence/2026-10-17-switchlens/README.md).
 
 This document describes the implementation. Authoritative structure:
 [JSON Schema 2020-12](../schema/stats.schema.json). Value sources:
@@ -14,7 +14,8 @@ The earlier `research/JSON-CONTRACT.txt` is a historical design record.
 
 ## Fan telemetry status
 
-v0.1.1 has no fan RPM, fan-health, cooling-mode or temperature fields. The
+v0.1.6 retains the `cooling` object described below; measured RPM/per-fan health
+remain unavailable. Historically, v0.1.1 has no fan RPM, fan-health, cooling-mode or temperature fields. The
 [GPIO/PoE investigation](../research/COOLING.md) and offline diagnostic JSON
 identify raw signal sources; their physical fan mapping remains unverified.
 The decoder's `diagnostic_version` is separate from this API's `schema_version`.
@@ -22,17 +23,21 @@ Its `fan_status: null` and `fan_rpm: null` do not add fields to the installed AP
 
 ## Request and authentication
 
-Use the stock form login, `H_P_SSID` cookie and the same client IP for login and
-collection. This is not Basic Auth or Bearer. The attempted v0.1.3 public exception
-failed on hardware; v0.1.4 removes it and restores the stock authentication bytes.
-[Login sequence, curl examples and correction details](HTTP-AUTH.md).
+v0.1.6 exposes only exact `GET /stats.json` without login, password, cookie or
+token. The panel retains stock login. Polling never creates/replaces a session,
+changes its IP/cookie, or refreshes its timer. Other methods and near paths,
+including query strings, receive no exception.
 
-Open the stock panel, log in, then open `/stats.json` in that browser. For an
-automated client, POST to `/logon.cgi`, save its cookie jar, then GET `/stats.json`
-with that jar from the same host. Reauthenticate on login HTML/session expiry.
-HTML is an error even with HTTP 200. v0.1.4 returns `X-SwitchLens-Build: v0.1.4`.
-The endpoint remains read-only. Full network login automation has not yet been
-verified on the owner's device; the request fields come from the embedded form.
+```powershell
+curl.exe --connect-timeout 5 --max-time 15 -D - http://192.168.1.3/stats.json
+```
+
+Require JSON, `Content-Type: application/json`, `X-SwitchLens-Build: v0.1.6`
+and no `Set-Cookie`. HTML with HTTP 200 is a failed sample. Do not automatically
+log in to repair collection errors. [Details and Windows checks](HTTP-AUTH.md).
+The schema/metrics are unchanged from v0.1.5, including cooling telemetry.
+v0.1.6 hardware installation remains unconfirmed; earlier hardware observations
+below concern the explicitly named builds.
 
 ## Types, missing values and response integrity
 

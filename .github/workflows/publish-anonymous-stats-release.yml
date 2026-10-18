@@ -1,0 +1,41 @@
+name: Publish v0.1.6 anonymous statistics release
+
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/publish-anonymous-stats-release.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-switchlens-v0.1.6
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Verify release package and tested source hashes
+        run: python3 tools/publish_v016_release.py --verify-only
+      - name: Parse Windows checker without executing network requests
+        shell: pwsh
+        run: |
+          $tokens = $null
+          $parseErrors = $null
+          $null = [System.Management.Automation.Language.Parser]::ParseFile(
+            (Join-Path $PWD 'tools/Test-AnonymousStats.ps1'), [ref]$tokens, [ref]$parseErrors)
+          if ($parseErrors.Count) { $parseErrors | Format-List; throw 'PowerShell syntax check failed' }
+          Write-Host 'Windows checker syntax: PASS; no device requests executed'
+      - name: Publish verified assets under the new v0.1.6 tag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPOSITORY: ${{ github.repository }}
+          GH_COMMIT: ${{ github.sha }}
+        run: python3 tools/publish_v016_release.py

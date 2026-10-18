@@ -2,6 +2,20 @@
 
 # SwitchLens implementation
 
+## v0.1.6 update (18 October 2026)
+
+Built on the v0.1.5 hardened base. Exact raw `GET /stats.json` bypasses the outer
+IP/cookie/expiry path without changing session state; all other requests replay
+the stock prologue and authentication. See [HTTP trace and checks](HTTP-AUTH.md).
+TDDP/TSDP initialization and callbacks remain disabled. UART/cooling and JSON
+schema/metric code remain in place. **Hardware installation is unconfirmed.**
+
+Build: `python3 tools/build_firmware.py ORIGINAL.bin --uart-cli --cooling-cli --anonymous-stats --output build-v016`.
+The released artifact uses GCC 12.4.0 (Ubuntu 12.4.0-2ubuntu1~24.04), binutils 2.42;
+exact flags/source hashes are in the [manifest](../releases/v0.1.6/build-manifest.json).
+Earlier toolchain/version observations below describe their named builds.
+
+
 **Working firmware, updated 17 October 2026:** v0.1.1 completed stock web
 installation and runtime boot; UART help and two complete changing JSON replies
 were observed on the owner's unit. [Evidence](evidence/2026-10-17-switchlens/README.md),
@@ -14,14 +28,14 @@ The implementation targets exactly TP-Link TL-SG1218MPE(UN) V5.0 official
 c9ab17eda7af714f00692d41f440ce84ed0d6c7d678634c364ec1154bb7e3f32
 ```
 
-The earlier v0.1.0 archive contains the base JSON payload. Current v0.1.1 adds
+The earlier v0.1.0 archive contains the base JSON payload. Historical v0.1.1 adds
 two UART instructions and CRC, with the same payload. Historical filenames,
 manifest labels and the HTTP `experimental-1` marker remain unchanged for
 identity/reproducibility; they are not the current hardware-test status.
 
 ## Implemented behavior
 
-- Exact dynamic `GET /stats.json` in the stock HTTP server, existing session check,
+- Exact dynamic `GET /stats.json` in the stock HTTP server; v0.1.6 adds the narrow anonymous path,
   application/json, no-store and stock connection-close behavior.
 - System Info plus name/description alias; 18 ports, link/speed/duplex/flow control,
   a 49-counter structure, global/per-port PoE and Auto Recovery information.
@@ -49,7 +63,7 @@ All offsets include the 16-byte update header; ranges are half-open.
 | Runtime mapping | Normal flash VA `0xbfc08000 + file offset`; RAM code `[0x3160,0x8178)` → `BF019528..BF01E540`, initial SP `BF01F800` |
 | Payload placement | FF region starting file `0xD8640`, VA `BFCE0640`; section sizes/headroom in manifest; writable/BSS/GOT forbidden by linker and ELF checks |
 | HTTP hook | File `0x3425C` replaces jal strcmp, `0x34280` changes statistics branch; delay slots and o32 saved registers retained |
-| Session/router | `BFC3B740` checks GET/session before route; invalid session uses `BFC3FC18`; outer client-IP check `BFC3CE48` retained |
+| Session/router | `BFC3B740` checks GET/session before route; invalid session uses `BFC3FC18`; outer entry `BFC3CE48` has a v0.1.6 exact-GET trampoline; fallback resumes at `BFC3CE50` |
 | HTTP helpers | Init `BFC3B278`, status `BF01CD38`, header `BF01CC5C`, raw `BF01CAC0` |
 | HTTP buffer | `BF010F8C..BF011540`, 1460 bytes, reused stock buffer |
 | Formatter registration | File `0x302AC..0x302F8` and `0x2B840`; emulator uses corresponding pointers at `BF00ECCC` |
