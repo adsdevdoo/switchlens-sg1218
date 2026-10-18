@@ -13,11 +13,7 @@
 #define HTTP_BUFFER 0xbf010f8cu
 #define HTTP_END 0xbf011540u
 #define FAST_TICKS 0xbf002e94u
-#ifdef SG_COOLING
-#define BUILD_ID "v0.1.5"
-#else
-#define BUILD_ID "experimental-1"
-#endif
+#include "build_version.h"
 #define REQUEST_TICK_BUDGET 40u /* raw IRQ ticks; wall-time unit unconfirmed */
 extern int fw_strcmp(const char *,const char *);
 extern int fw_http_init(void *);
@@ -258,7 +254,7 @@ int sg_http_stats(void *request){
  c.poe_count=R32(0xbf0143e0u);
  if(!request||c.poe_count!=16)return -1;
  if(fw_http_init(request)||fw_http_status(request,200)||
-    fw_http_header(request,"Content-Type: application/json\r\nCache-Control: no-store\r\nX-SwitchLens-Build: " BUILD_ID ""))return -1;
+    fw_http_header(request,"Content-Type: application/json\r\nCache-Control: no-store\r\nX-SwitchLens-Build: " SG_BUILD_ID ""))return -1;
  const struct sg_source source={&c,begin,get,has_poe};
  const struct sg_sink sink={&c,write_body,finish};struct sg_result result;
  int status=sg_stats_emit(&source,&sink,&result);

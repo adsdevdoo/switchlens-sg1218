@@ -31,3 +31,4 @@ fw_cli_reg = 0xbfc2d8d0;
 fw_printf = 0xbfc11514;
 fw_gpio_write = 0xbf0196b4;
 fw_cool_poll = 0xbfc5c368;
+fw_http_outer_continue = 0xbfc3ce50;

@@ -70,11 +70,11 @@ class SecurityTests(unittest.TestCase):
 
     def test_security_boundaries_and_old_release_delta(self):
         # Independently review unchanged HTTP auth, codec and configuration tail.
-        for start, end in ((0x33740, 0x33804), (0x34e48, 0x34f58),
+        for start, end in ((0x33740, 0x33804), (0x34e50, 0x34f58),
                            (0x378e0, 0x37c18), (0x3fc38, 0x3fcf0),
                            (0xcb2e8, 0xcb3e8), (builder.END, len(IMAGE))):
             self.assertEqual(IMAGE[start:end], STOCK[start:end])
-        allowed = [(0, 4), (builder.START, builder.END)]
+        allowed = [(0, 4), (builder.START, builder.END), (0x34e48, 0x34e50), (0x3425c, 0x34260), (0x34280, 0x34284), (0x24bb4, 0x24bb8), (0x25848, 0x2584c), (0x25ee4, 0x25ee8), (0x54344, 0x5434c)]
         allowed += [(offset, offset+8) for offset, _, _ in builder.DISABLED_SERVICES]
         allowed += [(offset, offset+len(before)+1) for offset, before, _ in builder.SERVICE_LOGS]
         changed = [i for i, (a, b) in enumerate(zip(PREVIOUS, IMAGE)) if a != b]

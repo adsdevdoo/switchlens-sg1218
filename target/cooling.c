@@ -4,6 +4,7 @@
  */
 #include "sg_stats.h"
 #include "cooling.h"
+#include "build_version.h"
 #define R(a) (*(volatile const uint32_t *)(uintptr_t)(a))
 #define STATE (*(volatile uint32_t *)(uintptr_t)0xbf014840u)
 #define TICKS R(0xbf002e94u)
@@ -66,7 +67,7 @@ int sg_cool_get(const struct sg_cooling *c,enum sg_field f,struct sg_value *v){
 }
 static void status(void){
  struct sg_cooling c;sg_cool_snapshot(&c);
- fw_printf("cool v0.1.5: cnr=0x%08x dir=0x%08x data=0x%08x\n",c.control,c.direction,c.data);
+ fw_printf("cool " SG_BUILD_ID ": cnr=0x%08x dir=0x%08x data=0x%08x\n",c.control,c.direction,c.data);
  fw_printf("gpio26=%u gpio27=%u state=0x%08x ticks=%u poe_raw=%u\n",(c.data>>26)&1,(c.data>>27)&1,c.state,c.ticks,c.power);
  const char *speed=speed_mode(&c);
  fw_printf("speed_mode=%s (both fans; not measured RPM)\n",speed?speed:"unknown");
