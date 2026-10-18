@@ -41,7 +41,7 @@ $mem.Write($buffer,0,$buffer.Length)
 $mem.Position = 0
 $jar = [IO.Compression.ZipArchive]::new($mem,[IO.Compression.ZipArchiveMode]::Read,$false)
 $rows = New-Object 'System.Collections.Generic.List[object]'
-$matches = New-Object 'System.Collections.Generic.List[object]'
+$protocolEntries = New-Object 'System.Collections.Generic.List[object]'
 $manifest = $null
 $total = [long]0
 try {
@@ -60,7 +60,7 @@ try {
                 $terms.Add($hit.Value.Substring(0,[Math]::Min(240,$hit.Value.Length)))
             }
         }
-        if ($terms.Count) { $matches.Add([pscustomobject]@{path=$e.FullName;terms=@($terms | Select-Object -Unique)}) }
+        if ($terms.Count) { $protocolEntries.Add([pscustomobject]@{path=$e.FullName;terms=@($terms | Select-Object -Unique)}) }
     }
 } finally { $jar.Dispose(); $mem.Dispose() }
 $out = Join-Path $env:TEMP ('easysmart-jar-' + [guid]::NewGuid().ToString('N') + '.json')
@@ -68,14 +68,14 @@ $report = [ordered]@{
     result='EMBEDDED_ZIP_PARSED'; exe_sha256=$hash; zip=$found; manifest=$manifest
     device_contacted=$false; application_executed=$false
     limitations='Printable class strings, not a bytecode disassembly; no recursive nested JAR analysis. 4 MiB per entry / 64 MiB scan budget.'
-    entries=$rows.ToArray(); matching_entries=$matches.ToArray()
+    entries=$rows.ToArray(); matching_entries=$protocolEntries.ToArray()
 }
 $report | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $out -Encoding UTF8
-$priority = @($matches | Where-Object { ($_.path + ' ' + ($_.terms -join ' ')) -match '(?i)tddp|tsdp|datagram|opcode' })
-if (!$priority.Count) { $priority = @($matches | Select-Object -First 12) }
+$priority = @($protocolEntries | Where-Object { ($_.path + ' ' + ($_.terms -join ' ')) -match '(?i)tddp|tsdp|datagram|opcode' })
+if (!$priority.Count) { $priority = @($protocolEntries | Select-Object -First 12) }
 [ordered]@{
     result=$report.result; exe_sha256=$hash; zip=$found; manifest=$manifest
-    total_entries=$rows.Count; matching_entries=$matches.Count
+    total_entries=$rows.Count; matching_entries=$protocolEntries.Count
     class_sample=@($rows | Where-Object { $_.path -match '\.class$' } | Select-Object -First 20)
     priority=@($priority | Select-Object -First 12 | ForEach-Object {
         [pscustomobject]@{path=$_.path;terms=@($_.terms | Select-Object -First 16)}
