@@ -1,0 +1,2205 @@
+{
+    "format":  "SwitchLens Easy Smart selected request metadata v1",
+    "timestamp_utc":  "2026-10-18T15:56:04.5211994Z",
+    "exe_sha256":  "aa6e67c6e9be38cca002b704bc2eb1bf2b8fc199631e307a781cc7680c8d8619",
+    "application_executed":  false,
+    "device_contacted":  false,
+    "full_bytecode_included":  false,
+    "credentials_read":  false,
+    "class_count":  6,
+    "limitations":  [
+                        "Static metadata only; not a runtime or server authorization test.",
+                        "References and integers are ordered by bytecode offset; no full control/data-flow inference.",
+                        "Only enum labels are exported as string values; no Java bytecode/base64 or key material."
+                    ],
+    "classes":  [
+                    {
+                        "path":  "com/tplink/smb/easySmartUtility/bean/DataBean$Request.class",
+                        "bytes":  1069,
+                        "sha256":  "ac4bf6ec6b55055d5245cb605b642cb32ec94a1ee8d9e4f2ee239d15ae9f61e9",
+                        "metadata":  {
+                                         "name":  "com/tplink/smb/easySmartUtility/bean/DataBean$Request",
+                                         "major_version":  51,
+                                         "fields":  [
+                                                        {
+                                                            "name":  "y",
+                                                            "descriptor":  "Lcom/tplink/smb/easySmartUtility/bean/DataBean$Request;"
+                                                        },
+                                                        {
+                                                            "name":  "z",
+                                                            "descriptor":  "Lcom/tplink/smb/easySmartUtility/bean/DataBean$Request;"
+                                                        },
+                                                        {
+                                                            "name":  "A",
+                                                            "descriptor":  "Lcom/tplink/smb/easySmartUtility/bean/DataBean$Request;"
+                                                        },
+                                                        {
+                                                            "name":  "E",
+                                                            "descriptor":  "[Lcom/tplink/smb/easySmartUtility/bean/DataBean$Request;"
+                                                        }
+                                                    ],
+                                         "methods":  [
+                                                         {
+                                                             "name":  "i",
+                                                             "descriptor":  "()[Lcom/tplink/smb/easySmartUtility/bean/DataBean$Request;",
+                                                             "code_bytes":  10,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "Code",
+                                                             "descriptor":  "(Ljava/lang/String;)Lcom/tplink/smb/easySmartUtility/bean/DataBean$Request;",
+                                                             "code_bytes":  10,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "\u003cinit\u003e",
+                                                             "descriptor":  "(Ljava/lang/String;I)V",
+                                                             "code_bytes":  7,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "\u003cclinit\u003e",
+                                                             "descriptor":  "()V",
+                                                             "code_bytes":  65,
+                                                             "request_metadata":  [
+                                                                                      {
+                                                                                          "offset":  4,
+                                                                                          "kind":  "enum_label",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "DISCOVERY"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  6,
+                                                                                          "kind":  "integer",
+                                                                                          "number":  0,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  7,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/bean/DataBean$Request.\u003cinit\u003e:(Ljava/lang/String;I)V"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  10,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/bean/DataBean$Request.y:Lcom/tplink/smb/easySmartUtility/bean/DataBean$Request;"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  17,
+                                                                                          "kind":  "enum_label",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "GET"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  19,
+                                                                                          "kind":  "integer",
+                                                                                          "number":  1,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  20,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/bean/DataBean$Request.\u003cinit\u003e:(Ljava/lang/String;I)V"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  23,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/bean/DataBean$Request.z:Lcom/tplink/smb/easySmartUtility/bean/DataBean$Request;"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  30,
+                                                                                          "kind":  "enum_label",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "SET"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  32,
+                                                                                          "kind":  "integer",
+                                                                                          "number":  2,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  33,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/bean/DataBean$Request.\u003cinit\u003e:(Ljava/lang/String;I)V"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  36,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/bean/DataBean$Request.A:Lcom/tplink/smb/easySmartUtility/bean/DataBean$Request;"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  39,
+                                                                                          "kind":  "integer",
+                                                                                          "number":  3,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  44,
+                                                                                          "kind":  "integer",
+                                                                                          "number":  0,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  45,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/bean/DataBean$Request.y:Lcom/tplink/smb/easySmartUtility/bean/DataBean$Request;"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  50,
+                                                                                          "kind":  "integer",
+                                                                                          "number":  1,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  51,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/bean/DataBean$Request.z:Lcom/tplink/smb/easySmartUtility/bean/DataBean$Request;"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  56,
+                                                                                          "kind":  "integer",
+                                                                                          "number":  2,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  57,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/bean/DataBean$Request.A:Lcom/tplink/smb/easySmartUtility/bean/DataBean$Request;"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  61,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/bean/DataBean$Request.E:[Lcom/tplink/smb/easySmartUtility/bean/DataBean$Request;"
+                                                                                      }
+                                                                                  ]
+                                                         }
+                                                     ]
+                                     }
+                    },
+                    {
+                        "path":  "com/tplink/smb/easySmartUtility/bean/DataBean.class",
+                        "bytes":  3554,
+                        "sha256":  "a6a64e921ceecdc74d5f42574e991e297833d99df7b5717f93da35c4f0d575d6",
+                        "metadata":  {
+                                         "name":  "com/tplink/smb/easySmartUtility/bean/DataBean",
+                                         "major_version":  51,
+                                         "fields":  [
+                                                        {
+                                                            "name":  "packetEnd",
+                                                            "descriptor":  "I"
+                                                        },
+                                                        {
+                                                            "name":  "request",
+                                                            "descriptor":  "Lcom/tplink/smb/easySmartUtility/bean/DataBean$Request;"
+                                                        },
+                                                        {
+                                                            "name":  "tlvArrayList",
+                                                            "descriptor":  "Ljava/util/ArrayList;"
+                                                        },
+                                                        {
+                                                            "name":  "packetHead",
+                                                            "descriptor":  "Lcom/tplink/smb/easySmartUtility/transfer/PacketHead;"
+                                                        },
+                                                        {
+                                                            "name":  "isReSend",
+                                                            "descriptor":  "Z"
+                                                        },
+                                                        {
+                                                            "name":  "waitingTime",
+                                                            "descriptor":  "I"
+                                                        },
+                                                        {
+                                                            "name":  "isPageSet",
+                                                            "descriptor":  "Z"
+                                                        }
+                                                    ],
+                                         "methods":  [
+                                                         {
+                                                             "name":  "\u003cinit\u003e",
+                                                             "descriptor":  "()V",
+                                                             "code_bytes":  43,
+                                                             "request_metadata":  [
+                                                                                      {
+                                                                                          "offset":  1,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "java/lang/Object.\u003cinit\u003e:()V"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  6,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/bean/DataBean.packetHead:Lcom/tplink/smb/easySmartUtility/transfer/PacketHead;"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  10,
+                                                                                          "kind":  "integer",
+                                                                                          "number":  0,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  11,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/bean/DataBean.isReSend:Z"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  15,
+                                                                                          "kind":  "integer",
+                                                                                          "number":  0,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  16,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/bean/DataBean.waitingTime:I"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  20,
+                                                                                          "kind":  "integer",
+                                                                                          "number":  1,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  21,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/bean/DataBean.isPageSet:Z"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  29,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "java/util/ArrayList.\u003cinit\u003e:()V"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  32,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/bean/DataBean.tlvArrayList:Ljava/util/ArrayList;"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  36,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/bean/DataBean$Request.z:Lcom/tplink/smb/easySmartUtility/bean/DataBean$Request;"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  39,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/bean/DataBean.request:Lcom/tplink/smb/easySmartUtility/bean/DataBean$Request;"
+                                                                                      }
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getRequest",
+                                                             "descriptor":  "()Lcom/tplink/smb/easySmartUtility/bean/DataBean$Request;",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setRequest",
+                                                             "descriptor":  "(Lcom/tplink/smb/easySmartUtility/bean/DataBean$Request;)V",
+                                                             "code_bytes":  6,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getPacketHead",
+                                                             "descriptor":  "()Lcom/tplink/smb/easySmartUtility/transfer/PacketHead;",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setPacketHead",
+                                                             "descriptor":  "(Lcom/tplink/smb/easySmartUtility/transfer/PacketHead;)V",
+                                                             "code_bytes":  6,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "isReSend",
+                                                             "descriptor":  "()Z",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setReSend",
+                                                             "descriptor":  "(Z)V",
+                                                             "code_bytes":  6,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getWaitingTime",
+                                                             "descriptor":  "()I",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setWaitingTime",
+                                                             "descriptor":  "(I)V",
+                                                             "code_bytes":  6,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "isPageSet",
+                                                             "descriptor":  "()Z",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setPageSet",
+                                                             "descriptor":  "(Z)V",
+                                                             "code_bytes":  6,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setTLV",
+                                                             "descriptor":  "(Ljava/util/ArrayList;)V",
+                                                             "code_bytes":  6,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getTLV",
+                                                             "descriptor":  "()Ljava/util/ArrayList;",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "addTLVToList",
+                                                             "descriptor":  "(Lcom/tplink/smb/easySmartUtility/transfer/TLV;)Z",
+                                                             "code_bytes":  9,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "addTLVToList",
+                                                             "descriptor":  "(ILcom/tplink/smb/easySmartUtility/transfer/TLV;)V",
+                                                             "code_bytes":  10,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "removeTLVFromList",
+                                                             "descriptor":  "(I)Lcom/tplink/smb/easySmartUtility/transfer/TLV;",
+                                                             "code_bytes":  12,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "clearTLVList",
+                                                             "descriptor":  "()V",
+                                                             "code_bytes":  8,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "toArray",
+                                                             "descriptor":  "()[B",
+                                                             "code_bytes":  79,
+                                                             "request_metadata":  [
+                                                                                      {
+                                                                                          "offset":  4,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/util/This.\u003cinit\u003e:()V"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  8,
+                                                                                          "kind":  "integer",
+                                                                                          "number":  0,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  12,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/bean/DataBean.tlvArrayList:Ljava/util/ArrayList;"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  15,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "java/util/ArrayList.size:()I"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  22,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/bean/DataBean.tlvArrayList:Ljava/util/ArrayList;"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  26,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "java/util/ArrayList.get:(I)Ljava/lang/Object;"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  35,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/transfer/TLV.getType:()S"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  38,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/util/This.b:(S)Z"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  44,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/transfer/TLV.getLength:()S"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  47,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/util/This.b:(S)Z"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  53,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/transfer/TLV.getValue:()[B"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  56,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/util/This.j:([B)Z"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  67,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/bean/DataBean.packetEnd:I"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  70,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/util/This.add:(I)Z"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  75,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/util/This.toByteArray:()[B"
+                                                                                      }
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "clone",
+                                                             "descriptor":  "()Ljava/lang/Object;",
+                                                             "code_bytes":  20,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "toString",
+                                                             "descriptor":  "()Ljava/lang/String;",
+                                                             "code_bytes":  107,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "\u003cclinit\u003e",
+                                                             "descriptor":  "()V",
+                                                             "code_bytes":  6,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         }
+                                                     ]
+                                     }
+                    },
+                    {
+                        "path":  "com/tplink/smb/easySmartUtility/pages/DeviceInfo.class",
+                        "bytes":  3424,
+                        "sha256":  "92c48bf62e89103bb5220e802515f55edf3725c040f2111f711af3d905ebcb00",
+                        "metadata":  {
+                                         "name":  "com/tplink/smb/easySmartUtility/pages/DeviceInfo",
+                                         "major_version":  51,
+                                         "fields":  [
+                                                        {
+                                                            "name":  "TWO_ROW_PORT_NUM_MIN",
+                                                            "descriptor":  "I"
+                                                        },
+                                                        {
+                                                            "name":  "deviceMac",
+                                                            "descriptor":  "[B"
+                                                        },
+                                                        {
+                                                            "name":  "deviceIp",
+                                                            "descriptor":  "Ljava/lang/String;"
+                                                        },
+                                                        {
+                                                            "name":  "firmwareVersion",
+                                                            "descriptor":  "Ljava/lang/String;"
+                                                        },
+                                                        {
+                                                            "name":  "devicePortNum",
+                                                            "descriptor":  "I"
+                                                        },
+                                                        {
+                                                            "name":  "username",
+                                                            "descriptor":  "Ljava/lang/String;"
+                                                        },
+                                                        {
+                                                            "name":  "password",
+                                                            "descriptor":  "Ljava/lang/String;"
+                                                        },
+                                                        {
+                                                            "name":  "switchType",
+                                                            "descriptor":  "Lcom/tplink/smb/easySmartUtility/switchParam/SwitchType;"
+                                                        },
+                                                        {
+                                                            "name":  "portTrunkInfo",
+                                                            "descriptor":  "[I"
+                                                        },
+                                                        {
+                                                            "name":  "autoSave",
+                                                            "descriptor":  "B"
+                                                        },
+                                                        {
+                                                            "name":  "portOrder",
+                                                            "descriptor":  "B"
+                                                        },
+                                                        {
+                                                            "name":  "isFactory",
+                                                            "descriptor":  "B"
+                                                        }
+                                                    ],
+                                         "methods":  [
+                                                         {
+                                                             "name":  "\u003cinit\u003e",
+                                                             "descriptor":  "()V",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getSwitchType",
+                                                             "descriptor":  "()Lcom/tplink/smb/easySmartUtility/switchParam/SwitchType;",
+                                                             "code_bytes":  4,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setSwitchType",
+                                                             "descriptor":  "(Lcom/tplink/smb/easySmartUtility/switchParam/SwitchType;)V",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setDeviceMac",
+                                                             "descriptor":  "([B)V",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setDeviceIp",
+                                                             "descriptor":  "(Ljava/lang/String;)V",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setDevicePortNum",
+                                                             "descriptor":  "(I)V",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getDeviceMac",
+                                                             "descriptor":  "()[B",
+                                                             "code_bytes":  4,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getDeviceIp",
+                                                             "descriptor":  "()Ljava/lang/String;",
+                                                             "code_bytes":  4,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getDevicePortNum",
+                                                             "descriptor":  "()I",
+                                                             "code_bytes":  4,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setPortTrunkInfo",
+                                                             "descriptor":  "([I)V",
+                                                             "code_bytes":  49,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getPortTrunkInfo",
+                                                             "descriptor":  "(I)I",
+                                                             "code_bytes":  8,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setAutoSave",
+                                                             "descriptor":  "(B)V",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getAutoSave",
+                                                             "descriptor":  "()B",
+                                                             "code_bytes":  4,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setPortOrder",
+                                                             "descriptor":  "(B)V",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getPortOrder",
+                                                             "descriptor":  "()B",
+                                                             "code_bytes":  4,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setIsFactory",
+                                                             "descriptor":  "(B)V",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getIsFactory",
+                                                             "descriptor":  "()B",
+                                                             "code_bytes":  4,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "toString",
+                                                             "descriptor":  "()Ljava/lang/String;",
+                                                             "code_bytes":  4,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "outPutString",
+                                                             "descriptor":  "()Ljava/lang/String;",
+                                                             "code_bytes":  223,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getUsername",
+                                                             "descriptor":  "()Ljava/lang/String;",
+                                                             "code_bytes":  4,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setUsername",
+                                                             "descriptor":  "(Ljava/lang/String;)V",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getPassword",
+                                                             "descriptor":  "()Ljava/lang/String;",
+                                                             "code_bytes":  4,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setPassword",
+                                                             "descriptor":  "(Ljava/lang/String;)V",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getFirmwareVersion",
+                                                             "descriptor":  "()Ljava/lang/String;",
+                                                             "code_bytes":  4,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setFirmwareVersion",
+                                                             "descriptor":  "(Ljava/lang/String;)V",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setSwitchTypeFromHardwareVersion",
+                                                             "descriptor":  "(Ljava/lang/String;)V",
+                                                             "code_bytes":  8,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "\u003cclinit\u003e",
+                                                             "descriptor":  "()V",
+                                                             "code_bytes":  28,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         }
+                                                     ]
+                                     }
+                    },
+                    {
+                        "path":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchDiscoveryBean.class",
+                        "bytes":  3190,
+                        "sha256":  "46876e20ec78f97ab6099d3ae9ff751a44369259891ccad42059a5e195f57904",
+                        "metadata":  {
+                                         "name":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchDiscoveryBean",
+                                         "major_version":  51,
+                                         "fields":  [
+                                                        {
+                                                            "name":  "productModel",
+                                                            "descriptor":  "Ljava/lang/String;"
+                                                        },
+                                                        {
+                                                            "name":  "deviceDescription",
+                                                            "descriptor":  "Ljava/lang/String;"
+                                                        },
+                                                        {
+                                                            "name":  "firmwareVer",
+                                                            "descriptor":  "Ljava/lang/String;"
+                                                        },
+                                                        {
+                                                            "name":  "hardwareVer",
+                                                            "descriptor":  "Ljava/lang/String;"
+                                                        },
+                                                        {
+                                                            "name":  "dhcpState",
+                                                            "descriptor":  "B"
+                                                        },
+                                                        {
+                                                            "name":  "macAddress",
+                                                            "descriptor":  "[B"
+                                                        },
+                                                        {
+                                                            "name":  "switchIpAddress",
+                                                            "descriptor":  "[B"
+                                                        },
+                                                        {
+                                                            "name":  "mask",
+                                                            "descriptor":  "[B"
+                                                        },
+                                                        {
+                                                            "name":  "gateway",
+                                                            "descriptor":  "[B"
+                                                        },
+                                                        {
+                                                            "name":  "hostIpAddress",
+                                                            "descriptor":  "[B"
+                                                        },
+                                                        {
+                                                            "name":  "autoSave",
+                                                            "descriptor":  "B"
+                                                        },
+                                                        {
+                                                            "name":  "isFactory",
+                                                            "descriptor":  "B"
+                                                        },
+                                                        {
+                                                            "name":  "portOrder",
+                                                            "descriptor":  "B"
+                                                        },
+                                                        {
+                                                            "name":  "charSet",
+                                                            "descriptor":  "B"
+                                                        },
+                                                        {
+                                                            "name":  "switchFlashType",
+                                                            "descriptor":  "I"
+                                                        }
+                                                    ],
+                                         "methods":  [
+                                                         {
+                                                             "name":  "\u003cinit\u003e",
+                                                             "descriptor":  "()V",
+                                                             "code_bytes":  41,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "buildDiscoveryRequest",
+                                                             "descriptor":  "()V",
+                                                             "code_bytes":  12,
+                                                             "request_metadata":  [
+                                                                                      {
+                                                                                          "offset":  1,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchDiscoveryBean.clearTLVList:()V"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  5,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/bean/DataBean$Request.y:Lcom/tplink/smb/easySmartUtility/bean/DataBean$Request;"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  8,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchDiscoveryBean.setRequest:(Lcom/tplink/smb/easySmartUtility/bean/DataBean$Request;)V"
+                                                                                      }
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "handleResponse",
+                                                             "descriptor":  "()V",
+                                                             "code_bytes":  293,
+                                                             "request_metadata":  [
+                                                                                      {
+                                                                                          "offset":  1,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchDiscoveryBean.getTLV:()Ljava/util/ArrayList;"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  6,
+                                                                                          "kind":  "integer",
+                                                                                          "number":  0,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  7,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchDiscoveryBean.charSet:B"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  11,
+                                                                                          "kind":  "integer",
+                                                                                          "number":  0,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  12,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchDiscoveryBean.switchFlashType:I"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  16,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "java/util/ArrayList.iterator:()Ljava/util/Iterator;"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  21,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "java/util/Iterator.hasNext:()Z"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  30,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "java/util/Iterator.next:()Ljava/lang/Object;"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  40,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/transfer/TLV.getType:()S"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  47,
+                                                                                          "kind":  "switch_case",
+                                                                                          "number":  1,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  47,
+                                                                                          "kind":  "switch_case",
+                                                                                          "number":  2,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  47,
+                                                                                          "kind":  "switch_case",
+                                                                                          "number":  3,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  47,
+                                                                                          "kind":  "switch_case",
+                                                                                          "number":  4,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  47,
+                                                                                          "kind":  "switch_case",
+                                                                                          "number":  5,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  47,
+                                                                                          "kind":  "switch_case",
+                                                                                          "number":  6,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  47,
+                                                                                          "kind":  "switch_case",
+                                                                                          "number":  7,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  47,
+                                                                                          "kind":  "switch_case",
+                                                                                          "number":  8,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  47,
+                                                                                          "kind":  "switch_case",
+                                                                                          "number":  9,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  47,
+                                                                                          "kind":  "switch_case",
+                                                                                          "number":  10,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  47,
+                                                                                          "kind":  "switch_case",
+                                                                                          "number":  11,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  47,
+                                                                                          "kind":  "switch_case",
+                                                                                          "number":  12,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  47,
+                                                                                          "kind":  "switch_case",
+                                                                                          "number":  13,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  47,
+                                                                                          "kind":  "switch_case",
+                                                                                          "number":  14,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  47,
+                                                                                          "kind":  "switch_case",
+                                                                                          "number":  15,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  47,
+                                                                                          "kind":  "switch_case",
+                                                                                          "number":  16,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  126,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/transfer/TLV.getString:()Ljava/lang/String;"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  129,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchDiscoveryBean.productModel:Ljava/lang/String;"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  137,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/transfer/TLV.getString:()Ljava/lang/String;"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  140,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchDiscoveryBean.deviceDescription:Ljava/lang/String;"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  148,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/transfer/TLV.getByteArray:()[B"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  151,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchDiscoveryBean.macAddress:[B"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  159,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/transfer/TLV.getString:()Ljava/lang/String;"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  162,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchDiscoveryBean.firmwareVer:Ljava/lang/String;"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  170,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/transfer/TLV.getString:()Ljava/lang/String;"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  173,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchDiscoveryBean.hardwareVer:Ljava/lang/String;"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  181,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/transfer/TLV.getByte:()B"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  184,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchDiscoveryBean.dhcpState:B"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  192,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/transfer/TLV.getByteArray:()[B"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  195,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchDiscoveryBean.switchIpAddress:[B"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  203,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/transfer/TLV.getByteArray:()[B"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  206,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchDiscoveryBean.mask:[B"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  214,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/transfer/TLV.getByteArray:()[B"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  217,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchDiscoveryBean.gateway:[B"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  225,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/transfer/TLV.getByte:()B"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  228,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchDiscoveryBean.autoSave:B"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  236,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/transfer/TLV.getByte:()B"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  239,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchDiscoveryBean.isFactory:B"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  243,
+                                                                                          "kind":  "integer",
+                                                                                          "number":  1,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  244,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchDiscoveryBean.charSet:B"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  252,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/transfer/TLV.getInt:()I"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  255,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchDiscoveryBean.switchFlashType:I"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  263,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/transfer/TLV.getByte:()B"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  266,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchDiscoveryBean.portOrder:B"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  274,
+                                                                                          "kind":  "integer",
+                                                                                          "number":  1,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  279,
+                                                                                          "kind":  "integer",
+                                                                                          "number":  0,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  282,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "java/lang/Short.valueOf:(S)Ljava/lang/Short;"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  286,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/global/darkness.Code:(Ljava/lang/String;[Ljava/lang/Object;)V"
+                                                                                      }
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getProductModel",
+                                                             "descriptor":  "()Ljava/lang/String;",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getAutoSave",
+                                                             "descriptor":  "()B",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getIsFactory",
+                                                             "descriptor":  "()B",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getPortOder",
+                                                             "descriptor":  "()B",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getCharSet",
+                                                             "descriptor":  "()B",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setProductModel",
+                                                             "descriptor":  "(Ljava/lang/String;)V",
+                                                             "code_bytes":  6,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getDeviceDescription",
+                                                             "descriptor":  "()Ljava/lang/String;",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setDeviceDescription",
+                                                             "descriptor":  "(Ljava/lang/String;)V",
+                                                             "code_bytes":  6,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getMacAddress",
+                                                             "descriptor":  "()[B",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setMacAddress",
+                                                             "descriptor":  "([B)V",
+                                                             "code_bytes":  6,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getSwitchIpAddress",
+                                                             "descriptor":  "()[B",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setSwitchIpAddress",
+                                                             "descriptor":  "([B)V",
+                                                             "code_bytes":  6,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getHostIpAddress",
+                                                             "descriptor":  "()[B",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setHostIpAddress",
+                                                             "descriptor":  "([B)V",
+                                                             "code_bytes":  6,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getFirmwareVer",
+                                                             "descriptor":  "()Ljava/lang/String;",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setFirmwareVer",
+                                                             "descriptor":  "(Ljava/lang/String;)V",
+                                                             "code_bytes":  6,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getMask",
+                                                             "descriptor":  "()[B",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setMask",
+                                                             "descriptor":  "([B)V",
+                                                             "code_bytes":  6,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getHardwareVer",
+                                                             "descriptor":  "()Ljava/lang/String;",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setHardwareVer",
+                                                             "descriptor":  "(Ljava/lang/String;)V",
+                                                             "code_bytes":  6,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getSwitchFlashType",
+                                                             "descriptor":  "()I",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         }
+                                                     ]
+                                     }
+                    },
+                    {
+                        "path":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchLoginBean.class",
+                        "bytes":  2298,
+                        "sha256":  "ec6195f860e856450c290e246ac8f0d5ec9792695508f10bfc65168cb442bde0",
+                        "metadata":  {
+                                         "name":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchLoginBean",
+                                         "major_version":  51,
+                                         "fields":  [
+                                                        {
+                                                            "name":  "username",
+                                                            "descriptor":  "Ljava/lang/String;"
+                                                        },
+                                                        {
+                                                            "name":  "password",
+                                                            "descriptor":  "Ljava/lang/String;"
+                                                        },
+                                                        {
+                                                            "name":  "portNum",
+                                                            "descriptor":  "B"
+                                                        },
+                                                        {
+                                                            "name":  "authResult",
+                                                            "descriptor":  "B"
+                                                        }
+                                                    ],
+                                         "methods":  [
+                                                         {
+                                                             "name":  "\u003cinit\u003e",
+                                                             "descriptor":  "()V",
+                                                             "code_bytes":  15,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "buildGetRequest",
+                                                             "descriptor":  "()V",
+                                                             "code_bytes":  26,
+                                                             "request_metadata":  [
+                                                                                      {
+                                                                                          "offset":  1,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchLoginBean.clearTLVList:()V"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  5,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/bean/DataBean$Request.z:Lcom/tplink/smb/easySmartUtility/bean/DataBean$Request;"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  8,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchLoginBean.setRequest:(Lcom/tplink/smb/easySmartUtility/bean/DataBean$Request;)V"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  16,
+                                                                                          "kind":  "integer",
+                                                                                          "number":  10,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  18,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/transfer/TLV.\u003cinit\u003e:(S)V"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  21,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchLoginBean.addTLVToList:(Lcom/tplink/smb/easySmartUtility/transfer/TLV;)Z"
+                                                                                      }
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "buildSetRequest",
+                                                             "descriptor":  "()V",
+                                                             "code_bytes":  17,
+                                                             "request_metadata":  [
+                                                                                      {
+                                                                                          "offset":  1,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchLoginBean.clearTLVList:()V"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  5,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/bean/DataBean$Request.A:Lcom/tplink/smb/easySmartUtility/bean/DataBean$Request;"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  8,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchLoginBean.setRequest:(Lcom/tplink/smb/easySmartUtility/bean/DataBean$Request;)V"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  12,
+                                                                                          "kind":  "integer",
+                                                                                          "number":  0,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  13,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchLoginBean.setPageSet:(Z)V"
+                                                                                      }
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "handleResponse",
+                                                             "descriptor":  "()V",
+                                                             "code_bytes":  117,
+                                                             "request_metadata":  [
+                                                                                      {
+                                                                                          "offset":  1,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchLoginBean.getPacketHead:()Lcom/tplink/smb/easySmartUtility/transfer/PacketHead;"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  6,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchLoginBean.getTLV:()Ljava/util/ArrayList;"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  10,
+                                                                                          "kind":  "integer",
+                                                                                          "number":  0,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  12,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/transfer/PacketHead.aH:()I"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  19,
+                                                                                          "kind":  "integer",
+                                                                                          "number":  1,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  20,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchLoginBean.authResult:B"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  27,
+                                                                                          "kind":  "integer",
+                                                                                          "number":  0,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  28,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchLoginBean.authResult:B"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  32,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "java/util/ArrayList.iterator:()Ljava/util/Iterator;"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  37,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "java/util/Iterator.hasNext:()Z"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  46,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "java/util/Iterator.next:()Ljava/lang/Object;"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  58,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/transfer/TLV.getType:()S"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  65,
+                                                                                          "kind":  "switch_case",
+                                                                                          "number":  10,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  87,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/transfer/TLV.getByte:()B"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  90,
+                                                                                          "kind":  "field_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchLoginBean.portNum:B"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  98,
+                                                                                          "kind":  "integer",
+                                                                                          "number":  1,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  103,
+                                                                                          "kind":  "integer",
+                                                                                          "number":  0,
+                                                                                          "symbol":  null
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  106,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "java/lang/Short.valueOf:(S)Ljava/lang/Short;"
+                                                                                      },
+                                                                                      {
+                                                                                          "offset":  110,
+                                                                                          "kind":  "method_reference",
+                                                                                          "number":  null,
+                                                                                          "symbol":  "com/tplink/smb/easySmartUtility/global/darkness.Code:(Ljava/lang/String;[Ljava/lang/Object;)V"
+                                                                                      }
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getPassword",
+                                                             "descriptor":  "()Ljava/lang/String;",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setPassword",
+                                                             "descriptor":  "(Ljava/lang/String;)V",
+                                                             "code_bytes":  6,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getUsername",
+                                                             "descriptor":  "()Ljava/lang/String;",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setUsername",
+                                                             "descriptor":  "(Ljava/lang/String;)V",
+                                                             "code_bytes":  6,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getPortNum",
+                                                             "descriptor":  "()I",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getAuthResult",
+                                                             "descriptor":  "()B",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         }
+                                                     ]
+                                     }
+                    },
+                    {
+                        "path":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchModel.class",
+                        "bytes":  5019,
+                        "sha256":  "de41d378503e137c545d933590f8015bef5ffda4a49039b3e5b089d53bbab4fd",
+                        "metadata":  {
+                                         "name":  "com/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchModel",
+                                         "major_version":  51,
+                                         "fields":  [
+                                                        {
+                                                            "name":  "switchMacAddress",
+                                                            "descriptor":  "Ljavafx/beans/property/SimpleStringProperty;"
+                                                        },
+                                                        {
+                                                            "name":  "product",
+                                                            "descriptor":  "Ljavafx/beans/property/SimpleStringProperty;"
+                                                        },
+                                                        {
+                                                            "name":  "deviceDescription",
+                                                            "descriptor":  "Ljavafx/beans/property/SimpleStringProperty;"
+                                                        },
+                                                        {
+                                                            "name":  "switchIpAddress",
+                                                            "descriptor":  "Ljavafx/beans/property/SimpleStringProperty;"
+                                                        },
+                                                        {
+                                                            "name":  "hostIpAddress",
+                                                            "descriptor":  "Ljavafx/beans/property/SimpleStringProperty;"
+                                                        },
+                                                        {
+                                                            "name":  "switchMaskAddress",
+                                                            "descriptor":  "Ljavafx/beans/property/SimpleStringProperty;"
+                                                        },
+                                                        {
+                                                            "name":  "settingButton",
+                                                            "descriptor":  "Ljavafx/beans/property/SimpleStringProperty;"
+                                                        },
+                                                        {
+                                                            "name":  "loginButton",
+                                                            "descriptor":  "Ljavafx/beans/property/SimpleStringProperty;"
+                                                        },
+                                                        {
+                                                            "name":  "firmwareVersion",
+                                                            "descriptor":  "Ljavafx/beans/property/SimpleStringProperty;"
+                                                        },
+                                                        {
+                                                            "name":  "hardwareVersion",
+                                                            "descriptor":  "Ljavafx/beans/property/SimpleStringProperty;"
+                                                        },
+                                                        {
+                                                            "name":  "select",
+                                                            "descriptor":  "Ljavafx/beans/property/SimpleObjectProperty;"
+                                                        },
+                                                        {
+                                                            "name":  "upgradeState",
+                                                            "descriptor":  "Ljavafx/beans/property/SimpleStringProperty;"
+                                                        },
+                                                        {
+                                                            "name":  "autoSave",
+                                                            "descriptor":  "B"
+                                                        },
+                                                        {
+                                                            "name":  "isFactory",
+                                                            "descriptor":  "B"
+                                                        },
+                                                        {
+                                                            "name":  "charSet",
+                                                            "descriptor":  "B"
+                                                        },
+                                                        {
+                                                            "name":  "flashType",
+                                                            "descriptor":  "I"
+                                                        },
+                                                        {
+                                                            "name":  "portOrder",
+                                                            "descriptor":  "B"
+                                                        },
+                                                        {
+                                                            "name":  "ccpaType",
+                                                            "descriptor":  "I"
+                                                        }
+                                                    ],
+                                         "methods":  [
+                                                         {
+                                                             "name":  "\u003cinit\u003e",
+                                                             "descriptor":  "(Ljava/lang/String;)V",
+                                                             "code_bytes":  213,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getProduct",
+                                                             "descriptor":  "()Ljava/lang/String;",
+                                                             "code_bytes":  8,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getDeviceDescription",
+                                                             "descriptor":  "()Ljava/lang/String;",
+                                                             "code_bytes":  8,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getSwitchMacAddress",
+                                                             "descriptor":  "()Ljava/lang/String;",
+                                                             "code_bytes":  8,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getSwitchIpAddress",
+                                                             "descriptor":  "()Ljava/lang/String;",
+                                                             "code_bytes":  8,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getHostIpAddress",
+                                                             "descriptor":  "()Ljava/lang/String;",
+                                                             "code_bytes":  8,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getSwitchMaskAddress",
+                                                             "descriptor":  "()Ljava/lang/String;",
+                                                             "code_bytes":  8,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getSettingButton",
+                                                             "descriptor":  "()Ljava/lang/String;",
+                                                             "code_bytes":  8,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getLoginButton",
+                                                             "descriptor":  "()Ljava/lang/String;",
+                                                             "code_bytes":  8,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getFirmwareVersion",
+                                                             "descriptor":  "()Ljava/lang/String;",
+                                                             "code_bytes":  8,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getHardwareVersion",
+                                                             "descriptor":  "()Ljava/lang/String;",
+                                                             "code_bytes":  8,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getSelect",
+                                                             "descriptor":  "()Lcom/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchModel$Select;",
+                                                             "code_bytes":  11,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getUpgradeState",
+                                                             "descriptor":  "()Ljava/lang/String;",
+                                                             "code_bytes":  8,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getAutoSave",
+                                                             "descriptor":  "()B",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getIsFactory",
+                                                             "descriptor":  "()B",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getPortOrder",
+                                                             "descriptor":  "()B",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getCcpaType",
+                                                             "descriptor":  "()I",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getCharSet",
+                                                             "descriptor":  "()B",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "getFlashType",
+                                                             "descriptor":  "()I",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setProduct",
+                                                             "descriptor":  "(Ljava/lang/String;)V",
+                                                             "code_bytes":  9,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setDeviceDescription",
+                                                             "descriptor":  "(Ljava/lang/String;)V",
+                                                             "code_bytes":  9,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setSwitchIpAddress",
+                                                             "descriptor":  "(Ljava/lang/String;)V",
+                                                             "code_bytes":  9,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setSwitchMaskAddress",
+                                                             "descriptor":  "(Ljava/lang/String;)V",
+                                                             "code_bytes":  9,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setHostIpAddress",
+                                                             "descriptor":  "(Ljava/lang/String;)V",
+                                                             "code_bytes":  9,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setSettingButton",
+                                                             "descriptor":  "(Ljava/lang/String;)V",
+                                                             "code_bytes":  9,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setLoginButton",
+                                                             "descriptor":  "(Ljava/lang/String;)V",
+                                                             "code_bytes":  9,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setFirmwareVersion",
+                                                             "descriptor":  "(Ljava/lang/String;)V",
+                                                             "code_bytes":  9,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setHardwareVersion",
+                                                             "descriptor":  "(Ljava/lang/String;)V",
+                                                             "code_bytes":  9,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setSelect",
+                                                             "descriptor":  "(Lcom/tplink/smb/easySmartUtility/pages/switchdiscovery/bean/SwitchModel$Select;)V",
+                                                             "code_bytes":  9,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setUpgradeState",
+                                                             "descriptor":  "(Ljava/lang/String;)V",
+                                                             "code_bytes":  9,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setAutoSave",
+                                                             "descriptor":  "(B)V",
+                                                             "code_bytes":  6,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setIsFactory",
+                                                             "descriptor":  "(B)V",
+                                                             "code_bytes":  6,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setPortOrder",
+                                                             "descriptor":  "(B)V",
+                                                             "code_bytes":  6,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setCcpaType",
+                                                             "descriptor":  "(I)V",
+                                                             "code_bytes":  6,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setCharSet",
+                                                             "descriptor":  "(B)V",
+                                                             "code_bytes":  6,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "setFlashType",
+                                                             "descriptor":  "(I)V",
+                                                             "code_bytes":  6,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "productProperty",
+                                                             "descriptor":  "()Ljavafx/beans/value/ObservableValue;",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "deviceDescriptionProperty",
+                                                             "descriptor":  "()Ljavafx/beans/value/ObservableValue;",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "switchMacAddressProperty",
+                                                             "descriptor":  "()Ljavafx/beans/value/ObservableValue;",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "switchIpAddressProperty",
+                                                             "descriptor":  "()Ljavafx/beans/value/ObservableValue;",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "switchMaskAddressProperty",
+                                                             "descriptor":  "()Ljavafx/beans/value/ObservableValue;",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "hostIpAddressProperty",
+                                                             "descriptor":  "()Ljavafx/beans/value/ObservableValue;",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "selectProperty",
+                                                             "descriptor":  "()Ljavafx/beans/value/ObservableValue;",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "firmwareVersionProperty",
+                                                             "descriptor":  "()Ljavafx/beans/value/ObservableValue;",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "hardwareVersionProperty",
+                                                             "descriptor":  "()Ljavafx/beans/value/ObservableValue;",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         },
+                                                         {
+                                                             "name":  "upgradeStateProperty",
+                                                             "descriptor":  "()Ljavafx/beans/value/ObservableValue;",
+                                                             "code_bytes":  5,
+                                                             "request_metadata":  [
+
+                                                                                  ]
+                                                         }
+                                                     ]
+                                     }
+                    }
+                ]
+}
