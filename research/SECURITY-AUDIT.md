@@ -1,19 +1,24 @@
 **English** | [Русский](SECURITY-AUDIT.ru.md)
 
-# Stock management security review — 17 October 2026
+# Stock management security review — updated 18 October 2026
 
 The review found a fixed-key RC4 credential/message codec and a TDDP path from
 initialized state 2 to factory-write calls without credential verification.
 This transition is reproduced in an offline MIPS emulator for stock and v0.1.4.
-**An intentional vendor backdoor is not established. Live unauthenticated
-factory writes have not been demonstrated.** SwitchLens v0.1.5 disables both
+**The owner's 18 October live test confirms a factory-MAC change and readback
+without credentials, followed by restoration and readback of the original MAC.
+Persistence after reboot/power loss was not tested. An intentional vendor
+backdoor is not established.** SwitchLens v0.1.5 disables both
 TDDP and TSDP initialization and receive entry points as a defensive measure.
 
 Scope: TL-SG1218MPE(UN) V5, stock 20230616 update SHA-256
 `c9ab17eda7af714f00692d41f440ce84ed0d6c7d678634c364ec1154bb7e3f32`.
-Methods: disassembly, references, original MIPS routines executed with synthetic
-inputs in Unicorn. No packets were sent to the device and no real credentials
-were decoded. Flash-writing and socket functions were mocked.
+Methods: disassembly, references, archived execution of original MIPS routines
+with synthetic inputs in Unicorn, and separately identified owner-run live probes.
+The archived emulator tests sent no packets and mocked flash-writing and sockets.
+The 18 October checks below include byte comparison and a bounded JavaScript
+interpreter of one TLV-policy helper. The archived Unicorn tests were not rerun
+for this documentation update.
 
 ## Findings
 
@@ -22,8 +27,8 @@ were decoded. Flash-writing and socket functions were mocked.
 | Fixed RC4 key | 256 bytes at file `0xcb2e8`, VA `0xbfcd32e8`; SHA-256 `003d481f74298dfb9cd27e69c74405a1bb949af5c5591dedea18c284ea828b54`. The key is embedded in the firmware, not unique to the owner's password. |
 | Reversible credentials | Routine `0xbfc47c38` transforms 16 bytes of each username/password buffer using the same key and fresh RC4 state. Synthetic MIPS output matches an independent RC4 implementation; applying it twice restores input. Getter `0xbfc543a4` reads configured credentials from RAM/flash and invokes this routine. This is not password hashing. |
 | TSDP management | Initialization `0xbfc47cf0` registers callback `0xbfc48db0` and binds UDP 29808. The receive routine calls RC4 before later header/session checks. The fixed key provides no device-specific secrecy. We have not established that every TSDP operation bypasses authentication. |
-| TDDP management | Initializer `0xbfc4d668`, called through `0xbfc4d6f8`, registers callback `0xbfc4e238` and binds UDP 1040. The follow-up below reproduces a transition from initialized state 2 to state 0, then three factory-write calls, without credentials. Successful reply transmission is mocked. Live network reachability remains unverified. |
-| Factory persistence | Helper `0xbfc52edc` copies factory data from `0xb41fc000`, changes selected bytes, calls sector erase and writes back `0xc2` bytes. Emulator tests stop at this helper and record calls; they never execute physical flash writes. |
+| TDDP management | Initializer `0xbfc4d668`, called through `0xbfc4d6f8`, registers callback `0xbfc4e238` and binds UDP 1040. The follow-up below reproduces a transition from initialized state 2 to state 0, then three factory-write calls, without credentials. Successful reply transmission is mocked in those emulator tests. Later owner-run probes confirmed live handshake, read, and factory-MAC change/readback without credentials; see the 18 October update. |
+| Factory persistence | Helper `0xbfc52edc` copies factory data from `0xb41fc000`, changes selected bytes, calls sector erase and writes back `0xc2` bytes. Emulator tests stop at this helper and record calls; they never execute physical flash writes. Separately, the owner's live MAC change/readback and restoration succeeded. Persistence across reboot/power loss remains untested. |
 | HTTP authentication | Login handler `0xbfc3f8e0` compares configured credentials, with a second representation-conversion path. No independent master password was identified in this reviewed path. That does not exclude hidden accounts elsewhere. HTTP transport itself remains unencrypted. |
 
 The existing [Easy Smart research](https://geekly.dev/easy-smart-report-main/)
@@ -81,7 +86,7 @@ TSDP execution deliberately stops at rejection/authentication checkpoints;
 socket creation, bind and credential storage reads are synthetic dependencies.
 No complete boot, packet transport or physical persistence is emulated.
 
-The owner's v0.1.4 probe reported no matching reply to a single MAC-read
+The owner's **initial** v0.1.4 probe reported no matching reply to a single MAC-read
 request without this control exchange. That result neither proves nor disproves
 the path above: state 2 ignores the direct request in the emulator. The actual
 device state and packet delivery during that probe were not observed.
@@ -91,6 +96,40 @@ Reproduce locally with the repository's Python development dependencies:
 ```sh
 python tools/audit_management_auth.py
 ```
+
+## 18 October update: live evidence and continued audit
+
+The owner's [live result and script](https://github.com/adsdevdoo/switchlens-sg1218/issues/1#issuecomment-6250854017)
+at 14:05 UTC records original MAC -> temporary MAC -> temporary readback ->
+original restoration -> original readback, with no credentials and no errors.
+The last explicitly identified installed build for those checks was v0.1.4.
+This confirms unauthorized factory-MAC modification on the tested device.
+It does not prove arbitrary flash writes, arbitrary code execution, or persistence
+after reboot. It is not a separate live reproduction on stock or v0.1.3.
+
+[Research log 024](https://github.com/adsdevdoo/switchlens-sg1218/issues/1#issuecomment-6252139068)
+contains source, hashes, comparison intervals and intermediate results:
+
+- The four inspected TSDP/TDDP/factory-write code regions are byte-identical in
+  original TP-Link 20230616, SwitchLens v0.1.3 and v0.1.4. No service-code difference
+  was found in those regions; this is not a whole-image identity claim.
+- A bounded interpreter of the original policy helper at `0xbfc47894` enumerated
+  all 65,536 TLV types. It accepts 32 zero-length GET types, rejects credential
+  types `0x0200..0x0203` in GET mode, and rejects length 1 for every GET type.
+  Fourteen explicit control cases passed. Full callback/handler execution and
+  packet transport were not part of this check.
+- [Token-path inspection](https://github.com/adsdevdoo/switchlens-sg1218/issues/1#issuecomment-6252383746)
+  shows pre-authentication GET `0x0901` updates the shared 16-bit token and returns
+  it in response-header bytes 26–27. The SET path separately checks credentials.
+  Interference between clients is a hypothesis; no live disruption was tested.
+- A length-validation candidate remains open: the callback's minimum actual
+  length is 32, but discovery/GET parsing uses declared lengths 36/40 and a
+  TLV-header helper without a length argument. The complete received-buffer
+  contract still needs tracing. No crash, data disclosure, or RCE is established,
+  and malformed packets have not been sent for this candidate.
+
+The v0.1.5 mitigation image remains pending hardware installation/verification.
+The owner deferred that installation. Further audit results belong in issue #1.
 
 ## v0.1.5 mitigation
 
